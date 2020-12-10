@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class ECUSTOnlineWorkThird {
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(ECUSTOnlineWorkThird.class);
 
-	private ThreadPoolExecutor executor = new ThreadPoolExecutor(3,3,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
+	private ThreadPoolExecutor executor = new ThreadPoolExecutor(1,3,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
 
     public static void main(String[] args) throws Exception  {
     	//目前引用的是本地配置
@@ -40,9 +40,9 @@ public class ECUSTOnlineWorkThird {
         ChromeOptions options = new ChromeOptions();
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
-		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\4.txt");
+		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\2.txt");
 		//批量处理 学生信息
-		int count = 4;
+		int count = 2;
 		ECUSTOnlineWorkThird ecustOnlineWork = new ECUSTOnlineWorkThird();
 		ecustOnlineWork.handUserHouseWork(userInfoList,options,count);
     }

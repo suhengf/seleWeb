@@ -46,11 +46,11 @@ public class BusinessHandler {
         driver.findElement(By.xpath("/html/body/div/div[4]/div/div[2]/div[1]/form/dl/dd[1]/input")).sendKeys(userInfo.getUserId());
         driver.findElement(By.xpath("/html/body/div/div[4]/div/div[2]/div[1]/form/dl/dd[2]/input")).sendKeys(userInfo.getPassword());
         logger.info("current userId：" + userInfo.getUserId());
-        Thread.sleep(18000);
+        Thread.sleep(20000);
         //验证码验证
-        String verifyCode = recognize(elementSnapshot(driver,url));
-        logger.info("验证码验证   ："+verifyCode);
-        driver.findElement(By.xpath("/html/body/div/div[4]/div/div[2]/div[1]/form/dl/dd[3]/input")).sendKeys(verifyCode);
+//        String verifyCode = recognize(elementSnapshot(driver,url));
+//        logger.info("验证码验证   ："+verifyCode);
+//        driver.findElement(By.xpath("/html/body/div/div[4]/div/div[2]/div[1]/form/dl/dd[3]/input")).sendKeys(verifyCode);
         //点击确定
         driver.findElement(By.xpath("/html/body/div/div[4]/div/div[2]/div[1]/form/dl/dd[4]/a")).click();
         Thread.sleep(6000);

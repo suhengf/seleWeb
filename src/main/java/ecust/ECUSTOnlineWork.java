@@ -40,9 +40,9 @@ public class ECUSTOnlineWork {
         ChromeOptions options = new ChromeOptions();
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
-		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\2.txt");
+		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\huali.txt");
 		//批量处理 学生信息
-		int count = 2;
+		int count = 4;
 		ECUSTOnlineWork ecustOnlineWork = new ECUSTOnlineWork();
 		ecustOnlineWork.handUserHouseWork(userInfoList,count);
     }

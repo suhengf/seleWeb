@@ -137,6 +137,48 @@ public class HandlerViedo {
                 listFrames.add("/html/body/div/div/div[5]/iframe");
                 listFrames.add("/html/body/div/div/div[6]/iframe");
                 break;
+            case 7:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                listFrames.add("/html/body/div/div/div[7]/iframe");
+                break;
+            case 8:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                listFrames.add("/html/body/div/div/div[7]/iframe");
+                listFrames.add("/html/body/div/div/div[8]/iframe");
+                break;
+            case 9:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                listFrames.add("/html/body/div/div/div[7]/iframe");
+                listFrames.add("/html/body/div/div/div[8]/iframe");
+                listFrames.add("/html/body/div/div/div[9]/iframe");
+                break;
+            case 10:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                listFrames.add("/html/body/div/div/div[7]/iframe");
+                listFrames.add("/html/body/div/div/div[8]/iframe");
+                listFrames.add("/html/body/div/div/div[9]/iframe");
+                listFrames.add("/html/body/div/div/div[10]/iframe");
+                break;
         }
 
         for (String iframe: listFrames) {

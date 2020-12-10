@@ -67,7 +67,6 @@ public class AskInfoHandler {
 
     private static void handleAskInfo( WebDriver driver)  throws Exception{
         logger.info("开始处理问卷信息");
-
         driver.findElement(By.xpath("/html/body/div[3]/div[1]/div[3]/ul/li[6]/a/em")).click();
 
         Thread.sleep(2000);
