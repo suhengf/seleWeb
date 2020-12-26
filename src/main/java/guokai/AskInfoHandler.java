@@ -1,36 +1,24 @@
-package commTest;
+package guokai;
 
 import ecust.UserInfo;
-import ecust.WebDriverUtils;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-
-import static utils.QRtool.elementSnapshot;
-import static utils.QRtool.recognize;
 
 public class AskInfoHandler {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(AskInfoHandler.class);
-    private static final String ORANGEFLAG = "1";
-    private static final String DEFAULT_COURSE= "/html/body/div[3]/div[2]/div[";
-    private static final String SPECIAL_COURSE= "/html/body/div[2]/div[2]/div[";
-
-    private static final String SPECIAL_IFRAME=  "/html/body/div/div/p/div/iframe";
-    private static final String DEFAULT_IFRAME= "/html/body/div/div/div/iframe";
 
     public static void handler(UserInfo userInfo, WebDriver driver,int conut) throws Exception {
 
         try {
-            singleHandler(userInfo,conut);
+            singleHandler(userInfo);
             driver.quit();
         } catch (Exception e) {
             Thread.sleep(10000);
-            singleHandler(userInfo,conut);
+            singleHandler(userInfo);
             driver.quit();
         }finally {
             driver.quit();
@@ -39,33 +27,36 @@ public class AskInfoHandler {
     }
 
     //处理单个学生信息
-    public static void singleHandler(UserInfo userInfo,int count) throws Exception {
+    public static void singleHandler(UserInfo userInfo) throws Exception {
 
-        String url = "http://server1.cdce.cn/student/";
+        String url = "http://www.ouchn.cn/";
         Thread.sleep(10000);
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(url);
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[1]/td[2]/input")).sendKeys(userInfo.getUserId());
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[2]/td[2]/input")).sendKeys(userInfo.getPassword());
+        driver.findElement(By.xpath("/html/body/div/div[1]/div/div/div/header/div[2]/ul[2]/li[1]/button[1]")).click();
+        Thread.sleep(5000);
+
+        driver.findElement(By.xpath("/html/body/div/div/div/form/div/div/div[2]/div/input")).sendKeys(userInfo.getUserId());
+        Thread.sleep(3000);
+        driver.findElement(By.xpath("/html/body/div/div/div/form/div/div/div[3]/div/input")).sendKeys(userInfo.getPassword());
         logger.info("current userId：" + userInfo.getUserId());
-        Thread.sleep(20000);
-        //验证码验证
-        String verifyCode = recognize(elementSnapshot(driver,url));
-//        logger.info("验证码验证   ："+verifyCode);
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[2]/input[1]")).sendKeys(verifyCode);
+        Thread.sleep(8000);
+
         //点击确定
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[2]/tbody/tr/td[1]/input")).click();
-        Thread.sleep(6000);
+        driver.findElement(By.xpath("/html/body/div/div/div/form/div/div/div[4]/button")).click();
+        Thread.sleep(800000);
 
 
-        // 登记 用户账号  密码    准考证号码  大学英语 成绩     大学计算机 成绩
-        handleAskInfo(driver, userInfo);
+        // 挂视频
+//        handleAskInfo(driver, userInfo);
         driver.quit();
 
 
     }
 
+
+    //国家开放大学挂视频
     private static void handleAskInfo( WebDriver driver,UserInfo userInfo)  throws Exception{
         //基本信息查看
         driver.switchTo().defaultContent();
@@ -103,11 +94,6 @@ public class AskInfoHandler {
         String score = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[4]")).getText();
         logger.info("得分: "+score);
 
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(lblStuNum).append("            ").append(lblStuName).append("        ").append(dateBatch)
-                .append("           ").append(subject).append("       ").append(jige).append("         ").append(score).append("\n");
-        WriteToFile.writeTxtFile(sb.toString(), new File("D:\\file\\8998.txt"));
     }
 
 

@@ -1,6 +1,5 @@
-package ecust.askInfo;
+package guokai;
 
-import ecust.BusinessHandler;
 import ecust.FileParse;
 import ecust.UserInfo;
 import lombok.SneakyThrows;
@@ -33,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class ECUSTAskInfo {
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(ECUSTAskInfo.class);
 
-	private ThreadPoolExecutor executor = new ThreadPoolExecutor(1,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
+	private ThreadPoolExecutor executor = new ThreadPoolExecutor(4,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
 
     public static void main(String[] args) throws Exception  {
     	//目前引用的是本地配置
@@ -42,22 +41,21 @@ public class ECUSTAskInfo {
         ChromeOptions options = new ChromeOptions();
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
-		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\1210.txt");
+		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\guokai.txt");
 		//批量处理 学生信息
-		int count = 4;
 		ECUSTAskInfo ecustOnlineWork = new ECUSTAskInfo();
-		ecustOnlineWork.handUserHouseWork(userInfoList,count);
+		ecustOnlineWork.handUserHouseWork(userInfoList);
     }
 
     //批量处理 学生信息
-	public  void handUserHouseWork(List<UserInfo> userInfoList  ,int count) throws Exception {
+	public  void handUserHouseWork(List<UserInfo> userInfoList  ) throws Exception {
 		final WebDriver[] driver = {null};
 		for (UserInfo userInfo:userInfoList) {
 			Runnable task = new Runnable() {
 				@SneakyThrows
 				@Override
 				public void run() {
-					AskInfoHandler.singleHandler( userInfo,count);
+					AskInfoHandler.singleHandler( userInfo);
 				}
 			};
 			executor.execute(task);

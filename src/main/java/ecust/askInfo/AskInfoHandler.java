@@ -11,7 +11,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.LoggerFactory;
 import static utils.QRtool.elementSnapshot;
 import static utils.QRtool.recognize;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class AskInfoHandler {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(AskInfoHandler.class);
@@ -67,45 +66,47 @@ public class AskInfoHandler {
 
     private static void handleAskInfo( WebDriver driver)  throws Exception{
         logger.info("开始处理问卷信息");
-        driver.findElement(By.xpath("/html/body/div[3]/div[1]/div[3]/ul/li[6]/a/em")).click();
+        driver.findElement(By.className("/html/body/div[3]/div[1]/div[3]/ul/li[6]/a/em")).click();
 
         Thread.sleep(2000);
         WebElement webElement0 = driver.findElement(By.xpath("/html/body/div[3]/div[2]/iframe"));
         driver.switchTo().frame(webElement0);
 
-        StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append("/html/body/div/div/table/tbody/tr[");
-        AtomicInteger firstStru = new AtomicInteger(1);
-        while(true){
-            String askInfoTitile = sBuilder.toString()+firstStru+"]/td[6]/a";
+        manyChoice("/html/body/div/div/table/tbody/tr[",driver);
+
+        manyChoice("/html/body/div/div[2]/table/tbody/tr[",driver);
+
+    }
+
+
+    public static void manyChoice(String str, WebDriver driver)  throws Exception{
+        for (int i = 0; i < 8; i++) {
+            String askInfoTitile = str+ i+"]/td[6]/a";
             Boolean check = WebDriverUtils.check(driver, By.xpath(askInfoTitile));
             if(check){
                 logger.info("问卷情况----"+driver.findElement(By.xpath(askInfoTitile)).getText());
-               if(!"已提交".equals(driver.findElement(By.xpath(askInfoTitile)).getText())){
-                   driver.findElement(By.xpath(askInfoTitile)).click();
-                   //处理问卷调查方法
-                   askinHandler(driver);
-               }
-            }else{
-                break;
+                if(!"已提交".equals(driver.findElement(By.xpath(askInfoTitile)).getText())&&!"已结束".equals(driver.findElement(By.xpath(askInfoTitile)).getText())){
+                    driver.findElement(By.xpath(askInfoTitile)).click();
+                    Thread.sleep(2000);
+                    //处理问卷调查方法
+                    askinHandler(driver);
+                }
             }
-            firstStru.incrementAndGet();
-
         }
-
     }
+
 
 
 
     private static void askinHandler(WebDriver driver)throws Exception {
         for (int i = 1; i <11 ; i++) {
             String title = "";
-            if(i<3){
+            if(0<i&&i<8){
                 title =  "/html/body/form/div["+i+"]"+"/div[2]/ul/li[1]/i";
-            }if(i<8){
+            }else if(8<i&&i<9){
                 title =  "/html/body/form/div["+i+"]"+"/div[2]/ul/li[2]/i";
             }else{
-                title =  "/html/body/form/div["+i+"]"+"/div[2]/ul/li[1]/i";
+                title =  "/html/body/form/div["+i+"]"+"/div[2]/ul/li[3]/i";
             }
             driver.findElement(By.xpath(title)).click();
         }
