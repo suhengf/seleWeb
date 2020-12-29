@@ -1,11 +1,13 @@
 package guokai;
 
 import ecust.UserInfo;
+import ecust.WebDriverUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class AskInfoHandler {
@@ -45,11 +47,11 @@ public class AskInfoHandler {
 
         //点击确定
         driver.findElement(By.xpath("/html/body/div/div/div/form/div/div/div[4]/button")).click();
-        Thread.sleep(800000);
+        Thread.sleep(8000);
 
 
         // 挂视频
-//        handleAskInfo(driver, userInfo);
+        handleAskInfo(driver, userInfo);
         driver.quit();
 
 
@@ -59,9 +61,40 @@ public class AskInfoHandler {
     //国家开放大学挂视频
     private static void handleAskInfo( WebDriver driver,UserInfo userInfo)  throws Exception{
         //基本信息查看
+        driver.findElement(By.xpath("/html/body/app-root/app-index/div[2]/div/div/app-page-content/div/div[2]/div[2]/div/div/div[4]/div[2]/div/div[3]/button")).click();
+        WebDriverUtils.switchToWindowByTitle(driver,"课程： 思想道德修养与法律基础");
+         AtomicInteger firstStrct = new AtomicInteger(1);
+        StringBuilder sBuilder = new StringBuilder();
+        //same structure
+        sBuilder.append("/html/body/div[2]/div[4]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[");
+         while(true){
+             String Struct = sBuilder.toString()+firstStrct+"]/div/h3/img";
+             if (WebDriverUtils.check(driver, By.xpath(Struct))) {
+                 driver.findElement(By.xpath(Struct)).click();
+                 //处理每个标题下面的视频
+
+             }else{
+                 break;
+             }
+             firstStrct.incrementAndGet();
+         }
+
 
 
     }
+
+
+
+    public void handleViedos(){
+        //外层包层 循环  循环遍历下面的课程即可实现
+
+//        /html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[1]/div
+//        /html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[2]/div
+
+
+
+    }
+
 
 
 
