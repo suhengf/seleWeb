@@ -59,62 +59,11 @@ public class AskInfoHandler {
     //国家开放大学挂视频
     private static void handleAskInfo( WebDriver driver,UserInfo userInfo)  throws Exception{
         //基本信息查看
-        driver.switchTo().defaultContent();
-        switchleftFrame(driver);
-        driver.findElement(By.xpath("/html/body/form/table/tbody/tr/td/table[2]/tbody/tr/td/div/div[1]/table[1]/tbody/tr/td[4]/a")).click();
-        Thread.sleep(2000);
 
-        switchCenterFrame(driver);
-        //获取准考证值
-        String lblCertificate = driver.findElement(By.id("lblCertificate")).getText();
-        logger.info("准考证号码: "+lblCertificate);
-
-
-        switchleftFrame(driver);
-        //成绩信息查看
-        driver.findElement(By.id("tv_Leftt2")).click();
-        Thread.sleep(2000);
-        switchCenterFrame(driver);
-        //学号
-        String lblStuNum = driver.findElement(By.id("lblStuNum")).getText();
-        logger.info("学号: "+lblStuNum);
-        //姓名
-        String lblStuName = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[2]/td[5]/span")).getText();
-        logger.info("姓名: "+lblStuName);
-        //2020年9月统考
-        String dateBatch = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[1]")).getText();
-        logger.info("报名批次: "+dateBatch);
-        //考试科目
-        String subject = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[2]")).getText();
-        logger.info("考试科目: "+subject);
-        //是否合格
-        String jige = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[3]")).getText();
-        logger.info("通过情况: "+jige);
-        //得分
-        String score = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[4]")).getText();
-        logger.info("得分: "+score);
 
     }
 
 
-        public static void switchFrame(String iframe, WebDriver driver){
-                WebElement webElement0 = driver.findElement(By.xpath(iframe));
-                driver.switchTo().frame(webElement0);
 
-        }
-
-
-    public static void switchleftFrame( WebDriver driver){
-        driver.switchTo().parentFrame();
-        switchFrame("/html/frameset/frameset/frame[1]",driver);
-
-    }
-
-
-    public static void switchCenterFrame(WebDriver driver){
-        driver.switchTo().parentFrame();
-        switchFrame("/html/frameset/frameset/frame[2]",driver);
-
-    }
 
 }
