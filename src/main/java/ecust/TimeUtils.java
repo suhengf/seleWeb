@@ -46,5 +46,14 @@ public class TimeUtils {
 
 
 
+    public static long getDiffTimeKai(String startTime,String endTime ) {
+        long diffSec = 0;
+        logger.info("已播放 {}", startTime);
+        logger.info("总时长 {} ", endTime);
+        logger.info("还差多少毫秒播放结束: {}", diffSec(startTime, endTime));
+        return diffSec = "0:00".equals(endTime)?0:((diffSec(startTime, endTime)) );
+
+    }
+
 
 }

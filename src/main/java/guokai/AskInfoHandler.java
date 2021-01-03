@@ -1,7 +1,9 @@
 package guokai;
 
+import ecust.TimeUtils;
 import ecust.UserInfo;
 import ecust.WebDriverUtils;
+import lombok.val;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -105,11 +107,6 @@ public class AskInfoHandler {
 
     public static void handleViedos(WebDriver driver, UserInfo userInfo) throws InterruptedException {
         //外层包层 循环  循环遍历下面的课程即可实现
-//          /html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[2]
-//         /html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[3]
-//        /html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[2]/div
-
-
 
         AtomicInteger firstStrct = new AtomicInteger(1);
         //same structure
@@ -125,8 +122,9 @@ public class AskInfoHandler {
                 if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
                     driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
                     //获取时间
-                    String timetextchbliksfelim = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
-                    logger.info(timetextchbliksfelim);
+                    String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
+                    //休眠
+                    timeHandle(allTime);
                 }
 
             } else {
@@ -136,9 +134,17 @@ public class AskInfoHandler {
         }
 
 
-
     }
 
+
+
+
+       public static void timeHandle(String allTime) throws InterruptedException {
+           val timeStr =allTime.replace("/","").split("  ");
+            final String s = timeStr[0];
+            final String s1 = timeStr[1];
+           Thread.sleep(TimeUtils.getDiffTimeKai(s,s1));
+        }
 
 
 

@@ -1,7 +1,6 @@
 package ecust;
 
 /**
- * @Description:用户信息实体类
  * @Author:Su-Heng
  * @Date:2020/11/02 03:43
  * @Version 1.0
