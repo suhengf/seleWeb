@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @Description:华东理工线上作业处理类
+ * @Description:国家开放大学
  * @Author:Su-Heng
  * @Date:2020/11/02 03:43
  * @Version 1.0
