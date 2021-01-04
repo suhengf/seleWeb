@@ -60,20 +60,34 @@ public class AskInfoHandler {
     }
 
     private static void handleAskInfo1(WebDriver driver, UserInfo userInfo) throws InterruptedException {
-        driver.findElement(By.xpath("/html/body/app-root/app-index/div[2]/div/div/app-page-content/div/div[2]/div[2]/div/div/div[4]/div[2]/div/div[3]/button")).click();
-        WebDriverUtils.switchToWindowByTitle(driver, "课程： 思想道德修养与法律基础");
-        AtomicInteger firstStrct = new AtomicInteger(1);
-        StringBuilder sBuilder = new StringBuilder();
-        //same structure
-        sBuilder.append("/html/body/div[2]/div[4]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[");
-        String Struct = sBuilder.toString() + firstStrct + "]/div/h3/img";
-        if (WebDriverUtils.check(driver, By.xpath(Struct))) {
-//                 driver.findElement(By.xpath(Struct)).click();
-            Thread.sleep(3000);
-            //处理每个标题下面的视频
-            driver.findElement(By.xpath("/html/body/div[2]/div[4]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[1]/div/ul[2]/li[1]/div/ul/li/div/div/div[2]/div/a")).click();
-            handleViedos( driver,  userInfo);
+
+        for (int i = 1; i < 13; i++) {
+            String title =  "/html/body/app-root/app-index/div[2]/div/div/app-page-content/div/div[2]/div[2]/div/div/div["+i+"]/div[2]/h3";
+            if (WebDriverUtils.check(driver, By.xpath(title))) {
+                String text = driver.findElement(By.xpath(title)).getText();
+                if("思想道德修养与法律基础".equals(text)||"毛泽东思想和中国特色社会主义理论体系概论".equals(text)||"习近平新时代中国特色社会主义思想".equals(text)){
+                    driver.findElement(By.xpath(title.replace("/h3","")+"/div/div[3]/button")).click();
+                    WebDriverUtils.switchToWindowByTitle(driver, "课程： "+text);
+                    AtomicInteger firstStrct = new AtomicInteger(1);
+                    StringBuilder sBuilder = new StringBuilder();
+                    //same structure
+                    sBuilder.append("/html/body/div[2]/div[4]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[");
+                    String Struct = sBuilder.toString() + firstStrct + "]/div/h3/img";
+                    if (WebDriverUtils.check(driver, By.xpath(Struct))) {
+                        Thread.sleep(3000);
+                        //处理每个标题下面的视频
+                        driver.findElement(By.xpath("/html/body/div[2]/div[4]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[1]/div/ul[2]/li[1]/div/ul/li/div/div/div[2]/div/a")).click();
+                        openList(driver);
+                    }
+
+                }
+
+            }
+
         }
+
+
+
 
 
     }
@@ -105,7 +119,7 @@ public class AskInfoHandler {
 //    }
 
 
-    public static void handleViedos(WebDriver driver, UserInfo userInfo) throws InterruptedException {
+    public static void handleViedos(WebDriver driver) throws InterruptedException {
         //外层包层 循环  循环遍历下面的课程即可实现
 
         AtomicInteger firstStrct = new AtomicInteger(1);
@@ -133,7 +147,6 @@ public class AskInfoHandler {
             firstStrct.incrementAndGet();
         }
 
-
     }
 
 
@@ -146,6 +159,25 @@ public class AskInfoHandler {
            Thread.sleep(TimeUtils.getDiffTimeKai(s,s1));
         }
 
+
+        public static void openList(WebDriver driver) throws InterruptedException {
+            driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
+            AtomicInteger firstStrct = new AtomicInteger(1);
+            while(true){
+                String baseStr ="/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
+                String baseStrct = baseStr + firstStrct + "]";
+                if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
+                    driver.findElement(By.xpath(baseStrct)).click();
+                    //挂视频  和点击
+                    handleViedos(driver);
+                } else {
+                    break;
+                }
+                firstStrct.incrementAndGet();
+            }
+
+
+        }
 
 
 
