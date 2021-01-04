@@ -167,9 +167,16 @@ public class AskInfoHandler {
                 String baseStr ="/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
                 String baseStrct = baseStr + firstStrct + "]";
                 if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
-                    driver.findElement(By.xpath(baseStrct)).click();
-                    //挂视频  和点击
-                    handleViedos(driver);
+
+                    try {
+                        driver.findElement(By.xpath(baseStrct)).click();
+                        //挂视频  和点击
+                        handleViedos(driver);
+                    } catch (Exception e) {
+                        logger.info("把异常吃了, 让她继续浪");
+                        e.printStackTrace();
+                    }
+
                 } else {
                     break;
                 }
