@@ -174,7 +174,7 @@ public class AskInfoHandler {
                         handleViedos(driver);
                     } catch (Exception e) {
                         logger.info("把异常吃了, 让她继续浪");
-                        e.printStackTrace();
+                        logger.info("e"+e);
                     }
 
                 } else {
