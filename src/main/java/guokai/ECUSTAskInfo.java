@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class ECUSTAskInfo {
 	private static org.slf4j.Logger logger = LoggerFactory.getLogger(ECUSTAskInfo.class);
 
-	private ThreadPoolExecutor executor = new ThreadPoolExecutor(1,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
+	private ThreadPoolExecutor executor = new ThreadPoolExecutor(3,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
 
     public static void main(String[] args) throws Exception  {
     	//目前引用的是本地配置
