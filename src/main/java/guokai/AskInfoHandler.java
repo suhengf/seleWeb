@@ -138,7 +138,7 @@ public class AskInfoHandler {
                     //获取时间
                     String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
                     //休眠
-//                    timeHandle(allTime);
+                    timeHandle(allTime);
                 }
 
             } else {
