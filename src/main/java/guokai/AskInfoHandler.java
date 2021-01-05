@@ -138,7 +138,7 @@ public class AskInfoHandler {
                     //获取时间
                     String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
                     //休眠
-                    timeHandle(allTime);
+//                    timeHandle(allTime);
                 }
 
             } else {
@@ -161,16 +161,17 @@ public class AskInfoHandler {
 
 
         public static void openList(WebDriver driver) throws InterruptedException {
-            driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
+
             AtomicInteger firstStrct = new AtomicInteger(1);
             while(true){
+                driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
                 String baseStr ="/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
                 String baseStrct = baseStr + firstStrct + "]";
                 if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
 
                     try {
                         driver.findElement(By.xpath(baseStrct)).click();
-                        //挂视频  和点击
+//                        //挂视频  和点击
                         handleViedos(driver);
                     } catch (Exception e) {
                         logger.info("把异常吃了, 让她继续浪");
