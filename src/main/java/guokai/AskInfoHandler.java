@@ -60,7 +60,7 @@ public class AskInfoHandler {
     }
 
     private static void handleAskInfo1(WebDriver driver, UserInfo userInfo) throws InterruptedException {
-
+        Thread.sleep(1000);
         for (int i = 1; i < 13; i++) {
             String title =  "/html/body/app-root/app-index/div[2]/div/div/app-page-content/div/div[2]/div[2]/div/div/div["+i+"]/div[2]/h3";
             if (WebDriverUtils.check(driver, By.xpath(title))) {
@@ -160,8 +160,15 @@ public class AskInfoHandler {
         }
 
 
-        public static void openList(WebDriver driver) throws InterruptedException {
-
+    /**
+     * 待修复问题
+     * 1.列表问题
+     * 2.播放完的视频 是否可以跳过
+     * @param driver
+     * @throws InterruptedException
+     */
+    public static void openList(WebDriver driver) throws InterruptedException {
+            Thread.sleep(3000);
             AtomicInteger firstStrct = new AtomicInteger(1);
             while(true){
                 driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
