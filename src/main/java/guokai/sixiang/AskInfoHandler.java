@@ -206,10 +206,11 @@ public class AskInfoHandler {
 
 
     public static void openList(WebDriver driver) throws InterruptedException {
+        Thread.sleep(1000);
         for (int i = 0; i < 13; i++) {
             Thread.sleep(1000);
             driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
-            String baseStr = "/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
+            String baseStr = " //*[@id=\"list\"]/div/a[";
             String baseStrct = baseStr + i + "]";
             if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
                 try {
