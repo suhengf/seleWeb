@@ -5,6 +5,7 @@ import ecust.UserInfo;
 import ecust.WebDriverUtils;
 import lombok.val;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.LoggerFactory;
@@ -101,15 +102,11 @@ public class AskInfoHandler {
             sBuilder.append("/html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[");
             String firSct = sBuilder.toString() + firstStrct + "]";
             if (WebDriverUtils.check(driver, By.xpath(firSct))) {
+                //下一个视频
                 driver.findElement(By.xpath(firSct)).click();
-                //处理每个标题下面的视频
-                Thread.sleep(5000);
-                if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
-                    driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
-                    //获取时间
-                    String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
-                    //休眠
-                    timeHandle(allTime);
+                //如果出现弹框需要 点击播放   thread 一些时间
+                if(alertExists(driver)){
+                    sleep(driver);
                 }
 
             } else {
@@ -118,6 +115,36 @@ public class AskInfoHandler {
             firstStrct.incrementAndGet();
         }
 
+    }
+
+
+    public static boolean alertExists(WebDriver driver) {
+        try {
+            driver.switchTo().alert();
+            return true;
+        } catch (NoAlertPresentException ne) {
+            logger.info("没有检测到弹出框");
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return false;
+    }
+
+
+
+    public static  void sleep(WebDriver driver){
+        //处理每个标题下面的视频
+        try {
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
+                driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
+                //获取时间
+                String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
+                //休眠
+                timeHandle(allTime);
+            }
+        } catch (InterruptedException e) {
+            logger.info(e.getMessage());
+        }
     }
 
 
