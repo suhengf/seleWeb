@@ -61,9 +61,8 @@ public class AskInfoHandler {
     }
 
     private static void handleAskInfo1(WebDriver driver, UserInfo userInfo) throws InterruptedException {
-        Thread.sleep(1000);
         for (int i = 1; i < 13; i++) {
-            String title =  "/html/body/app-root/app-index/div[2]/div/div/app-page-content/div/div[2]/div[2]/div/div/div["+i+"]/div[2]/h3";
+            String title ="//*[@id=\"zaixuekecheng\"]/div/div/div["+i+"]/div[2]/h3";
             if (WebDriverUtils.check(driver, By.xpath(title))) {
                 String text = driver.findElement(By.xpath(title)).getText();
                 if("思想道德修养与法律基础".equals(text)){
