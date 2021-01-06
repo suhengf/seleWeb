@@ -177,31 +177,52 @@ public class AskInfoHandler {
 
 
 
-    public static void openList(WebDriver driver) throws InterruptedException {
-        Thread.sleep(3000);
-        AtomicInteger firstStrct = new AtomicInteger(1);
-        while(true){
-            driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
-            String baseStr ="/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
-            String baseStrct = baseStr + firstStrct + "]";
-            if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
+//    public static void openList(WebDriver driver) throws InterruptedException {
+//        Thread.sleep(3000);
+//        AtomicInteger firstStrct = new AtomicInteger(1);
+//        while(true){
+//            driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
+//            String baseStr ="/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
+//            String baseStrct = baseStr + firstStrct + "]";
+//            if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
+//
+//                try {
+//                    driver.findElement(By.xpath(baseStrct)).click();
+////                        //挂视频  和点击
+//                    handleViedos(driver);
+//                } catch (Exception e) {
+//                    logger.info("把异常吃了, 让她继续浪");
+//                    logger.info("e"+e);
+//                }
+//
+//            } else {
+//                break;
+//            }
+//            firstStrct.incrementAndGet();
+//        }
+//
+//
+//    }
 
+
+    public static void openList(WebDriver driver) throws InterruptedException {
+        for (int i = 0; i < 13; i++) {
+            Thread.sleep(1000);
+            driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
+            String baseStr = "/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
+            String baseStrct = baseStr + i + "]";
+            if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
                 try {
                     driver.findElement(By.xpath(baseStrct)).click();
 //                        //挂视频  和点击
                     handleViedos(driver);
                 } catch (Exception e) {
                     logger.info("把异常吃了, 让她继续浪");
-                    logger.info("e"+e);
+                    logger.info("e" + e);
                 }
-
-            } else {
-                break;
             }
-            firstStrct.incrementAndGet();
+
         }
-
-
     }
 
 
