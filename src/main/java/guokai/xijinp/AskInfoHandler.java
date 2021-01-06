@@ -1,4 +1,4 @@
-package guokai;
+package guokai.xijinp;
 
 import ecust.TimeUtils;
 import ecust.UserInfo;
@@ -65,7 +65,7 @@ public class AskInfoHandler {
             String title =  "/html/body/app-root/app-index/div[2]/div/div/app-page-content/div/div[2]/div[2]/div/div/div["+i+"]/div[2]/h3";
             if (WebDriverUtils.check(driver, By.xpath(title))) {
                 String text = driver.findElement(By.xpath(title)).getText();
-                if("思想道德修养与法律基础".equals(text)||"毛泽东思想和中国特色社会主义理论体系概论".equals(text)||"习近平新时代中国特色社会主义思想".equals(text)){
+                if("习近平新时代中国特色社会主义思想".equals(text)){
                     driver.findElement(By.xpath(title.replace("/h3","")+"/div/div[3]/button")).click();
                     WebDriverUtils.switchToWindowByTitle(driver, "课程： "+text);
                     AtomicInteger firstStrct = new AtomicInteger(1);
@@ -86,37 +86,8 @@ public class AskInfoHandler {
 
         }
 
-
-
-
-
     }
 
-
-    //国家开放大学挂视频
-//    private static void handleAskInfo( WebDriver driver,UserInfo userInfo)  throws Exception{
-//        //基本信息查看
-//        driver.findElement(By.xpath("/html/body/app-root/app-index/div[2]/div/div/app-page-content/div/div[2]/div[2]/div/div/div[4]/div[2]/div/div[3]/button")).click();
-//        WebDriverUtils.switchToWindowByTitle(driver,"课程： 思想道德修养与法律基础");
-//         AtomicInteger firstStrct = new AtomicInteger(1);
-//        StringBuilder sBuilder = new StringBuilder();
-//        //same structure
-//        sBuilder.append("/html/body/div[2]/div[4]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[");
-//         while(true){
-//             String Struct = sBuilder.toString()+firstStrct+"]/div/h3/img";
-//             if (WebDriverUtils.check(driver, By.xpath(Struct))) {
-//                 driver.findElement(By.xpath(Struct)).click();
-//                 //处理每个标题下面的视频
-//
-//             }else{
-//                 break;
-//             }
-//             firstStrct.incrementAndGet();
-//         }
-//
-//
-//
-//    }
 
 
     public static void handleViedos(WebDriver driver) throws InterruptedException {
