@@ -95,7 +95,7 @@ public class AskInfoHandler {
 
         AtomicInteger firstStrct = new AtomicInteger(1);
         //same structure
-        while (true) {
+        while(true){
             ///html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[2]
             StringBuilder sBuilder = new StringBuilder();
             sBuilder.append("/html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[");
@@ -103,10 +103,8 @@ public class AskInfoHandler {
             if (WebDriverUtils.check(driver, By.xpath(firSct))) {
                 //下一个视频
                 driver.findElement(By.xpath(firSct)).click();
-
                 //如果出现弹框需要 点击播放   thread 一些时间
-                sleep(driver);
-
+                sleep(driver, firSct);
             } else {
                 break;
             }
@@ -128,32 +126,11 @@ public class AskInfoHandler {
         return false;
     }
 
-
-    public static void sleep(WebDriver driver) {
-        //处理每个标题下面的视频
-        try {
-            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
-                driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
-                //获取时间
-                String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
-                //休眠
-                timeHandle(allTime, driver);
-            }
-        } catch (InterruptedException e) {
-            logger.info(e.getMessage());
-        }
-    }
-
-
     public static void timeHandle(String allTime, WebDriver driver) throws InterruptedException {
         val timeStr = allTime.replace("/", "").split("  ");
         final String s = timeStr[0];
         final String s1 = timeStr[1];
-        Thread.sleep(5000);
-        if (alertExists(driver)) {
-            closeAlter(driver);
-            Thread.sleep(TimeUtils.getDiffTimeKai(s, s1));
-        }
+        Thread.sleep(TimeUtils.getDiffTimeKai(s, s1));
 
     }
 
@@ -164,47 +141,68 @@ public class AskInfoHandler {
             alert.accept();
             alert.dismiss();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("关闭窗口");
         }
 
     }
 
 
-
-
-    /**
-     * 待修复问题
-     * 1.列表问题
-     * 2.播放完的视频 是否可以跳过
-     * @param driver
-     * @throws InterruptedException
-     */
-    public static void openList(WebDriver driver) throws InterruptedException {
-            Thread.sleep(3000);
-            AtomicInteger firstStrct = new AtomicInteger(1);
-            while(true){
-                driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
-                String baseStr ="/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
-                String baseStrct = baseStr + firstStrct + "]";
-                if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
-
-                    try {
-                        driver.findElement(By.xpath(baseStrct)).click();
-//                        //挂视频  和点击
-                        handleViedos(driver);
-                    } catch (Exception e) {
-                        logger.info("把异常吃了, 让她继续浪");
-                        logger.info("e"+e);
-                    }
-
-                } else {
-                    break;
+    public static void sleep(WebDriver driver, String firSct) {
+        //处理每个标题下面的视频
+        try {
+            //如果不弹框
+            if (!alertExists(driver)) {
+                Thread.sleep(3000);
+            } else {
+                closeAlter(driver);
+                if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
+                    driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
+                    //获取时间
+                    String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
+                    //休眠
+                    timeHandle(allTime, driver);
                 }
-                firstStrct.incrementAndGet();
+                driver.findElement(By.xpath(firSct)).click();
             }
 
-
+        } catch (InterruptedException e) {
+            logger.info(e.getMessage());
         }
+    }
+
+
+
+
+
+
+
+    public static void openList(WebDriver driver) throws InterruptedException {
+        Thread.sleep(3000);
+        AtomicInteger firstStrct = new AtomicInteger(1);
+        while(true){
+            driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
+            String baseStr ="/html/body/div[2]/div[3]/div[1]/div[2]/div/a[";
+            String baseStrct = baseStr + firstStrct + "]";
+            if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
+
+                try {
+                    driver.findElement(By.xpath(baseStrct)).click();
+//                        //挂视频  和点击
+                    handleViedos(driver);
+                } catch (Exception e) {
+                    logger.info("把异常吃了, 让她继续浪");
+                    logger.info("e"+e);
+                }
+
+            } else {
+                break;
+            }
+            firstStrct.incrementAndGet();
+        }
+
+
+    }
+
 
 
 

@@ -105,7 +105,7 @@ public class AskInfoHandler {
                 //下一个视频
                 driver.findElement(By.xpath(firSct)).click();
                 //如果出现弹框需要 点击播放   thread 一些时间
-                sleep(driver);
+                sleep(driver, firSct);
             } else {
                 break;
             }
@@ -131,11 +131,7 @@ public class AskInfoHandler {
         val timeStr = allTime.replace("/", "").split("  ");
         final String s = timeStr[0];
         final String s1 = timeStr[1];
-        Thread.sleep(5000);
-        if (alertExists(driver)) {
-            closeAlter(driver);
-            Thread.sleep(TimeUtils.getDiffTimeKai(s, s1));
-        }
+        Thread.sleep(TimeUtils.getDiffTimeKai(s, s1));
 
     }
 
@@ -146,23 +142,30 @@ public class AskInfoHandler {
             alert.accept();
             alert.dismiss();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("关闭窗口");
         }
 
     }
 
 
-
-    public static  void sleep(WebDriver driver){
+    public static void sleep(WebDriver driver, String firSct) {
         //处理每个标题下面的视频
         try {
-            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
-                driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
-                //获取时间
-                String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
-                //休眠
-                timeHandle(allTime,driver);
+            //如果不弹框
+            if (!alertExists(driver)) {
+                Thread.sleep(3000);
+            } else {
+                closeAlter(driver);
+                if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
+                    driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
+                    //获取时间
+                    String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
+                    //休眠
+                    timeHandle(allTime, driver);
+                }
+                driver.findElement(By.xpath(firSct)).click();
             }
+
         } catch (InterruptedException e) {
             logger.info(e.getMessage());
         }
