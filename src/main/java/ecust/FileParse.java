@@ -15,7 +15,7 @@ public class FileParse {
 
     //加载所有学生信息
     public static void readSaveList2(List<UserInfo> userInfoList,String fileName) throws Exception{
-        File file = ResourceUtils.getFile(fileName);
+        File file = ResourceUtils.getFile("\\src\\main\\files\\wrd.txt");
         FileInputStream inputStream = new FileInputStream(file);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);

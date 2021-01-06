@@ -41,6 +41,7 @@ public class MaoGaiInfo {
         ChromeOptions options = new ChromeOptions();
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
+
 		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\wrd1.txt");
 		//批量处理 学生信息
 		MaoGaiInfo ecustOnlineWork = new MaoGaiInfo();
