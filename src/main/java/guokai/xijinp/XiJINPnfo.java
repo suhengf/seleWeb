@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @Description:国家开放大学
+ * @Description:国家开放大学    习近平课程处理
  * @Author:Su-Heng
  * @Date:2020/11/02 03:43
  * @Version 1.0

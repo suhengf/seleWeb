@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @Description:国家开放大学
+ * @Description:国家开放大学  毛概课程处理
  * @Author:Su-Heng
  * @Date:2020/11/02 03:43
  * @Version 1.0
@@ -29,8 +29,8 @@ import java.util.concurrent.TimeUnit;
  *         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
  *        System.setProperty("webdriver.chrome.bin", "/opt/google/chrome/chrome");
  **/
-public class ECUSTAskInfo {
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(ECUSTAskInfo.class);
+public class MaoGaiInfo {
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(MaoGaiInfo.class);
 
 	private ThreadPoolExecutor executor = new ThreadPoolExecutor(1,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
 
@@ -43,7 +43,7 @@ public class ECUSTAskInfo {
         //解析得到 对应的学生名单
 		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\wrd1.txt");
 		//批量处理 学生信息
-		ECUSTAskInfo ecustOnlineWork = new ECUSTAskInfo();
+		MaoGaiInfo ecustOnlineWork = new MaoGaiInfo();
 		ecustOnlineWork.handUserHouseWork(userInfoList);
     }
 
