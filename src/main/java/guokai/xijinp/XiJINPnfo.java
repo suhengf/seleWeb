@@ -41,7 +41,7 @@ public class XiJINPnfo {
         ChromeOptions options = new ChromeOptions();
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
-		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\wrd.txt");
+		FileParse.readSaveList2(userInfoList,"D:\\file\\est\\wrd1.txt");
 		//批量处理 学生信息
 		XiJINPnfo ecustOnlineWork = new XiJINPnfo();
 		ecustOnlineWork.handUserHouseWork(userInfoList);
