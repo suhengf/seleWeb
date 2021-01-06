@@ -36,7 +36,7 @@ public class SiXiangnfo {
 
     public static void main(String[] args) throws Exception  {
     	//目前引用的是本地配置
-    	File file = ResourceUtils.getFile("D:\\file\\chromedriver.exe");
+    	File file = ResourceUtils.getFile("src\\main\\files\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", file.getPath());
         ChromeOptions options = new ChromeOptions();
         List<UserInfo> userInfoList = new ArrayList<>();
