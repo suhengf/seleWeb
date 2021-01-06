@@ -4,6 +4,7 @@ import ecust.TimeUtils;
 import ecust.UserInfo;
 import ecust.WebDriverUtils;
 import lombok.val;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
@@ -108,10 +109,7 @@ public class AskInfoHandler {
                 //下一个视频
                 driver.findElement(By.xpath(firSct)).click();
                 //如果出现弹框需要 点击播放   thread 一些时间
-                if(alertExists(driver)){
-                    sleep(driver);
-                }
-
+                sleep(driver);
             } else {
                 break;
             }
@@ -133,6 +131,30 @@ public class AskInfoHandler {
         return false;
     }
 
+    public static void timeHandle(String allTime, WebDriver driver) throws InterruptedException {
+        val timeStr = allTime.replace("/", "").split("  ");
+        final String s = timeStr[0];
+        final String s1 = timeStr[1];
+        Thread.sleep(5000);
+        if (alertExists(driver)) {
+            closeAlter(driver);
+            Thread.sleep(TimeUtils.getDiffTimeKai(s, s1));
+        }
+
+    }
+
+
+    public static void closeAlter(WebDriver driver) {
+        try {
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+            alert.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
     public static  void sleep(WebDriver driver){
@@ -143,7 +165,7 @@ public class AskInfoHandler {
                 //获取时间
                 String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
                 //休眠
-                timeHandle(allTime);
+                timeHandle(allTime,driver);
             }
         } catch (InterruptedException e) {
             logger.info(e.getMessage());
@@ -153,12 +175,7 @@ public class AskInfoHandler {
 
 
 
-       public static void timeHandle(String allTime) throws InterruptedException {
-           val timeStr =allTime.replace("/","").split("  ");
-            final String s = timeStr[0];
-            final String s1 = timeStr[1];
-           Thread.sleep(TimeUtils.getDiffTimeKai(s,s1));
-        }
+
 
 
         public static void openList(WebDriver driver) throws InterruptedException {
