@@ -41,7 +41,7 @@ public class SiXiangnfo {
         ChromeOptions options = new ChromeOptions();
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
-		FileParse.readSaveList2(userInfoList,"\\src\\main\\files\\wrd.txt");
+		FileParse.readSaveList2(userInfoList,"src\\main\\files\\wrd.txt");
 		//批量处理 学生信息
 		SiXiangnfo ecustOnlineWork = new SiXiangnfo();
 		ecustOnlineWork.handUserHouseWork(userInfoList);
