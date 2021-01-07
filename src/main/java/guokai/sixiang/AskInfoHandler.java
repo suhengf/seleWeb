@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,23 +18,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AskInfoHandler {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(AskInfoHandler.class);
 
-    public static void handler(UserInfo userInfo, WebDriver driver,int conut) throws Exception {
-
-        try {
-            singleHandler(userInfo);
-            driver.quit();
-        } catch (Exception e) {
-            Thread.sleep(10000);
-            singleHandler(userInfo);
-            driver.quit();
-        }finally {
-            driver.quit();
-        }
-
-    }
+//    public static void handler(UserInfo userInfo, WebDriver driver,int conut) throws Exception {
+//
+//        try {
+//            singleHandler(userInfo);
+//            driver.quit();
+//        } catch (Exception e) {
+//            Thread.sleep(10000);
+//            singleHandler(userInfo);
+//            driver.quit();
+//        }finally {
+//            driver.quit();
+//        }
+//
+//    }
 
     //处理单个学生信息
-    public static void singleHandler(UserInfo userInfo) throws Exception {
+    public static void singleHandler(UserInfo userInfo, ChromeOptions options) throws Exception {
 
         String url = "http://www.ouchn.cn/";
         Thread.sleep(10000);
