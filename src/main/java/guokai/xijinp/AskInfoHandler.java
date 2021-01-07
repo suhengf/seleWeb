@@ -208,17 +208,19 @@ public class AskInfoHandler {
         Thread.sleep(1000);
         for (int i = 0; i < 13; i++) {
             Thread.sleep(1000);
-            driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
-            String baseStr = " //*[@id=\"list\"]/div/a[";
-            String baseStrct = baseStr + i + "]";
-            if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
-                try {
-                    driver.findElement(By.xpath(baseStrct)).click();
+            if (WebDriverUtils.check(driver, By.xpath("//*[@id=\"yui_3_17_2_1_1610028842334_25\"]"))) {
+                driver.findElement(By.xpath("//*[@id=\"yui_3_17_2_1_1610028842334_25\"]")).click();
+                String baseStr = " //*[@id=\"list\"]/div/a[";
+                String baseStrct = baseStr + i + "]";
+                if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
+                    try {
+                        driver.findElement(By.xpath(baseStrct)).click();
 //                        //挂视频  和点击
-                    handleViedos(driver);
-                } catch (Exception e) {
-                    logger.info("把异常吃了, 让她继续浪");
-                    logger.info("e" + e);
+                        handleViedos(driver);
+                    } catch (Exception e) {
+                        logger.info("把异常吃了, 让她继续浪");
+                        logger.info("e" + e);
+                    }
                 }
             }
 
