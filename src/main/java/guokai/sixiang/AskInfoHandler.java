@@ -38,7 +38,7 @@ public class AskInfoHandler {
 
         String url = "http://www.ouchn.cn/";
         Thread.sleep(10000);
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(url);
         driver.findElement(By.xpath("/html/body/div/div[1]/div/div/div/header/div[2]/ul[2]/li[1]/button[1]")).click();
