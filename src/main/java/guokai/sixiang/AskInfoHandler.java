@@ -97,7 +97,7 @@ public class AskInfoHandler {
         AtomicInteger firstStrct = new AtomicInteger(1);
         //same structure
         while(true){
-            ///html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[2]
+            driver.findElement(By.xpath("//*[@id=\"sec_right\"]")).click();
             StringBuilder sBuilder = new StringBuilder();
             sBuilder.append("/html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[");
             String firSct = sBuilder.toString() + firstStrct + "]";
