@@ -179,9 +179,9 @@ public class AskInfoHandler {
     public static void openList(WebDriver driver) throws InterruptedException {
         Thread.sleep(1000);
         for (int i = 0; i < 13; i++) {
-            Thread.sleep(1000);
-            if (WebDriverUtils.check(driver, By.xpath("//*[@id=\"yui_3_17_2_1_1610028842334_25\"]"))) {
-                driver.findElement(By.xpath("//*[@id=\"yui_3_17_2_1_1610028842334_25\"]")).click();
+            Thread.sleep(3000);
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span"))) {
+                driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
                 String baseStr = " //*[@id=\"list\"]/div/a[";
                 String baseStrct = baseStr + i + "]";
                 if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
