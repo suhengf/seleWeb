@@ -39,8 +39,8 @@ public class SiXiangnfo {
     	File file = ResourceUtils.getFile("src\\main\\files\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", file.getPath());
         ChromeOptions options = new ChromeOptions();
-		options.addArguments("headless");
-		options.addArguments("no-sandbox");
+//		options.addArguments("headless");
+//		options.addArguments("no-sandbox");
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
 		FileParse.readSaveList2(userInfoList,"src\\main\\files\\wrd.txt");
