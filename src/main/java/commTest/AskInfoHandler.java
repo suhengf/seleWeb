@@ -156,10 +156,11 @@ public class AskInfoHandler {
 
     //2020批次成绩查询
     public static List<Map<String, String>> queryCourse(WebDriver driver) {
-        ConcurrentHashMap<String, String> map = new ConcurrentHashMap();
+
         List<Map<String, String>> list = new ArrayList<>();
 
         for (int i = 0; i < 6; i++) {
+            ConcurrentHashMap<String, String> map = new ConcurrentHashMap();
             String batchXpath = "/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr["+i+"]";
             if (WebDriverUtils.check(driver, By.xpath(batchXpath + "/td[1]"))) {
 
@@ -173,11 +174,11 @@ public class AskInfoHandler {
                     //得分
                     map.put("得分", driver.findElement(By.xpath(batchXpath + "/td[4]")).getText());
                     logger.info(String.valueOf(map));
-                    list.add(map);
+
                 }
 
             }
-
+            list.add(map);
         }
         return list;
 
