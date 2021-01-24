@@ -63,7 +63,7 @@ public class AskInfoHandler {
             handleAskInfo(driver, userInfo);
 
         } catch (Exception e) {
-
+            logger.error("用户:"+userInfo.getUserId()+"密码:"+userInfo.getPassword());
             StringBuilder sb = new StringBuilder();
             sb.append("账号 （验证码不对）           ").append(userInfo.getUserId()).append("         密码    ").append(userInfo.getPassword()).append("       错误 ").append("\n");
             WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult.txt"));
