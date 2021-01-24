@@ -174,11 +174,11 @@ public class AskInfoHandler {
                     //得分
                     map.put("得分", driver.findElement(By.xpath(batchXpath + "/td[4]")).getText());
                     logger.info(String.valueOf(map));
-
+                    list.add(map);
                 }
 
             }
-            list.add(map);
+
         }
         return list;
 
