@@ -128,7 +128,7 @@ public class AskInfoHandler {
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append(lblStuNum).append("            ").append(lblStuName).append("        ").append("\n");
-            WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\noResult_2.txt.txt"));
+            WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\noResult_2.txt"));
         }
 
 
