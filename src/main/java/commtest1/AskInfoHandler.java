@@ -58,7 +58,7 @@ public class AskInfoHandler {
         } catch (Exception e) {
             StringBuilder sb = new StringBuilder();
             sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append("       错误 ");
-            WriteToFile.writeTxtFile(sb.toString(), new File("src\\main\\files\\examResult1.txt"));
+            WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult1.txt"));
         }
         Thread.sleep(6000);
 
@@ -105,7 +105,7 @@ public class AskInfoHandler {
                 sb.append(lblStuNum).append("                ").append(lblStuName).append("             ").append(map.get("报名批次"))
                         .append("                    ").append(map.get("考试科目")).append("            ").append(map.get("通过情况")).append("         ").append(map.get("得分")).append("\n");
                 try {
-                    WriteToFile.writeTxtFile(sb.toString(), new File("src\\main\\files\\examResult1.txt"));
+                    WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult1.txt"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -114,7 +114,7 @@ public class AskInfoHandler {
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append(lblStuNum).append("            ").append(lblStuName).append("        ");
-            WriteToFile.writeTxtFile(sb.toString(), new File("src\\main\\files\\examResult1.txt"));
+            WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult1.txt"));
         }
 
 
