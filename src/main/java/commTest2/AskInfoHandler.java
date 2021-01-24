@@ -58,7 +58,7 @@ public class AskInfoHandler {
             driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[2]/tbody/tr/td[1]/input")).click();
         } catch (Exception e) {
             StringBuilder sb = new StringBuilder();
-            sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append("       错误 ");
+            sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append("       错误 ").append("\n");
             WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult2.txt"));
         }
         Thread.sleep(6000);
@@ -115,7 +115,7 @@ public class AskInfoHandler {
             maps.forEach(map -> {
 
                 StringBuilder sb = new StringBuilder();
-                sb.append(lblStuNum).append("                ").append(lblStuName).append("             ").append(map.get("报名批次"))
+                sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append(lblStuNum).append("                ").append(lblStuName).append("             ").append(map.get("报名批次"))
                         .append("                    ").append(map.get("考试科目")).append("            ").append(map.get("通过情况")).append("         ").append(map.get("得分")).append("\n");
                 try {
                     WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult2.txt"));
@@ -126,7 +126,7 @@ public class AskInfoHandler {
             });
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append(lblStuNum).append("            ").append(lblStuName).append("        ");
+            sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append(lblStuNum).append("            ").append(lblStuName).append("        ").append("\n");
             WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult2.txt"));
         }
 
