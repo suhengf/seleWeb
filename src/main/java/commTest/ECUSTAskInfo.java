@@ -17,9 +17,9 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @Description:华东理工线上作业处理类
+ * @Description:统考成绩查询
  * @Author:Su-Heng
- * @Date:2020/11/02 03:43
+ * @Date:2021/1/24 03:43
  * @Version 1.0
  * 支持 linux   window 执行 调试目前再window上 图形化界面 通过参数设置
  *         设置无界面化

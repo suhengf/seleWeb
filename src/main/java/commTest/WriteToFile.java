@@ -20,7 +20,7 @@ public class WriteToFile {
                 .append("  大学英语B2").append("     合格").append("     91").append("\n");
 
 //        writeTxtFile(sb.toString(), new File("D:\\file\\8998.txt"));
-        readTxtFile(sb.toString(), new File("D:\\file\\8998.txt"));
+        readTxtFile(sb.toString(), new File("src\\main\\files\\examResult.txt"));
     }
 
 

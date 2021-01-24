@@ -2,7 +2,6 @@ package commTest;
 
 import ecust.UserInfo;
 import ecust.WebDriverUtils;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,18 +9,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.QRtool.elementSnapshot;
 import static utils.QRtool.recognize;
 
 public class AskInfoHandler {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(AskInfoHandler.class);
-    private static final String ORANGEFLAG = "1";
-    private static final String DEFAULT_COURSE= "/html/body/div[3]/div[2]/div[";
-    private static final String SPECIAL_COURSE= "/html/body/div[2]/div[2]/div[";
-
-    private static final String SPECIAL_IFRAME=  "/html/body/div/div/p/div/iframe";
-    private static final String DEFAULT_IFRAME= "/html/body/div/div/div/iframe";
 
     public static void handler(UserInfo userInfo, WebDriver driver,int conut) throws Exception {
 
@@ -52,10 +49,17 @@ public class AskInfoHandler {
         Thread.sleep(20000);
         //验证码验证
         String verifyCode = recognize(elementSnapshot(driver,url));
-//        logger.info("验证码验证   ："+verifyCode);
+        logger.info("验证码验证   ："+verifyCode);
         driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[2]/input[1]")).sendKeys(verifyCode);
         //点击确定
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[2]/tbody/tr/td[1]/input")).click();
+
+        try {
+            driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[2]/tbody/tr/td[1]/input")).click();
+        } catch (Exception e) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append("       错误 ");
+            WriteToFile.writeTxtFile(sb.toString(), new File("src\\main\\files\\examResult.txt"));
+        }
         Thread.sleep(6000);
 
 
@@ -86,28 +90,34 @@ public class AskInfoHandler {
         switchCenterFrame(driver);
         //学号
         String lblStuNum = driver.findElement(By.id("lblStuNum")).getText();
-        logger.info("学号: "+lblStuNum);
+        logger.info("学号: " + lblStuNum);
         //姓名
         String lblStuName = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[2]/td[5]/span")).getText();
-        logger.info("姓名: "+lblStuName);
-        //2020年9月统考
-        String dateBatch = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[1]")).getText();
-        logger.info("报名批次: "+dateBatch);
-        //考试科目
-        String subject = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[2]")).getText();
-        logger.info("考试科目: "+subject);
-        //是否合格
-        String jige = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[3]")).getText();
-        logger.info("通过情况: "+jige);
-        //得分
-        String score = driver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[2]/td[4]")).getText();
-        logger.info("得分: "+score);
+
+        logger.info("姓名: " + lblStuName);
+
+        List<Map<String, String>> maps = queryCourse(driver);
+
+        if (!maps.isEmpty()) {
+            maps.forEach(map -> {
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(lblStuNum).append("            ").append(lblStuName).append("        ").append(map.get("报名批次"))
+                        .append("           ").append(map.get("考试科目")).append("       ").append(map.get("通过情况")).append("         ").append(map.get("得分")).append("\n");
+                try {
+                    WriteToFile.writeTxtFile(sb.toString(), new File("src\\main\\files\\examResult.txt"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            });
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(lblStuNum).append("            ").append(lblStuName).append("        ");
+            WriteToFile.writeTxtFile(sb.toString(), new File("src\\main\\files\\examResult.txt"));
+        }
 
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(lblStuNum).append("            ").append(lblStuName).append("        ").append(dateBatch)
-                .append("           ").append(subject).append("       ").append(jige).append("         ").append(score).append("\n");
-        WriteToFile.writeTxtFile(sb.toString(), new File("D:\\file\\8998.txt"));
     }
 
 
@@ -125,10 +135,40 @@ public class AskInfoHandler {
     }
 
 
-    public static void switchCenterFrame(WebDriver driver){
+    public static void switchCenterFrame(WebDriver driver) {
         driver.switchTo().parentFrame();
-        switchFrame("/html/frameset/frameset/frame[2]",driver);
+        switchFrame("/html/frameset/frameset/frame[2]", driver);
 
     }
+
+    //2020批次成绩查询
+    public static List<Map<String, String>> queryCourse(WebDriver driver) {
+        ConcurrentHashMap<String, String> map = new ConcurrentHashMap();
+        List<Map<String, String>> list = new ArrayList<>();
+        String batchXpath = "/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[";
+        for (int i = 0; i < 6; i++) {
+
+            if (WebDriverUtils.check(driver, By.xpath(batchXpath + "]/td[1]"))) {
+
+                if ("2020年12月统考".equals(driver.findElement(By.xpath(batchXpath + "]/td[1]")).getText())) {
+                    //2020年12月统考
+                    map.put("报名批次", driver.findElement(By.xpath(batchXpath + "]/td[1]")).getText());
+                    //考试科目
+                    map.put("考试科目", driver.findElement(By.xpath(batchXpath + "]/td[2]")).getText());
+                    //是否合格
+                    map.put("通过情况", driver.findElement(By.xpath(batchXpath + "]/td[3]")).getText());
+                    //得分
+                    map.put("得分", driver.findElement(By.xpath(batchXpath + "]/td[4]")).getText());
+                    logger.info(String.valueOf(map));
+                    list.add(map);
+                }
+
+            }
+
+        }
+        return list;
+
+    }
+
 
 }
