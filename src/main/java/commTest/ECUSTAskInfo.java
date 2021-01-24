@@ -41,7 +41,7 @@ public class ECUSTAskInfo {
         ChromeOptions options = new ChromeOptions();
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
-		FileParse.readSaveList2(userInfoList,"src\\main\\files\\1210.txt");
+		FileParse.readSaveList2(userInfoList,"src\\main\\files\\20210124_0.txt");
 		//批量处理 学生信息
 		int count = 4;
 		ECUSTAskInfo ecustOnlineWork = new ECUSTAskInfo();
