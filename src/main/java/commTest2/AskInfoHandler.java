@@ -64,7 +64,7 @@ public class AskInfoHandler {
         } catch (Exception e) {
             StringBuilder sb = new StringBuilder();
             sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append("       错误 ").append("\n");
-            WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult2.txt"));
+            WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\error_2.txt"));
         }
 
         driver.quit();
@@ -128,7 +128,7 @@ public class AskInfoHandler {
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append(lblStuNum).append("            ").append(lblStuName).append("        ").append("\n");
-            WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult2.txt"));
+            WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\noResult_2.txt.txt"));
         }
 
 
