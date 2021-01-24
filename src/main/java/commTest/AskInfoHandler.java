@@ -43,8 +43,8 @@ public class AskInfoHandler {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(url);
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[1]/td[2]/input")).sendKeys(userInfo.getUserId());
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[2]/td[2]/input")).sendKeys(userInfo.getPassword());
+        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[1]/td[2]/input")).sendKeys(userInfo.getUserId().trim());
+        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[2]/td[2]/input")).sendKeys(userInfo.getPassword().trim());
         logger.info("current userId：" + userInfo.getUserId());
         Thread.sleep(20000);
         //验证码验证
