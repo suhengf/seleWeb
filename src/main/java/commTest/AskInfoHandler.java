@@ -145,18 +145,18 @@ public class AskInfoHandler {
     public static List<Map<String, String>> queryCourse(WebDriver driver) {
         ConcurrentHashMap<String, String> map = new ConcurrentHashMap();
         List<Map<String, String>> list = new ArrayList<>();
-        String batchXpath = "/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr[";
+
         for (int i = 0; i < 6; i++) {
+            String batchXpath = "/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr["+i+"]";
+            if (WebDriverUtils.check(driver, By.xpath(batchXpath + "/td[1]"))) {
 
-            if (WebDriverUtils.check(driver, By.xpath(batchXpath + "]/td[1]"))) {
-
-                if ("2020年12月统考".equals(driver.findElement(By.xpath(batchXpath + "]/td[1]")).getText())) {
+                if ("2020年12月统考".equals(driver.findElement(By.xpath(batchXpath + "/td[1]")).getText())) {
                     //2020年12月统考
-                    map.put("报名批次", driver.findElement(By.xpath(batchXpath + "]/td[1]")).getText());
+                    map.put("报名批次", driver.findElement(By.xpath(batchXpath + "/td[1]")).getText());
                     //考试科目
-                    map.put("考试科目", driver.findElement(By.xpath(batchXpath + "]/td[2]")).getText());
+                    map.put("考试科目", driver.findElement(By.xpath(batchXpath + "/td[2]")).getText());
                     //是否合格
-                    map.put("通过情况", driver.findElement(By.xpath(batchXpath + "]/td[3]")).getText());
+                    map.put("通过情况", driver.findElement(By.xpath(batchXpath + "/td[3]")).getText());
                     //得分
                     map.put("得分", driver.findElement(By.xpath(batchXpath + "]/td[4]")).getText());
                     logger.info(String.valueOf(map));
