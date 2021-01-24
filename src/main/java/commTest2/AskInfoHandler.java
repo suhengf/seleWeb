@@ -2,6 +2,7 @@ package commTest2;
 
 import ecust.UserInfo;
 import ecust.WebDriverUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -61,12 +62,24 @@ public class AskInfoHandler {
             WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult2.txt"));
         }
         Thread.sleep(6000);
-
+        closeAlter(driver);
 
         // 登记 用户账号  密码    准考证号码  大学英语 成绩     大学计算机 成绩
         handleAskInfo(driver, userInfo);
         driver.quit();
 
+
+    }
+
+
+    public static void closeAlter(WebDriver driver) {
+        try {
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+            alert.dismiss();
+        } catch (Exception e) {
+            logger.info("关闭窗口");
+        }
 
     }
 

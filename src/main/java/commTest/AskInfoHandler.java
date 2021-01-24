@@ -2,6 +2,7 @@ package commTest;
 
 import ecust.UserInfo;
 import ecust.WebDriverUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -55,6 +56,7 @@ public class AskInfoHandler {
 
         try {
             driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[2]/tbody/tr/td[1]/input")).click();
+
         } catch (Exception e) {
             StringBuilder sb = new StringBuilder();
             sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append("       错误 ");
@@ -62,11 +64,22 @@ public class AskInfoHandler {
         }
         Thread.sleep(6000);
 
-
+        closeAlter(driver);
         // 登记 用户账号  密码    准考证号码  大学英语 成绩     大学计算机 成绩
         handleAskInfo(driver, userInfo);
         driver.quit();
 
+
+    }
+
+    public static void closeAlter(WebDriver driver) {
+        try {
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+            alert.dismiss();
+        } catch (Exception e) {
+            logger.info("关闭窗口");
+        }
 
     }
 
