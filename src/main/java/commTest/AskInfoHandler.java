@@ -102,8 +102,8 @@ public class AskInfoHandler {
             maps.forEach(map -> {
 
                 StringBuilder sb = new StringBuilder();
-                sb.append(lblStuNum).append("            ").append(lblStuName).append("        ").append(map.get("报名批次"))
-                        .append("           ").append(map.get("考试科目")).append("       ").append(map.get("通过情况")).append("         ").append(map.get("得分")).append("\n");
+                sb.append(lblStuNum).append("                ").append(lblStuName).append("             ").append(map.get("报名批次"))
+                        .append("                    ").append(map.get("考试科目")).append("            ").append(map.get("通过情况")).append("         ").append(map.get("得分")).append("\n");
                 try {
                     WriteToFile.writeTxtFile(sb.toString(), new File("src\\main\\files\\examResult.txt"));
                 } catch (Exception e) {
@@ -158,7 +158,7 @@ public class AskInfoHandler {
                     //是否合格
                     map.put("通过情况", driver.findElement(By.xpath(batchXpath + "/td[3]")).getText());
                     //得分
-                    map.put("得分", driver.findElement(By.xpath(batchXpath + "]/td[4]")).getText());
+                    map.put("得分", driver.findElement(By.xpath(batchXpath + "/td[4]")).getText());
                     logger.info(String.valueOf(map));
                     list.add(map);
                 }
