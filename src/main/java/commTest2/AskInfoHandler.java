@@ -38,23 +38,24 @@ public class AskInfoHandler {
 
     //处理单个学生信息
     public static void singleHandler(UserInfo userInfo,int count) throws Exception {
-
-        String url = "http://server1.cdce.cn/student/";
-        Thread.sleep(10000);
         WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get(url);
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[1]/td[2]/input")).sendKeys(userInfo.getUserId().trim());
-        driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[2]/td[2]/input")).sendKeys(userInfo.getPassword().trim());
-        logger.info("current userId：" + userInfo.getUserId());
-        Thread.sleep(20000);
-        //验证码验证
+        try {
+            String url = "http://server1.cdce.cn/student/";
+            Thread.sleep(10000);
+
+            driver.manage().window().maximize();
+            driver.get(url);
+            driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[1]/td[2]/input")).sendKeys(userInfo.getUserId().trim());
+            driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[2]/td[2]/input")).sendKeys(userInfo.getPassword().trim());
+            logger.info("current userId：" + userInfo.getUserId());
+            Thread.sleep(20000);
+            //验证码验证
         String verifyCode = recognize(elementSnapshot(driver,url));
         logger.info("验证码验证   ："+verifyCode);
         driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[2]/input[1]")).sendKeys(verifyCode);
         //点击确定
 
-        try {
+
             driver.findElement(By.xpath("/html/body/form/div[3]/table[2]/tbody/tr[3]/td/table[2]/tbody/tr/td[1]/input")).click();
             Thread.sleep(6000);
             closeAlter(driver);
@@ -119,7 +120,7 @@ public class AskInfoHandler {
                 sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append(lblStuNum).append("                ").append(lblStuName).append("             ").append(map.get("报名批次"))
                         .append("                    ").append(map.get("考试科目")).append("            ").append(map.get("通过情况")).append("         ").append(map.get("得分")).append("\n");
                 try {
-                    WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\examResult2.txt"));
+                    WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\new_2.txt"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
