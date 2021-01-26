@@ -128,7 +128,7 @@ public class AskInfoHandler {
             });
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append(userInfo.getPassword()).append(lblStuNum).append("            ").append(lblStuName).append("        ").append("\n");
+            sb.append("账号            ").append(userInfo.getUserId()).append("         密码   ").append("                                        ").append(userInfo.getPassword()).append("                                        ").append(lblStuNum).append("            ").append(lblStuName).append("        ").append("\n");
             WriteToFile.readTxtFile(sb.toString(), new File("src\\main\\files\\noResult_0.txt"));
         }
 
@@ -161,7 +161,7 @@ public class AskInfoHandler {
 
         List<Map<String, String>> list = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 10; i++) {
             ConcurrentHashMap<String, String> map = new ConcurrentHashMap();
             String batchXpath = "/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr["+i+"]";
             if (WebDriverUtils.check(driver, By.xpath(batchXpath + "/td[1]"))) {
