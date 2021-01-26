@@ -161,7 +161,7 @@ public class AskInfoHandler {
 
         List<Map<String, String>> list = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             ConcurrentHashMap<String, String> map = new ConcurrentHashMap();
             String batchXpath = "/html/body/form/table/tbody/tr[3]/td/div/table/tbody/tr["+i+"]";
             if (WebDriverUtils.check(driver, By.xpath(batchXpath + "/td[1]"))) {
