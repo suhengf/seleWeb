@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE com.auto.mapper PUBLIC "-//mybatis.org//DTD com.auto.mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-com.auto.mapper.dtd">
+<com.auto.mapper namespace="com.auto.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.auto.entity.User">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+        <result column="passWord" jdbcType="VARCHAR" property="passWord" />
+        <result column="realName" jdbcType="VARCHAR" property="realName" />
+    </resultMap>
+
+    <select id="Sel" resultType="com.auto.entity.User">
+        select * from user where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.auto.entity.User">
+        insert into User (id,userName, passWord, realName)
+        values (#{id,jdbcType=INTEGER},#{userName,jdbcType=VARCHAR},  #{passWord,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR})
+    </insert>
+
+    <!--<insert id="insertSelective" parameterType="com.auto.entity.User">
+        insert into User
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                userId,
+            </if>
+            <if test="username != null">
+                userName,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                #{userid,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="findAllUser" resultType="com.auto.entity.User">
+        select * from User
+    </select>-->
+</com.auto.mapper>
