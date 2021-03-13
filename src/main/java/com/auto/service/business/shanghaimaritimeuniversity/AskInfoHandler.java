@@ -113,6 +113,10 @@ public class AskInfoHandler {
     // xpath  /html/body/div[1]/div/div[7]/div/div[2]/div/div[1]/div/div/div[2]/p/span[2]
     //  class  title-tit
 
+    //当前时间
+    //   /html/body/div[1]/div/div[2]/div[1]/div[2]/div/div/div[10]/div[4]/span[1]   currentTime
+    //结束时间
+    //   /html/body/div[1]/div/div[2]/div[1]/div[2]/div/div/div[10]/div[4]/span[2]   duration
 
 
 }
