@@ -19,6 +19,7 @@ public class AskInfoHandler {
             singleHandler(userInfo,conut);
             driver.quit();
         } catch (Exception e) {
+            log.error("账号:{}  异常{}",userInfo.getUserId(),e);
             Thread.sleep(10000);
             singleHandler(userInfo,conut);
             driver.quit();
