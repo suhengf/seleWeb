@@ -1,12 +1,16 @@
-package com.auto.business.shanghaimaritimeuniversity;
+package com.auto.business.shanghaimaritimeuniversity.impl;
 
 
+import com.auto.business.shanghaimaritimeuniversity.AskInfoHandler;
+import com.auto.business.shanghaimaritimeuniversity.IMaritimeUniversity;
 import com.auto.entity.UserInfo;
 import com.auto.utils.FileParse;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -20,12 +24,16 @@ import java.util.concurrent.TimeUnit;
 /**
  * 上海海事大学
  */
-public class MaritimeUniversity {
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(MaritimeUniversity.class);
+@Service
+public class MaritimeUniversityImpl implements IMaritimeUniversity {
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(MaritimeUniversityImpl.class);
 
     private ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 4, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(200));
 
-    public static void main(String[] args) throws Exception {
+    @Autowired
+    private AskInfoHandler askInfoHandler;
+
+    public void excute() throws Exception {
         //目前引用的是本地配置
         File file = ResourceUtils.getFile("src\\main\\files\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", file.getPath());
@@ -35,9 +43,10 @@ public class MaritimeUniversity {
         FileParse.readSaveList(userInfoList, "src\\main\\files\\haishi\\20210124_0.txt");
         //批量处理 学生信息
         int count = 4;
-        MaritimeUniversity maritimeUniversity = new MaritimeUniversity();
-        maritimeUniversity.handUserHouseWork(userInfoList, count);
+       handUserHouseWork(userInfoList, count);
     }
+
+
 
     //批量处理 学生信息
     public void handUserHouseWork(List<UserInfo> userInfoList, int count) throws Exception {
@@ -47,7 +56,7 @@ public class MaritimeUniversity {
                 @SneakyThrows
                 @Override
                 public void run() {
-                    AskInfoHandler.singleHandler(userInfo, count);
+                    askInfoHandler.singleHandler(userInfo, count);
                 }
             };
             executor.execute(task);
