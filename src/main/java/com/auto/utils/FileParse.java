@@ -24,7 +24,7 @@ public class FileParse {
         String text = null;
         while ((text = bufferedReader.readLine()) != null) {
             UserInfo userInfo = new UserInfo();
-            String [] array = text.split(" ");
+            String [] array = text.split(",");
             userInfo.setUserId(array[0]);
             userInfo.setPassword(array[1]);
             userInfoList.add(userInfo);
