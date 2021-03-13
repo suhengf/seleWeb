@@ -145,7 +145,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.auto.web.StartupApplication</mainClass>
+                    <mainClass>com.auto.StartupApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
