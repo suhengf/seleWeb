@@ -1,4 +1,4 @@
-package com.auto.web;
+package com.auto;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
