@@ -1,7 +1,7 @@
 package com.auto.controller;
 
 
-import com.auto.business.shanghaimaritimeuniversity.IMaritimeUniversity;
+import com.auto.service.business.shanghaimaritimeuniversity.IMaritimeUniversity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
