@@ -73,21 +73,45 @@ public class AskInfoHandler {
     private static void handleAskInfo( WebDriver driver,UserInfo userInfo)  throws Exception{
         //基本信息查看
         driver.findElement(By.xpath("/html/body/div[1]/div/div[3]/div[2]/div[1]/div[3]/div/div[1]/div[2]/ul[1]/div/dl/dt/div[1]/div[1]")).click();
+        closeAlter(driver);
        Thread.sleep(5000);
 //                    /html/body/div[1]/div/div[2]/div[2]/div[2]/div[1]/div/ul[2]/div[1]/ul/li[2]/div/b
-       String str = "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[1]/div/ul[1]/div[";
-        for (int i = 1; i <20 ; i++) {
-            if (WebDriverUtils.check(driver, By.xpath(str+i+"]/li/div/div/b"))) {
+        String firstTitle = "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[1]/div/ul[";
+        for (int j = 1; j <20 ; j++) {
+            for (int i = 1; i <20 ; i++) {
+                String allXpath = firstTitle + j + "]/div["+i + "]/li/div/div/b";
+                log.info("xpath:{}"+allXpath);
+                if (WebDriverUtils.check(driver, By.xpath(allXpath))) {
 
-                //判断是否播放完成
-                //  /html/body/div[1]/div/div[2]/div[2]/div[2]/div[1]/div/ul[1]/div[1]/li/div/div/b[2]
 
+                    //判断是否播放完成
+                    //  /html/body/div[1]/div/div[2]/div[2]/div[2]/div[1]/div/ul[1]/div[1]/li/div/div/b[2]
+
+                }
             }
+
         }
+
+    }
+
+
+
+    public void businessDeal(WebDriver driver,String allXpath){
+        //逻辑处理 针对问题  自己选择一个
+        driver.findElement(By.xpath(allXpath)).click();
+        //问题选择完 可以 需要重新点击下
+
+
+
+
 
 
     }
 
+
+
+    // xpath  /html/body/div[1]/div/div[7]/div/div[2]/div/div[1]/div/div/div[2]/p/span[2]
+    //  class  title-tit
 
 
 

@@ -15,6 +15,10 @@ public class SeleWebController {
     @Autowired
     private IMaritimeUniversity maritimeUniversity;
 
+    /**
+     * 上海海事大学
+     * @throws Exception
+     */
     @PostMapping("/maritimeUniversity")
     public void  universityWork() throws Exception {
         maritimeUniversity.excute();
