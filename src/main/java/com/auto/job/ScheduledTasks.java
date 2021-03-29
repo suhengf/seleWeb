@@ -16,7 +16,7 @@ public class ScheduledTasks {
     private int count = 1;
 
     //fixedDelay = 5000表示当方法执行完毕5000ms后，Spring scheduling会再次调用该方法
-    @Scheduled(fixedDelay = 5000)
+//    @Scheduled(fixedDelay = 5000)
     public void askForToken() {
         /** 发送申请TOKEN请求 */
         String tokenResponse = null;
