@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class TimeUtils {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(TimeUtils.class);
 
-    public static long getDiffTime(WebDriver driver) throws InterruptedException {
+    public static long getDiffTime(WebDriver driver,int divSon,int divMonther) throws InterruptedException {
         long diffSec = 0;
         Thread.sleep(3000);
         String startTime = "";
@@ -24,7 +24,7 @@ public class TimeUtils {
         logger.info("已播放 {}", startTime);
         logger.info("总时长 {} ", endTime);
         logger.info("还差多少毫秒播放结束: {}", diffSec(startTime, endTime));
-        return diffSec = "0:00".equals(endTime)?0:((diffSec(startTime, endTime))* 8 )/10;
+        return diffSec = "0:00".equals(endTime)?0:((diffSec(startTime, endTime))* divSon )/divMonther;
 
     }
 

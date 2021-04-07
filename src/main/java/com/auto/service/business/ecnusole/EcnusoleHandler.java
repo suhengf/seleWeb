@@ -231,7 +231,7 @@ public class EcnusoleHandler {
             driver.findElement(By.className("vjs-big-play-button")).click();
             Thread.sleep(8000);
             //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
-            Thread.sleep(TimeUtils.getDiffTime(driver));
+            Thread.sleep(TimeUtils.getDiffTime(driver,8,10));
             driver.switchTo().defaultContent();
             Thread.sleep(5000);
 

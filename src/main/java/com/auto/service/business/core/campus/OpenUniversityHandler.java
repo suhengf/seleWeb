@@ -18,42 +18,48 @@ import org.springframework.stereotype.Service;
 public class OpenUniversityHandler implements CampusOnlineHandler {
     @Override
     public void onlineProcess(UserInfo userInfo, WebDriver driver ) {
-        log.info("学校:{}",EnumUniversityName.OPEN_UNIVERSITY.getDesc());
-        driver.findElement(By.xpath("/html/body/div/div[3]/a[1]/p[1]")).click();
+        try {
+            Thread.sleep(4000);
+            log.info("学校:{}", EnumUniversityName.OPEN_UNIVERSITY.getDesc());
+            driver.findElement(By.xpath("/html/body/div/div[3]/a[1]/p[1]")).click();
+            Thread.sleep(4000);
+            String courseId = "/html/body/div/div[3]/div/div[2]/ul/li[";
+            for (int i = 1; i <= 8; i++) {
+                String inOnlineWork = courseId + i + "]/div/div/div[2]/p/a";
+                if (WebDriverUtils.check(driver, By.xpath(inOnlineWork))) {
+                    String finishFlag = driver.findElement(By.xpath(courseId + i + "]/div/div/div[2]/div[3]/span")).getText();
+                    String courseName = driver.findElement(By.xpath(inOnlineWork)).getText();
+                    //学习进度：0.58学时 / 60.00学时
+                    String[] studySpeed = finishFlag.replace("学习进度：", "").replace("学时", "").split("/");
+                    String startSpeed = studySpeed[0].trim();
+                    String endSpeed = studySpeed[1].trim();
+                    if (startSpeed.equals(endSpeed)) {
+                        log.info("课程:{}已完成", courseName);
+                        continue;
+                    }
 
-        String courseId= "/html/body/div/div[3]/div/div[2]/ul/li[";
-        for (int i= 1; i<=8;i++){
-            String inOnlineWork = courseId+i+"]/div/div/div[2]/p/a";
-            if (WebDriverUtils.check(driver, By.xpath(inOnlineWork))){
-                String finishFlag = driver.findElement(By.xpath(courseId + i + "]/div/div/div[2]/div[3]/span")).getText();
-                String courseName =  driver.findElement(By.xpath(inOnlineWork)).getText();
-                //学习进度：0.58学时 / 60.00学时
-                String[] studySpeed = finishFlag.replace("学习进度：", "").replace("学时", "").split("/");
-                String startSpeed = studySpeed[0].trim();
-                String endSpeed = studySpeed[1].trim();
-                if(startSpeed.equals(endSpeed)){
-                    log.info("课程:{}已完成",courseName);
-                    continue;
+                    driver.findElement(By.xpath(inOnlineWork)).click();
+                    Thread.sleep(4000);
+                    //切换界面
+                    WebDriverUtils.switchToWindowByTitle(driver, "课程详情");
+                    log.info("切换界面之后 开始执行逻辑处理");
+
+                    while (true) {
+                        differBus(driver);
+                    }
+
+
                 }
-                driver.findElement(By.xpath(inOnlineWork)).click();
-                //切换界面
-                WebDriverUtils.switchToWindowByTitle(driver,"课程详情");
-                log.info("切换界面之后 开始执行逻辑处理");
 
-
-                try {
-                    differBus( driver);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
             }
 
 
+        } catch (Exception e) {
+            log.error("异常", e);
         }
-
-
     }
+
 
 
     /**
@@ -63,17 +69,21 @@ public class OpenUniversityHandler implements CampusOnlineHandler {
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/ul[1]/li[2]/a")).click();
         //需要判断 是pdf 还是视频 或者是作业
 
-        if(WebDriverUtils.check(driver, By.xpath("/html/body/div/div[3]/div/div/button/span[2]"))){
+        if (WebDriverUtils.check(driver, By.xpath("/html/body/div/div[3]/div/div/button/span[2]"))) {
             log.info("处理视频");
             driver.findElement(By.className("vjs-big-play-button")).click();
-            Thread.sleep(8000);
-            Thread.sleep(TimeUtils.getDiffTime(driver));
-        }else{
+            driver.findElement(By.xpath("/html/body/div/div[3]/div/div/div[4]/button[3]/u")).click();
+            Thread.sleep(1000);
+            driver.findElement(By.xpath("/html/body/div/div[3]/div/div/div[4]/button[3]/li/div/div/div[1]")).click();
+            Thread.sleep(TimeUtils.getDiffTime(driver, 1, 2));
+        } else {
             log.info("其他处理 向下滑动 关闭弹框");
 
         }
-
+        driver.findElement(By.xpath("/html/body/div/div[1]/a")).click();
+        Thread.sleep(2000);
         driver.findElement(By.xpath("/html/body/div/div[2]/ul/li[1]/a")).click();
+
         log.info("返回课程详情页");
 
     }

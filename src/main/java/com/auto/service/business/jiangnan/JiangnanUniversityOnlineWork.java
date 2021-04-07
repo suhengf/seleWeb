@@ -205,7 +205,7 @@ public class JiangnanUniversityOnlineWork {
 		driver.findElement(By.className("vjs-big-play-button")).click();
 		//计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
 
-		Thread.sleep(TimeUtils.getDiffTime(driver));
+		Thread.sleep(TimeUtils.getDiffTime(driver,8,10));
 		//返回dd		/html/body/div[3]/div/div[1]/a
 		driver.switchTo().defaultContent();
 		driver.findElement(By.xpath("/html/body/div[3]/div/div[1]/a")).click();
