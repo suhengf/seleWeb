@@ -1,18 +1,14 @@
 package com.auto.service.business.openUniversity.impl;
 
 import com.auto.entity.UserInfo;
-import com.auto.service.business.openUniversity.AskInfoHandler;
 import com.auto.service.business.openUniversity.Guarantee;
-import com.auto.utils.FileParse;
+import com.auto.service.business.openUniversity.OpenUniversity;
+import com.auto.utils.LoginUtils;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -34,24 +30,17 @@ import java.util.concurrent.TimeUnit;
  **/
 @Component
 public class GuaranteeImpl  implements Guarantee {
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(GuaranteeImpl.class);
+
+	@Autowired
+	private OpenUniversity openUniversity;
 
 	private ThreadPoolExecutor executor = new ThreadPoolExecutor(1,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
 
 	@Override
     public  void excute() throws Exception  {
-    	//目前引用的是本地配置
-    	File file = ResourceUtils.getFile("src\\main\\files\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", file.getPath());
-        ChromeOptions options = new ChromeOptions();
-//		options.addArguments("headless");
-//	    options.addArguments("no-sandbox");
-        List<UserInfo> userInfoList = new ArrayList<>();
-        //解析得到 对应的学生名单
-
-		FileParse.readSaveList(userInfoList,"src\\main\\files\\openUniversity.txt");
+		List<UserInfo> userInfoList = LoginUtils.parseUserList("src\\main\\files\\chromedriver.exe","src\\main\\files\\openUniversity.txt");
 		//批量处理 学生信息
-		handUserHouseWork(userInfoList,options);
+		handUserHouseWork(userInfoList,new ChromeOptions());
     }
 
     //批量处理 学生信息
@@ -62,7 +51,7 @@ public class GuaranteeImpl  implements Guarantee {
 				@SneakyThrows
 				@Override
 				public void run() {
-					AskInfoHandler.singleHandler( userInfo,options);
+					openUniversity.singleHandler( userInfo,options);
 				}
 			};
 			executor.execute(task);
