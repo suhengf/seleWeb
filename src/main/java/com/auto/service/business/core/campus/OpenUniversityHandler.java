@@ -35,7 +35,11 @@ public class OpenUniversityHandler implements CampusOnlineHandler {
                     continue;
                 }
                 driver.findElement(By.xpath(inOnlineWork)).click();
-
+                //切换界面
+                WebDriverUtils.switchToWindowByTitle(driver,"课程详情");
+                log.info("切换界面之后 开始执行逻辑处理");
+                driver.findElement(By.xpath("/html/body/div[2]/div[4]/ul[1]/li[2]/a")).click();
+                //需要判断 是pdf 还是视频 或者是作业
 
 
 

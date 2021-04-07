@@ -25,7 +25,7 @@ public class SeleWebController {
 
 
     /**
-     * 上海海事大学
+     * 国家开大保险大学
      * @throws Exception
      */
     @PostMapping("/guarantee")
