@@ -1,12 +1,14 @@
-package com.auto.service.business.guokai.sixiang;
-
+package com.auto.service.business.openUniversity.impl;
 
 import com.auto.entity.UserInfo;
+import com.auto.service.business.openUniversity.AskInfoHandler;
+import com.auto.service.business.openUniversity.Guarantee;
 import com.auto.utils.FileParse;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -18,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @Description:国家开放大学   思想品德课程处理
+ * @Description:国家开放大学  毛概课程处理
  * @Author:Su-Heng
  * @Date:2020/11/02 03:43
  * @Version 1.0
@@ -30,24 +32,26 @@ import java.util.concurrent.TimeUnit;
  *         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
  *        System.setProperty("webdriver.chrome.bin", "/opt/google/chrome/chrome");
  **/
-public class SiXiangnfo {
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(SiXiangnfo.class);
+@Component
+public class GuaranteeImpl  implements Guarantee {
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(GuaranteeImpl.class);
 
-	private ThreadPoolExecutor executor = new ThreadPoolExecutor(3,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
+	private ThreadPoolExecutor executor = new ThreadPoolExecutor(1,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
 
-    public static void main(String[] args) throws Exception  {
+	@Override
+    public  void excute() throws Exception  {
     	//目前引用的是本地配置
     	File file = ResourceUtils.getFile("src\\main\\files\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", file.getPath());
         ChromeOptions options = new ChromeOptions();
 //		options.addArguments("headless");
-//		options.addArguments("no-sandbox");
+//	    options.addArguments("no-sandbox");
         List<UserInfo> userInfoList = new ArrayList<>();
         //解析得到 对应的学生名单
-		FileParse.readSaveList(userInfoList,"src\\main\\files\\wrd.txt");
+
+		FileParse.readSaveList(userInfoList,"src\\main\\files\\openUniversity.txt");
 		//批量处理 学生信息
-		SiXiangnfo ecustOnlineWork = new SiXiangnfo();
-		ecustOnlineWork.handUserHouseWork(userInfoList,options);
+		handUserHouseWork(userInfoList,options);
     }
 
     //批量处理 学生信息

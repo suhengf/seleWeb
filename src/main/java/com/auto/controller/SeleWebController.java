@@ -2,6 +2,7 @@ package com.auto.controller;
 
 
 import com.auto.service.business.ecnusole.Ecnusole;
+import com.auto.service.business.openUniversity.Guarantee;
 import com.auto.service.business.shanghaimaritimeuniversity.IMaritimeUniversity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,20 @@ public class SeleWebController {
     @Autowired
     private Ecnusole ecnusole;
 
+    @Autowired
+    private Guarantee guarantee;
+
+
+    /**
+     * 上海海事大学
+     * @throws Exception
+     */
+    @PostMapping("/guarantee")
+    public void  openUniversityWork() throws Exception {
+        guarantee.excute();
+    }
+
+
     /**
      * 上海海事大学
      * @throws Exception
@@ -30,7 +45,7 @@ public class SeleWebController {
 
 
     /**
-     * 上海海事大学
+     * 华东师范大学
      * @throws Exception
      */
     @PostMapping("/ecnusole")

@@ -62,6 +62,8 @@ public class QRtool {
             element = driver.findElement(By.id("imgCodeCtrl"));
         }else if(url.equals("http://wljy.sole.ecnu.edu.cn/login")){
             element = driver.findElement(By.id("validimage"));
+        }else if(url.equals("https://www.oucbx.com/OUCWEB/LEAP/Web/html/home.html")){
+            element = driver.findElement(By.id("checkCode"));
         }
         int width = element.getSize().getWidth();
         int height = element.getSize().getHeight();
