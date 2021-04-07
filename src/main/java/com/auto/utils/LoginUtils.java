@@ -28,7 +28,7 @@ public class LoginUtils {
         return userInfoList;
     }
 
-    public static void login(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String userInput,String userPsdInput,String verifyCodeInput,String loginBotton) throws Exception {
+    public static WebDriver  login(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String userInput,String userPsdInput,String verifyCodeInput,String loginBotton) throws Exception {
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(url);
@@ -46,7 +46,7 @@ public class LoginUtils {
         //点击确定
         driver.findElement(By.xpath(loginBotton)).click();
         Thread.sleep(8000);
-
+        return driver;
     }
 
 }

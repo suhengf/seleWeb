@@ -22,17 +22,17 @@ public class AskInfoHandler {
     private static final String DEFAULT_IFRAME= "/html/body/div/div/div/iframe";
 
     public static void handler(UserInfo userInfo, WebDriver driver, int conut) throws Exception {
-
-        try {
-            singleHandler(userInfo,conut);
-            driver.quit();
-        } catch (Exception e) {
-            Thread.sleep(10000);
-            singleHandler(userInfo,conut);
-            driver.quit();
-        }finally {
-            driver.quit();
-        }
+//
+//        try {
+//            singleHandler(userInfo,conut);
+//            driver.quit();
+//        } catch (Exception e) {
+//            Thread.sleep(10000);
+//            singleHandler(userInfo,conut);
+//            driver.quit();
+//        }finally {
+//            driver.quit();
+//        }
 
     }
 
