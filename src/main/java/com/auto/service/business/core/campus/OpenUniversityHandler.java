@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenUniversityHandler implements CampusOnlineHandler {
     @Override
-    public void onlineProcess(UserInfo userInfo, WebDriver driver ) {
-        try {
+    public void onlineProcess(UserInfo userInfo, WebDriver driver )throws Exception  {
             Thread.sleep(4000);
             log.info("学校:{}", EnumUniversityName.OPEN_UNIVERSITY.getDesc());
             driver.findElement(By.xpath("/html/body/div/div[3]/a[1]/p[1]")).click();
@@ -55,9 +54,7 @@ public class OpenUniversityHandler implements CampusOnlineHandler {
             }
 
 
-        } catch (Exception e) {
-            log.error("异常", e);
-        }
+
     }
 
 
