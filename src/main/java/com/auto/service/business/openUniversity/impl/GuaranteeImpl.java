@@ -31,31 +31,31 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class GuaranteeImpl  implements Guarantee {
 
-	@Autowired
-	private OpenUniversity openUniversity;
+				@Autowired
+				private OpenUniversity openUniversity;
 
-	private ThreadPoolExecutor executor = new ThreadPoolExecutor(1,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
+				private ThreadPoolExecutor executor = new ThreadPoolExecutor(1,4,60L, TimeUnit.SECONDS,new LinkedBlockingDeque<>(200));
 
-	@Override
-    public  void excute() throws Exception  {
-		List<UserInfo> userInfoList = LoginUtils.parseUserList("src\\main\\files\\chromedriver.exe","src\\main\\files\\openUniversity.txt");
-		//批量处理 学生信息
-		handUserHouseWork(userInfoList,new ChromeOptions());
-    }
-
-    //批量处理 学生信息
-	public  void handUserHouseWork(List<UserInfo> userInfoList ,ChromeOptions options ) throws Exception {
-		final WebDriver[] driver = {null};
-		for (UserInfo userInfo:userInfoList) {
-			Runnable task = new Runnable() {
-				@SneakyThrows
 				@Override
-				public void run() {
-					openUniversity.singleHandler( userInfo,options);
+				public  void excute() throws Exception  {
+					List<UserInfo> userInfoList = LoginUtils.parseUserList("src\\main\\files\\chromedriver.exe","src\\main\\files\\openUniversity.txt");
+					//批量处理 学生信息
+					handUserHouseWork(userInfoList,new ChromeOptions());
 				}
-			};
-			executor.execute(task);
-			Thread.sleep(10000);
+
+				//批量处理 学生信息
+				public  void handUserHouseWork(List<UserInfo> userInfoList ,ChromeOptions options ) throws Exception {
+					final WebDriver[] driver = {null};
+					for (UserInfo userInfo:userInfoList) {
+						Runnable task = new Runnable() {
+							@SneakyThrows
+							@Override
+							public void run() {
+								openUniversity.singleHandler( userInfo,options);
+							}
+						};
+						executor.execute(task);
+						Thread.sleep(10000);
 		}
 	}
 

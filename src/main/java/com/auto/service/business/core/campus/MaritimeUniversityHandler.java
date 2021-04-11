@@ -1,64 +1,26 @@
-package com.auto.service.business.shanghaimaritimeuniversity;
+package com.auto.service.business.core.campus;
 
 import com.auto.entity.UserInfo;
-import com.auto.service.business.core.CampusResolver;
+import com.auto.service.business.core.CampusOnlineHandler;
 import com.auto.service.business.core.EnumUniversityName;
 import com.auto.utils.LoginUtils;
 import com.auto.utils.WebDriverUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.sql.Driver;
-
 @Slf4j
-@Service
-public class AskInfoHandler {
-
-    @Autowired
-    private CampusResolver campusResolver;
-
-
-    //处理单个学生信息
-    public  void singleHandler(UserInfo userInfo, ChromeOptions options) throws Exception {
-
-        String url = "https://passport.zhihuishu.com/login?service=https://onlineservice.zhihuishu.com/login/gologin#signin";
-        WebDriver driver= LoginUtils.login(userInfo,options,url,"/html/body/div[4]/div/form/div[1]/ul[1]/li[1]/input[4]",
-                "/html/body/div[4]/div/form/div[1]/ul[1]/li[2]/input","/html/body/div[4]/div/form/div[1]/span");
-
-        closeAlter(driver);
-        log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
-        campusResolver.getExecutor(EnumUniversityName.MARITIME_UNIVERSITY.getCode()).onlineProcess(userInfo,driver);
-        log.info("用户{}登录成功,开始逻辑处理 end", userInfo.getUserId());
-
-
-
-
-    }
-
-    public static void closeAlter(WebDriver driver) {
-        try {
-            Alert alert = driver.switchTo().alert();
-            alert.accept();
-            alert.dismiss();
-        } catch (Exception e) {
-            log.info("关闭窗口");
-        }
-
-    }
-
-    private static void handleAskInfo( WebDriver driver,UserInfo userInfo)  throws Exception{
+@Component
+public class MaritimeUniversityHandler  implements CampusOnlineHandler {
+    @Override
+    public void onlineProcess(UserInfo userInfo, WebDriver driver) throws Exception {
         //基本信息查看
         driver.findElement(By.xpath("/html/body/div[1]/div/div[3]/div[2]/div[1]/div[3]/div/div[1]/div[2]/ul[1]/div/dl/dt/div[1]/div[1]")).click();
         Thread.sleep(1000);
-        closeAlter(driver);
+        LoginUtils.closeAlter(driver);
         Thread.sleep(1000);
         driver.findElement(By.xpath("//*[@id=\"app\"]/div/div[6]/div/div[3]/span/button")).click();
         Thread.sleep(1000);
@@ -123,27 +85,10 @@ public class AskInfoHandler {
             }
 
         }
-
     }
 
-
-
-
-    public void businessDeal(WebDriver driver,String allXpath){
-        //逻辑处理 针对问题  自己选择一个
-        driver.findElement(By.xpath(allXpath)).click();
-        //问题选择完 可以 需要重新点击下
-
-
-
-
-
-
+    @Override
+    public EnumUniversityName universityName() {
+        return EnumUniversityName.MARITIME_UNIVERSITY;
     }
-
-
-
-
-
-
 }

@@ -2,6 +2,7 @@ package com.auto.utils;
 
 import com.auto.entity.UserInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -47,6 +48,36 @@ public class LoginUtils {
         driver.findElement(By.xpath(loginBotton)).click();
         Thread.sleep(8000);
         return driver;
+    }
+
+
+
+    public static WebDriver  login(UserInfo userInfo, ChromeOptions options,String url,String userInput,String userPsdInput,String loginBotton) throws Exception {
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        driver.get(url);
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
+        Thread.sleep(7000);
+        driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());
+        log.info("current userId：{}"  ,userInfo.getUserId());
+        Thread.sleep(3000);
+        //点击确定
+        driver.findElement(By.xpath(loginBotton)).click();
+        Thread.sleep(8000);
+        return driver;
+    }
+
+
+    public static void closeAlter(WebDriver driver) {
+        try {
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+            alert.dismiss();
+        } catch (Exception e) {
+            log.info("关闭窗口");
+        }
+
     }
 
 }

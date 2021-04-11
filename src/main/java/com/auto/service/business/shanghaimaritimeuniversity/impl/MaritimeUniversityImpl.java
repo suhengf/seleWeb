@@ -5,6 +5,7 @@ import com.auto.service.business.shanghaimaritimeuniversity.AskInfoHandler;
 import com.auto.service.business.shanghaimaritimeuniversity.IMaritimeUniversity;
 import com.auto.entity.UserInfo;
 import com.auto.utils.FileParse;
+import com.auto.utils.LoginUtils;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -34,29 +35,24 @@ public class MaritimeUniversityImpl implements IMaritimeUniversity {
     private AskInfoHandler askInfoHandler;
 
     public void excute() throws Exception {
-        //目前引用的是本地配置
-        File file = ResourceUtils.getFile("src\\main\\files\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", file.getPath());
-        ChromeOptions options = new ChromeOptions();
-        List<UserInfo> userInfoList = new ArrayList<>();
-        //解析得到 对应的学生名单
-        FileParse.readSaveList(userInfoList, "src\\main\\files\\haishi\\20210124_0.txt");
+
+        List<UserInfo> userInfoList = LoginUtils.parseUserList("src\\main\\files\\chromedriver.exe","src\\main\\files\\haishi\\20210124_0.txt");
         //批量处理 学生信息
-        int count = 4;
-       handUserHouseWork(userInfoList, count);
+        handUserHouseWork(userInfoList,new ChromeOptions());
+
     }
 
 
 
     //批量处理 学生信息
-    public void handUserHouseWork(List<UserInfo> userInfoList, int count) throws Exception {
+    public void handUserHouseWork(List<UserInfo> userInfoList,ChromeOptions options) throws Exception {
         final WebDriver[] driver = {null};
         for (UserInfo userInfo : userInfoList) {
             Runnable task = new Runnable() {
-                @SneakyThrows
+                    @SneakyThrows
                 @Override
                 public void run() {
-                    askInfoHandler.singleHandler(userInfo, count);
+                    askInfoHandler.singleHandler(userInfo,options);
                 }
             };
             executor.execute(task);
