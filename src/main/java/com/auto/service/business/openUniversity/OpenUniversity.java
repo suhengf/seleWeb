@@ -20,6 +20,7 @@ public class OpenUniversity {
     //处理单个学生信息
     public void singleHandler(UserInfo userInfo, ChromeOptions options) throws Exception {
         log.info("开始逻辑处理");
+        // /html/body/div/div[1]/div[1]/div/div/span[3]
         WebDriver driver  =LoginUtils.login(userInfo, options,
                 "https://www.oucbx.com/OUCWEB/LEAP/Web/html/home.html", "/html/body/div/div[1]/div[1]/div/div/span[3]", "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[1]/div[1]/input"
                 , "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[2]/div[1]/input",
