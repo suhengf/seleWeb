@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 public class MaritimeUniversityImpl implements IMaritimeUniversity {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(MaritimeUniversityImpl.class);
 
-    private ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 4, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(200));
+    private ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 4, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(200));
 
     @Autowired
     private AskInfoHandler askInfoHandler;
