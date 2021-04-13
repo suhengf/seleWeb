@@ -69,6 +69,7 @@ public class OpenUniversityHandler implements CampusOnlineHandler {
         if (WebDriverUtils.check(driver, By.xpath("/html/body/div/div[3]/div/div/button/span[2]"))) {
             log.info("处理视频");
             driver.findElement(By.className("vjs-big-play-button")).click();
+            Thread.sleep(2000);
             driver.findElement(By.xpath("/html/body/div/div[3]/div/div/div[4]/button[3]/u")).click();
             Thread.sleep(2000);
             driver.findElement(By.xpath("/html/body/div/div[3]/div/div/div[4]/button[3]/li/div/div/div[1]")).click();
@@ -77,8 +78,8 @@ public class OpenUniversityHandler implements CampusOnlineHandler {
             log.info("其他处理 向下滑动 关闭弹框");
             Thread.sleep(3000);
         }
-        driver.findElement(By.xpath("/html/body/div/div[1]/a")).click();
-        Thread.sleep(3000);
+//        driver.findElement(By.xpath("/html/body/div/div[1]/a")).click();
+//        Thread.sleep(3000);
         driver.findElement(By.xpath("/html/body/div/div[2]/ul/li[1]/a")).click();
         Thread.sleep(3000);
         log.info("返回课程详情页");
