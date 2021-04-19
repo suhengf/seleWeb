@@ -66,7 +66,7 @@ public class OpenUniversityHandler implements CampusOnlineHandler {
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/ul[1]/li[2]/a")).click();
         //需要判断 是pdf 还是视频 或者是作业
         Thread.sleep(8000);
-        if (WebDriverUtils.check(driver, By.xpath("/html/body/div/div[3]/div/div/button/span[2]"))) {
+        if (WebDriverUtils.check(driver, By.className("vjs-big-play-button"))) {
             log.info("处理视频");
             driver.findElement(By.className("vjs-big-play-button")).click();
             Thread.sleep(2000);
