@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 相同学校的 不同科目作业 设计成模板模式
+ * 模拟登录、爬取信息、生成海报
+ */
+
 @RestController
 @RequestMapping("/auto")
 public class SeleWebController {

@@ -1,0 +1,925 @@
+public class Demo1 {
+
+    WebDriver driver;
+
+    @BeforeMethod
+    public void visit(){
+        //webdriver对象的声明
+        System.setProperty("webdriver.chrome.driver", "e:\\chromedriver.exe");
+        driver = new ChromeDriver();
+    }
+
+    //页面操作，返回上一个页面，前进，刷新
+    @Test
+    public void VisitRecentUrl(){
+        String url1 = "http://www.baidu.com";
+        String url2 = "http://www.sina.com";
+        driver.navigate().to(url1);
+        driver.navigate().to(url2);
+        driver.navigate().back();//返回到上一个页面
+        driver.navigate().forward();//前进到下一页面
+        driver.navigate().refresh();//刷新当前页面
+        driver.close();
+    }
+
+    //操作浏览器窗口
+    @Test
+    public void operateBrower(){
+        //设置浏览器的横纵坐标
+        Point point = new Point(150, 150);
+        //设置浏览器的宽高
+        Dimension dimension = new Dimension(500, 500);
+        driver.manage().window().setPosition(point);
+        driver.manage().window().setSize(dimension);
+        System.out.println(driver.manage().window().getPosition());
+        System.out.println(driver.manage().window().getSize());
+        driver.manage().window().maximize();//窗口最大化
+        driver.get("http//www.baidu.com");
+        driver.close();
+    }
+
+    //获取页面的title属性
+    @Test
+    public void getTitle(){
+        driver.get("http://www.baidu.com");
+        String title = driver.getTitle();
+        System.out.println(title);
+        Assert.assertEquals("百度一下，你就知道", title);
+        driver.close();
+    }
+
+    //获取页面的URL
+    @Test
+    public void getCurrentUrl(){
+        driver.get("http://www.baidu.com");
+        String currentUrl = driver.getCurrentUrl();
+        System.out.println(currentUrl);
+        driver.close();
+    }
+
+    //清除文本框中的内容
+    //在文本框中输入指定内容
+    @Test
+    public void clearText() throws InterruptedException{
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        WebElement input = driver.findElement(By.id("text"));
+        Thread.sleep(2000);
+        input.clear(); //清除文本框中的内容
+        try {
+            Thread.sleep(3000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        input.sendKeys("selenium自动化测试");//在文本框中输入指定内容
+        try {
+            Thread.sleep(3000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        driver.close();
+    }
+
+    //单击按钮
+    @Test
+    public void clickButton(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        try {
+            Thread.sleep(3000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        WebElement button = driver.findElement(By.id("button"));
+        button.click();//单击按钮
+        driver.close();
+    }
+
+    //鼠标双击元素
+    @Test
+    public void doubleClick(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        WebElement inputBox = driver.findElement(By.id("inputBox"));
+        //声明Action对象
+        Actions builder = new Actions(driver);
+        builder.doubleClick(inputBox).build().perform();
+        driver.close();
+    }
+
+    //操作单选下拉列表
+    @Test
+    public void operateDropList(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        WebElement element = driver.findElement(By.name("fruit"));
+        Select dropList = new Select(element);
+        //判断下拉列表是否可多选
+        Assert.assertFalse(dropList.isMultiple());
+        //断言当前选中的选项文本是否为桃子
+        Assert.assertEquals("桃子", dropList.getFirstSelectedOption().getText());
+        //选中下拉列表中的第2个选项
+        dropList.selectByIndex(1);
+        Assert.assertEquals("橘子", dropList.getFirstSelectedOption().getText());
+        //使用下拉列表选项的value属性值来选中操作
+        dropList.selectByValue("lizhi");
+        Assert.assertEquals("荔枝", dropList.getFirstSelectedOption().getText());
+        //通过选项的文字来进行操作
+        dropList.selectByVisibleText("山楂");
+        Assert.assertEquals("山楂", dropList.getFirstSelectedOption().getText());
+    }
+
+    //检查单选列表的选项文字是否条预期
+    @Test
+    public void checkSelectText(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        WebElement element =driver.findElement(By.name("fruit"));
+        Select dropList = new Select(element);
+        //将下拉列表中期望出现的选项文字存在list集合中，Arrays.asList 将数组转换为list对象
+        String[] arr = {"桃子","橘子","荔枝","山楂"};
+        List<String> expect_option = Arrays.asList(arr);
+        //声明一个新的list，用于存取从页面上获取的所有选 项文字
+        List<String> act_option = new ArrayList<>();
+        for(WebElement option : dropList.getOptions()){
+            act_option.add(option.getText());
+            //断言预期对象与实际对象是否完全一致
+            Assert.assertEquals(expect_option.toArray(), act_option.toArray());
+        }
+    }
+
+    //操作多选的选择列表
+    @Test
+    public void opertMultiple(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        //找到页面的下拉列表元素
+        WebElement element =driver.findElement(By.name("fruit2"));
+        Select dropList = new Select(element);
+        //判断下拉列表是否支持多选，支持多选isMultiple返回true
+        Assert.assertTrue(dropList.isMultiple());
+        //使用选择索引选择橘子选项
+        dropList.selectByIndex(1);
+        //使用选择value属性选择荔枝选项
+        dropList.selectByValue("lizhi");
+        //使用选项文字选择山楂
+        dropList.selectByVisibleText("山楂");
+
+        //取消所有选项的选中状态
+        dropList.deselectAll();
+        //再次选中3个数据
+        dropList.selectByIndex(1);
+        dropList.selectByValue("lizhi");
+        dropList.selectByVisibleText("山楂");
+        //取消索引为1的选项
+        dropList.deselectByIndex(1);
+        //取消value属性为lizhi的选项
+        dropList.deselectByValue("lizhi");
+        //取消选项文字为山楂的选项
+        dropList.deselectByVisibleText("山楂");
+        driver.close();
+    }
+
+    //操作单选框
+    @Test
+    public void operateRadio(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        //查找属性值为chengming的单选按钮对象
+        WebElement element = driver.findElement(By.xpath("//input[@value='chengming']"));
+        //如果这个单选项未被选中，则执行click()方法选中这个按钮
+        if(!element.isSelected()){
+            element.click();
+        }
+        //断言属性值为chengming的单选按钮是否处于选中状态
+        Assert.assertTrue(element.isSelected());
+
+        //查找name属性值为username的所有对象
+        List<WebElement> elements = driver.findElements(By.name("username"));
+        //查找value属性为lisi的单选按钮对象，如果处于未选中状态，则执行click方法选中
+        for(WebElement element2 : elements){
+            if(element2.getAttribute("value").equals("lisi")){
+                if(!element2.isSelected()){
+                    element2.click();
+                    //断言单选按钮是否被选中
+                    Assert.assertTrue(element2.isSelected());
+                    //成功选中后，退出
+                    break;
+                }
+            }
+        }
+    }
+
+    //操作复选框
+    @Test
+    public void operateCheckBox() throws Exception{
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        //查找属性为汽车的复选框元素
+        WebElement element = driver.findElement(By.xpath("//input[@value='bus']"));
+        //如果复选框未选中，则选中
+        if(!element.isSelected()){
+            element.click();
+        }
+        Assert.assertTrue(element.isSelected());
+        //如果复选框被选中，则取消选中
+        /*if(element.isSelected()){
+            element.click();
+        }
+        Assert.assertTrue(element.isSelected());*/
+        //查找属性为fruit3的元素,并选中
+        List<WebElement> list = driver.findElements(By.name("fruit3"));
+        for(WebElement checkbox : list){
+            checkbox.click();
+        }
+        Thread.sleep(1000);
+        driver.close();
+    }
+
+    //将当前浏览器窗口截屏
+    @Test
+    public void screen(){
+        driver.get("http://www.baidu.com");
+        File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(file, new File("e:/testing/test.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //检查页面元素内容是否出现
+    @Test
+    public void isElementText(){
+        //判断p标签内容与selenium自动化测试是否完全匹配
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        WebElement element = driver.findElement(By.xpath("//p[1]"));
+        String text = element.getText();
+        System.out.println("》》》》》 "+text);
+        Assert.assertEquals("selenium自动化测试1", text);
+    }
+
+    //执行javascript脚本
+    @Test
+    public void executeJavaScript(){
+        driver.get("http:www.baidu.com");
+        //声明一个JavaScript执行对象
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String title = (String) js.executeScript("return document.title");
+　　　　 //System.out.println("expected"+title);
+        Assert.assertEquals("百度一下，你就知道", title);
+
+        //String bottonText = (String) js.executeScript("var button = document.getElementById('su').type='hidden';");
+        String bottonText = (String) js.executeScript("var button = document.getElementById('su');return button.value");
+
+        System.out.println("》》》》》》"+bottonText);
+        Assert.assertEquals("百度一下", bottonText);
+        driver.close();
+    }
+}
+
+
+
+public class Demo2 {
+
+    WebDriver driver;
+
+    @BeforeMethod
+    public void Visitor(){
+        System.setProperty("webdriver.chrome.driver", "e:\\chromedriver.exe");
+        driver = new ChromeDriver();
+    }
+
+    //模拟键盘的操作
+    @Test
+    public void clickKeys(){
+        driver.get("http://www.baidu.com");
+        Actions action = new Actions(driver);
+        action.keyDown(Keys.CONTROL);//按下ctrl键
+        action.keyDown(Keys.SHIFT);//按下shift键
+        action.keyDown(Keys.ALT);//按下alt键
+
+        action.keyUp(Keys.CONTROL);//释放ctrl键
+        action.keyUp(Keys.SHIFT);//释放shift键
+        action.keyUp(Keys.ALT);//释放alt键
+
+        //模拟键盘在输入框中输入TEST
+        action.keyDown(Keys.SHIFT).sendKeys("test").perform();
+    }
+
+    //模拟鼠标右击事件
+    @Test
+    public void rightClickMouse(){
+        driver.get("http://www.baidu.com");
+        Actions action = new Actions(driver);
+        //模拟鼠标右击事件
+        action.contextClick(driver.findElement(By.id("su"))).perform();
+        driver.close();
+    }
+
+    //在指定元素上方进行鼠标悬浮,及点击悬浮后出现的菜单
+    @Test
+    public void roverOnElement() throws Exception{
+        driver.get("http://www.baidu.com");
+        Actions action = new Actions(driver);
+        //在指定元素上进行鼠标悬浮
+        action.moveToElement(driver.findElement(By.name("tj_briicon"))).perform();;
+        Thread.sleep(1000);
+        //点击悬浮后出现的菜单
+        driver.findElement(By.linkText("糯米")).click();;
+        driver.close();
+    }
+
+    //查看页面元素的属性
+    @Test
+    public void getWelementAttribute(){
+        driver.get("http://www.baidu.com");
+        String str = "今天天气不错";
+        WebElement input = driver.findElement(By.id("kw"));
+        input.sendKeys(str);
+        String inputText = input.getAttribute("value");
+        System.out.println("....."+inputText);
+        Assert.assertEquals(inputText,"今天天气不错");
+        driver.close();
+    }
+
+    //获取页面元素的css属性
+    @Test
+    public void getWelementCss(){
+        driver.get("http://www.baidu.com");
+        WebElement input = driver.findElement(By.id("kw"));
+        String cssValue = input.getCssValue("width");
+        System.out.println("..... "+cssValue);
+        driver.close();
+    }
+
+    //常用的显式等待
+    @Test
+    public void testWait(){
+        //声明一个WebDriverWait对象，设置最长等待时间为10秒
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        //判断页面title是否包含“测试页面”4个字
+        String str = "测试页面";
+        wait.until(ExpectedConditions.titleContains("测试页面"));
+        System.out.println("页面标题出现了‘测试页面’4个字");
+    }
+
+
+    /**
+     * 判断页面元素是否存在
+     * @param by
+     * @return
+     */
+    //提供一个页面元素是否存在的方法
+    public boolean isEelement(By by){
+        WebElement element = driver.findElement(by);
+        if(element != null){
+            return true;
+        }
+        return false;
+    }
+
+    @Test
+    public void testIsEelement(){
+        driver.get("http://www.baidu.com");
+        //System.out.println(driver.getTitle());
+        if(isEelement(By.id("kw"))){
+            WebElement webElement = driver.findElement(By.id("kw"));
+            if(webElement.isEnabled()){
+                webElement.sendKeys("百度的首页搜索框被成功找到");
+            }
+        }else { //将测试用例设置为失败，并打印失败原因
+            Assert.fail("页面的输入框元素未找到");
+        }
+        driver.close();
+    }
+
+    //使用title属性识别和操作新弹出的浏览器窗口
+    @Test
+    public void operteWindow(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        //将当前浏览器窗口句柄存在一个变量中
+        String parentWindowHandle = driver.getWindowHandle();
+        //点击页面上的链接地址
+        driver.findElement(By.xpath("//a")).click();
+        //获取当前所有打开的窗口的句柄，并存在set中
+        Set<String> windowHandles = driver.getWindowHandles();
+        if(windowHandles != null){
+            for(String windowHandle : windowHandles){
+                if(driver.switchTo().window(windowHandle).getTitle().equals("百度一下，你就知道")){
+                    driver.findElement(By.id("kw")).sendKeys("百度的首页浏览器窗口被找到");
+                }else {
+                    Assert.fail("百度的首页浏览器窗口未被找到");
+                }
+                //返回到最开始打开的浏览器窗口
+                driver.switchTo().window(parentWindowHandle);
+                Assert.assertEquals(driver.getTitle(),"测试页面");
+            }
+        }
+    }
+
+    //使用页面的文字内容识别和处理新弹出的浏览器窗口
+    @Test
+    public void operteWindowByPageSource(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        //将当前浏览器窗口句柄存在一个变量中
+        String parentWindowHandle = driver.getWindowHandle();
+        //点击页面上的链接地址
+        driver.findElement(By.xpath("//a")).click();
+        //获取当前所有打开的窗口的句柄，并存在set中
+        Set<String> windowHandles = driver.getWindowHandles();
+        for(String windowHandle : windowHandles){
+            try {
+                if(driver.switchTo().window(windowHandle).getPageSource().contains("百度一下")){
+                    driver.findElement(By.id("kw")).sendKeys("百度首页的浏览器窗口被找到");
+                }
+            } catch (NoSuchWindowException e) {
+                e.printStackTrace();
+            }
+        }
+        //返回到最开始打开的浏览器窗口
+        driver.switchTo().window(parentWindowHandle);
+        Assert.assertEquals(driver.getTitle(),"测试页面");
+    }
+
+    //操作javascript的Alter窗口
+    @Test
+    public void operteAlert(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        //查找到按钮元素
+        WebElement button = driver.findElement(By.name("btn"));
+        button.click();
+
+        try {
+            //获取alert对象
+            Alert alert = driver.switchTo().alert();
+            Assert.assertEquals("这是一个alert弹窗", alert.getText());
+            //关闭弹窗
+            alert.accept();
+        } catch (NoAlertPresentException e) {
+            Assert.fail("页面alert弹窗未找到");
+            e.printStackTrace();
+        }
+    }
+
+    //操作javascript的confirm窗口
+    @Test
+    public void operteConfirm(){
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        driver.findElement(By.name("confirmbtn")).click();
+
+        try {
+            Alert alert = driver.switchTo().alert();
+            Assert.assertEquals("这是一个confirm弹窗", alert.getText());
+            alert.accept(); // 点击确定，关闭弹出窗
+            //alert.dismiss(); // 点击取消，关闭弹出窗
+        } catch (NoAlertPresentException e) {
+            Assert.fail("页面confirm弹窗未找到");
+            e.printStackTrace();
+        }
+    }
+
+    // 操作javascript的prompt窗口
+    @Test
+    public void opertePrompt() throws Throwable {
+        driver.get("file:///F:/workspace/selenium_day01/text.html");
+        driver.findElement(By.name("promptbtn")).click();
+
+        try {
+            Alert alert = driver.switchTo().alert();
+            Assert.assertEquals("这是一个prompt弹窗", alert.getText());
+            alert.sendKeys("好好学习，天天向上");
+            Thread.sleep(3000);
+            alert.accept();
+        } catch (NoAlertPresentException e) {
+            Assert.fail("页面prompt弹窗未找到");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 操作iframe中的页面元素
+     */
+    @Test
+    public void testFrame(){
+        driver.get("file:///F:/workspace/selenium_day01/frameset.html");
+        //必须先进入左侧frame_left.html页面
+        driver.switchTo().frame("leftframe");
+        //找到页面上的p标签
+        WebElement leftFrameText = driver.findElement(By.xpath("//p"));
+        Assert.assertEquals("这是左侧 frame 页面上的文字", leftFrameText.getText());
+
+        //从左侧返回到frame_left页面  如果不调用 defaultContent()方法，无法从frame_left进入其他页面
+        driver.switchTo().defaultContent();
+        //进入frame_middle页面
+        driver.switchTo().frame("middleframe");
+        WebElement middleFrameText = driver.findElement(By.xpath("//p"));
+        Assert.assertEquals("这是中间 frame 页面上的文字", middleFrameText.getText());
+
+        driver.switchTo().defaultContent();
+        driver.switchTo().frame("rightframe");
+        WebElement rightFrameText = driver.findElement(By.xpath("//p"));
+        Assert.assertEquals("这是右侧 frame 页面上的文字", rightFrameText.getText());
+
+        driver.switchTo().defaultContent();
+        driver.switchTo().frame(1);
+        WebElement text = driver.findElement(By.tagName("p"));
+        //System.out.println(">>>>>>"+ text.getText());
+        Assert.assertEquals("这是中间 frame 页面上的文字", text.getText());
+        driver.close();
+    }
+
+    //使用frame中的html源码内容来操作frame
+    @Test
+    public void testHandleFarme(){
+        driver.get("file:///F:/workspace/selenium_day01/frameset.html");
+        //找到所有frame标签的内容
+        List<WebElement> frames = driver.findElements(By.tagName("frame"));
+        for(WebElement frame : frames){
+            driver.switchTo().frame(frame);
+            //判断frame页面源码中是否包含“中间 frame”
+            if(driver.getPageSource().contains("中间 frame")){
+                //找到页面P标签页面对象
+                WebElement text = driver.findElement(By.xpath("//p"));
+                Assert.assertEquals("这是中间 frame 页面上的文字", text.getText());
+                break;
+            }else {
+                //返回frameset页面
+                driver.switchTo().defaultContent();
+            }
+        }
+        driver.switchTo().defaultContent();
+        driver.close();
+    }
+}
+
+public class Demo3 {
+    WebDriver driver;
+
+    @BeforeMethod
+    public void Visitor(){
+        System.setProperty("webdriver.chrome.driver", "e:\\chromedriver.exe");
+        driver = new ChromeDriver();
+    }
+
+    // 在指定元素上方进行鼠标悬浮,及点击悬浮后出现的菜单
+    @Test
+    public void roverOnElement() throws Exception {
+        driver.get("http://www.baidu.com");
+        Actions action = new Actions(driver);
+        // 在指定元素上进行鼠标悬浮
+        action.moveToElement(driver.findElement(By.name("tj_briicon"))).perform();
+        Thread.sleep(1000);
+        // 点击悬浮后出现的菜单
+        driver.findElement(By.linkText("糯米")).click();
+        ;
+        driver.close();
+    }
+
+    // 使用frame中的html源码内容来操作frame
+    @Test
+    public void testHandleFarme() {
+        driver.get("file:///F:/workspace/selenium_demo/src/main/webapp/frameset.html");
+        // 找到所有frame标签的内容
+        List<WebElement> frames = driver.findElements(By.tagName("frame"));
+        for (WebElement frame : frames) {
+            driver.switchTo().frame(frame);
+            // 判断frame页面源码中是否包含“中间 frame”
+            if (driver.getPageSource().contains("中间 frame")) {
+                // 找到页面P标签页面对象
+                WebElement text = driver.findElement(By.xpath("//p"));
+                Assert.assertEquals("这是中间 frame 页面上的文字", text.getText());
+                break;
+            } else {
+                // 返回frameset页面
+                driver.switchTo().defaultContent();
+            }
+        }
+        driver.switchTo().defaultContent();
+        driver.close();
+    }
+
+    //操作iframe的页面元素
+    @Test
+    public void testHandleFarme2(){
+        driver.get("file:///F:/workspace/selenium_demo/src/main/webapp/frameset.html");
+        driver.switchTo().frame("leftframe");
+        //找到包含“这是iframe 页面上的文字”的元素对象
+        WebElement iframe = driver.findElement(By.tagName("iframe"));
+        //进入iframe页面区域
+        driver.switchTo().frame(iframe);
+        //在iframe页面找p标签的页面元素
+        WebElement p = driver.findElement(By.xpath("//p"));
+        Assert.assertEquals("这是iframe 页面上的文字", p.getText());
+        driver.close();
+    }
+
+    //操作浏览器的cookie
+    @Test
+    public void testCookie(){
+        driver.get("http://www.baidu.com");
+        //得到当前页面下所有的cookie，并输出所在域、name、value、有效时期和路径
+        Set<Cookie> cookies = driver.manage().getCookies();
+        Cookie cookie = new Cookie("cookieName", "cookieValue");
+        System.out.println(String.format("Domain->name->value->expiry->path"));
+        for(Cookie cookie2 : cookies){
+            System.out.println(String.format(
+                    "%s->%s->%s->%s->%s",
+                    cookie2.getDomain(),
+                    cookie2.getName(),
+                    cookie2.getValue(),
+                    cookie2.getExpiry(),
+                    cookie2.getPath()
+                    ));
+        }
+        //删除cookie
+        //通过cookie的namen属性删除
+        driver.manage().deleteCookieNamed("cookieName");
+        //通过cookie对象删除
+        driver.manage().deleteCookie(cookie);
+        //删除全部cookie
+        driver.manage().deleteAllCookies();
+    }
+}
+
+
+public class Demo4 {
+
+    WebDriver driver;
+
+    // @BeforeMethod：在每个测试方法开始运行前执行
+    @BeforeMethod
+    public void beforeMethod(){
+        System.setProperty("webdriver.chrome.driver", "e:\\chromedriver.exe");
+        driver = new ChromeDriver();
+    }
+
+    // @AfterMethod：在每个测试方法开始运行结束后执行
+    @AfterMethod
+    public void afterMethod(){
+        driver.close();
+    }
+
+
+    /**
+     * 使用JavaScriptExecutoru单击元素
+     */
+    @Test
+    public void testDame(){
+        driver.get("http://www.baidu.com");
+        //找到百度首页的搜索输入框
+        WebElement searchInbox = driver.findElement(By.id("kw"));
+        //找到搜索按
+        WebElement searchButton = driver.findElement(By.id("su"));
+        //在输入框中输入字符
+        searchInbox.sendKeys("selenium");
+        //调用javaScriptClick方法单击按钮
+        javaScriptClick(searchButton);
+
+    }
+
+    public void javaScriptClick(WebElement element){
+        try {
+            //判断传入的element元素是否为可单击状态，是否可见
+            if(element.isEnabled() && element.isDisplayed()){
+                System.out.println("使用javascript进行页面元素的单击");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();",element);
+            }else {
+                System.out.println("页面上的元素无法进行单击操作");
+            }
+        } catch (NoSuchElementException e1) {
+            System.out.println("页面元素没有附加在网页中");
+            e1.printStackTrace();
+        } catch (Exception e2) {
+            System.out.println("无法完成单击操作");
+            e2.printStackTrace();
+        }
+    }
+
+    /**
+     * 在Ajax方式产生的浮动框中，选择单击包含某些关键字的选项
+     * @throws InterruptedException
+     */
+    @Test
+    public void testAjaxDemo() throws InterruptedException{
+        driver.get("https://www.sogou.com");
+        //找到搜索框
+        WebElement searthInbox = driver.findElement(By.id("query"));
+        searthInbox.click();
+        Thread.sleep(2000);
+
+        //将浮动的列表选项存list集合中
+        List<WebElement> webElements = driver.findElements(By.xpath("//*[@id='vl']/div[1]/ul/li"));
+        for(WebElement webElement : webElements){
+            //判断是否包含关键字
+            if(webElement.getText().contains("5月新规")){
+                System.out.println("............. "+ webElement.getText());
+                webElement.click();
+                Thread.sleep(3000);
+            }
+        }
+
+    }
+
+    //设置一个页面对象的属性值
+    @Test
+    public void testDemo() throws InterruptedException{
+        driver.get("file:///F:/workspace/selenium_demo/src/main/webapp/text.html");
+        //获取到id为text的元素对象
+        WebElement textElement = driver.findElement(By.id("text_test"));
+        //调用setAttribute方法修改文本框的value属性值，改变文本框中的文字
+        setAttribute(driver,textElement,"value","selenium");
+        //修改文本框的size属性值
+        setAttribute(driver, textElement, "size", "5");
+        Thread.sleep(2000);
+        //删除文本框的size属性值
+        removeAttribute(driver, textElement, "size");
+        Thread.sleep(3000);
+    }
+
+    //修改页面元素属性的方法
+    private void setAttribute(WebDriver driver, WebElement textElement, String attributeName, String value) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute(arguments[1],arguments[2])", textElement,attributeName,value);
+    }
+
+    //删除页面元素属性的方法
+    private void removeAttribute(WebDriver driver, WebElement textElement, String attributeName) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].removeAttribute(arguments[1])",textElement,attributeName);
+    }
+
+    /**
+     * 在日期选择器上进行日期选择
+     */
+    @Test
+    public void datepickerTest(){
+        driver.get("file:///F:/workspace/selenium_demo/src/main/webapp/text.html");
+        //获取到日期控制元素对象
+        WebElement datepicker = driver.findElement(By.xpath("//*[@id='d12']"));
+        //datepicker.click();
+        datepicker.sendKeys("2019-04-29");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 高亮显示正在被操作的页面元素
+     */
+    @Test
+    public void highLightTest(){
+        driver.get("http://www.baidu.com");
+        WebElement searchInbox = driver.findElement(By.id("kw"));
+        WebElement submitButton = driver.findElement(By.id("su"));
+        //调用高亮处理方法
+        highLightElenment(searchInbox);
+        searchInbox.sendKeys("selenium");
+        highLightElenment(submitButton);
+        submitButton.click();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    //高亮处理元素对象
+    private void highLightElenment(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute('style',arguments[1])", element,"background:yellow;solid:red;");
+
+    }
+
+
+    /**
+     * 用例执行失败对屏幕进行截屏
+     */
+    public void screenTest(){
+
+    }
+}
+
+
+/**
+ * 自动下载文件
+ * @author Administrator
+ *
+ */
+public class DownloadFiles {
+
+    //指定文件下载地址
+    static String downloadFilePath = "D:/download";
+    WebDriver driver;
+    JavascriptExecutor js;
+    String url;
+
+    @BeforeMethod
+    public void beforeMethod(){
+        url = "http://ftp.mozilla.org/pub/firefox/releases/35.0b8/win32/zh-CN/";
+    }
+
+/*    @AfterMethod
+    public void afterMethod(){
+        driver.quit();
+    }*/
+
+    @Test
+    public void download(){
+        ChromeOptions options = downloadChromeFile();//更改默认下载路径
+        driver = new ChromeDriver(options);
+        driver.get(url);
+        driver.findElement(By.partialLinkText("Stub")).click();
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ChromeOptions downloadChromeFile(){
+        ChromeOptions options = new ChromeOptions();
+        //指定下载路径
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("profile.default_content_settings.popups", 0);
+        map.put("download.default_directory", downloadFilePath);
+        options.setExperimentalOption("prefs", map);
+        return options;
+    }
+}
+
+
+public class Upload {
+
+    @Test
+    public void test(){
+        System.setProperty("webdriver.chrome.driver", "e:\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("file:///F:/workspace/selenium_demo/src/main/webapp/upload.html");
+        driver.findElement(By.name("uploadFile")).sendKeys("C:\\Users\\Administrator\\Desktop\\IDEA快捷键.txt");
+    }
+}
+
+
+/**
+ * 滑动滚动条到屏幕中间
+ * 滑动滚动条到指定元素位置
+ * 按横纵坐票滑动屏幕
+ * @author Administrator
+ *
+ */
+public class ScrollBar {
+
+    WebDriver driver;
+    String url;
+
+    @BeforeMethod
+    public void beforeMethod(){
+        url="http://v.sogou.com";
+        System.setProperty("webdriver.chrome.driver", "e:\\chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get(url);
+    }
+
+    @AfterMethod
+    public void afterMethod(){
+        driver.quit();
+    }
+
+    //第一优先级执行测试用例
+    @Test(priority=1)
+    public void scrollBarToPage(){
+        //将页面的滚动条滑动到屏幕的最下方
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    //第二优先级执行测试用例
+    @Test(priority=2)
+    public void scrollBarToElemneTOfoPage(){
+        //将页面的滚动条滑动到页面指定的元素位置 ... 电视剧栏位置
+        WebElement element = driver.findElement(By.xpath("//*[@id='container']/div[2]/div[2]/div[2]/div[1]/h3/a"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    //第三优先级执行测试用例
+    @Test(priority=3)
+    public void position(){
+        //按模纵坐标滑动屏幕
+        ((JavascriptExecutor) driver).executeScript("window.scrollBy (0,800)");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
