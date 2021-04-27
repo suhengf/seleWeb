@@ -1,9 +1,8 @@
 package com.auto.controller;
 
 
-import com.auto.service.business.ecnusole.Ecnusole;
-import com.auto.service.business.openUniversity.Guarantee;
-import com.auto.service.business.shanghaimaritimeuniversity.IMaritimeUniversity;
+import com.auto.service.abstr.UniversityResolver;
+import com.auto.service.core.EnumUniversityName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,22 +19,16 @@ public class SeleWebController {
 
 
     @Autowired
-    private IMaritimeUniversity maritimeUniversity;
-
-    @Autowired
-    private Ecnusole ecnusole;
-
-    @Autowired
-    private Guarantee guarantee;
+    private UniversityResolver universityResolver;
 
 
     /**
      * 国家开大保险大学
      * @throws Exception
      */
-    @PostMapping("/guarantee")
+    @PostMapping("/OpenUniversity")
     public void  openUniversityWork() throws Exception {
-        guarantee.excute();
+        universityResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY.getCode()).excute(EnumUniversityName.OPEN_UNIVERSITY.getCode());
     }
 
 
@@ -43,9 +36,9 @@ public class SeleWebController {
      * 上海海事大学
      * @throws Exception
      */
-    @PostMapping("/maritimeUniversity")
+    @PostMapping("/MaritimeUniversity")
     public void  universityWork() throws Exception {
-        maritimeUniversity.excute();
+        universityResolver.getExecutor(EnumUniversityName.MARITIME_UNIVERSITY.getCode()).excute(EnumUniversityName.MARITIME_UNIVERSITY.getCode());
     }
 
 
@@ -53,9 +46,9 @@ public class SeleWebController {
      * 华东师范大学
      * @throws Exception
      */
-    @PostMapping("/ecnusole")
+    @PostMapping("/EcnusoleUniversity")
     public void ecnusoleWork() throws Exception {
-        ecnusole.excute();
+        universityResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode()).excute(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode());
     }
 
 
