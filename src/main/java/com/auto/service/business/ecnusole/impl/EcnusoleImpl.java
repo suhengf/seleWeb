@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 华东师范大学作业处理
- * http://wljy.sole.ecnu.edu.cn/login
+ * https://wljy.ecnusole.com/mh
  * 11202837007019  424446123@qq.com
  * 目前已完成自动登录
  */

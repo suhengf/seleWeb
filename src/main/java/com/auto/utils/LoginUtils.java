@@ -48,6 +48,41 @@ public class LoginUtils {
         return driver;
     }
 
+    /**
+     * 华东师范大学登录
+     * @param userInfo
+     * @param options
+     * @param url
+     * @param studentXpath
+     * @param userInput
+     * @param userPsdInput
+     * @param verifyCodeInput
+     * @param loginBotton
+     * @return
+     * @throws Exception
+     */
+    public static WebDriver  hsdLogin(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String zhanghaodenglu,String userInput,String userPsdInput,String verifyCodeInput,String loginBotton) throws Exception {
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        driver.get(url);
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(studentXpath)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(zhanghaodenglu)).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
+        Thread.sleep(7000);
+        driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());
+        log.info("current userId：{}"  ,userInfo.getUserId());
+        String verifyCode = recognize(elementSnapshot(driver,url));
+        log.info("verifyCode：{}" , verifyCode);
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(verifyCodeInput)).sendKeys(verifyCode);
+        //点击确定
+        driver.findElement(By.xpath(loginBotton)).click();
+        Thread.sleep(8000);
+        return driver;
+    }
 
 
     public static WebDriver  login(UserInfo userInfo, ChromeOptions options,String url,String userInput,String userPsdInput,String loginBotton) throws Exception {

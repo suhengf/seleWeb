@@ -10,6 +10,7 @@ import com.auto.chain.Request;
 import com.auto.chain.TradeContext;
 import com.auto.common.Result;
 import com.auto.core.EngineResolver;
+import com.auto.task.EventReflector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -35,6 +36,8 @@ public class OrderController {
     private List<CreditApplyMqChain> creditApplyMqChainList;
 
 
+    @Autowired
+    private EventReflector eventReflector;
 
 
 
@@ -53,6 +56,11 @@ public class OrderController {
         response = creditTradeMqChainHandler.process(request, response);
     }
 
+
+    @PostMapping("/demo")
+    public void createDemo() {
+        eventReflector.handler();
+    }
 
 
 
