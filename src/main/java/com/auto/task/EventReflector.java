@@ -34,7 +34,7 @@ public class EventReflector {
     //根据数据库查询出来的list 得到反射的类 去调方法   map.put("antiFraudHandler",antiFraudHandler);
     //        map.put("orcHandler",orcHandler);
     //        map.put("riskHandler",riskHandler);
-
+    //数据库配置下表
     public void handler(){
         List<String>list = new ArrayList<>();
         list.add("antiFraudHandler");

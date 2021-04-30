@@ -1,5 +1,7 @@
 package com.auto;
 
+import org.mapstruct.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.retry.annotation.EnableRetry;
@@ -12,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableRetry
 @EnableScheduling
+@MapperScan("com.auto.mapper")
 public class StartupApplication {
 
     public static void main(String[] args) {

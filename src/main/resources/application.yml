@@ -2,6 +2,16 @@
 server :  
   port :  8080
 
-
+#数据库配置
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://106.54.165.228:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+  #Mybatis mapper 映射路径配置
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.auto.entity
        
     
