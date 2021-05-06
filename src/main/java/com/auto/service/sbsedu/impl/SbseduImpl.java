@@ -31,6 +31,7 @@ public class SbseduImpl implements Sbsedu {
     @Autowired
     private SbseduHandler sbseduHandler;
 
+    @Override
     public void excute() throws Exception {
 
         List<UserInfo> userInfoList = LoginUtils.parseUserList("src\\main\\files\\chromedriver.exe","src\\main\\files\\shangxueyuan\\sbs.txt");

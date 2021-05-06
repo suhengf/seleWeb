@@ -42,35 +42,23 @@ public class WriteToFile {
     public static void readTxtFile(String content, File fileName)
             throws Exception {
 
-        try {
-
-
+        try ( InputStreamReader isr = new InputStreamReader(new FileInputStream(fileName), "utf-8");
+              BufferedReader br = new BufferedReader(isr);
+              FileWriter fwriter = new FileWriter(fileName,true);
+        ){
             if(fileName.isFile() && fileName.exists()) {
-
-                InputStreamReader isr = new InputStreamReader(new FileInputStream(fileName), "utf-8");
-
-                BufferedReader br = new BufferedReader(isr);
-
                 String lineTxt = null;
                 String lastLine = null;
                 while(true){
                     lastLine = lineTxt;
                     if((lineTxt = br.readLine()) == null){
-                        FileWriter fwriter = new FileWriter(fileName,true);
                         fwriter.write(content);
                         fwriter.flush();
-                        fwriter.close();
                         break;
                     }
                 }
-
-
-                br.close();
-
             } else {
-
                 System.out.println("文件不存在!");
-
             }
 
         } catch (Exception e) {

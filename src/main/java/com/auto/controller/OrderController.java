@@ -72,22 +72,13 @@ public class OrderController {
     @PostMapping("/createData")
     public void createDate() {
         log.info("开始插入数据");
-        for (int i = 26000; i < 30000; i++) {
-            User user = User.builder().userName("llf" + i).id(i).realName("刘凌峰").passWord("password" + i).build();
+        for (int i = 70000; i < 1800000; i++) {
+            User user = User.builder().userName("刘凌峰" + i).id(i).realName("llf"+i).passWord("password" + i).build();
             userMapper.insert(user);
         }
-        log.info("数据插入成功1");
+        log.info("数据插入成功");
 
-        for (int i = 30001; i < 40000; i++) {
-            User user = User.builder().userName("llf" + i).id(i).realName("刘凌峰").passWord("password" + i).build();
-            userMapper.insert(user);
-        }
-        log.info("数据插入成功2");
-        for (int i = 40001; i < 60000; i++) {
-            User user = User.builder().userName("llf" + i).id(i).realName("刘凌峰").passWord("password" + i).build();
-            userMapper.insert(user);
-        }
-        log.info("数据插入成功3");
+
     }
 
 
