@@ -1,5 +1,6 @@
 package com.auto.observer;
 
+import com.auto.entity.User;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,10 @@ public class MyApplicationListener4 implements ApplicationListener<MyTestEvent> 
     @Async
     @Override
     public void onApplicationEvent(MyTestEvent applicationEvent) {
-
-            System.out.println("get to myApplicationListener4...");
+        User source = (User) applicationEvent.getSource();
+         String userName = source.getUserName();
+        System.out.println("姓名是:"+userName);
+        System.out.println("get to myApplicationListener4...");
 
     }
 }

@@ -126,7 +126,7 @@ public class OrderController {
     @PostMapping("/testObserver")
     public void testObserver() {
         log.info("开始测试");
-        myPubisher.publishEvent(new MyTestEvent(1));
+        myPubisher.publishEvent(new MyTestEvent(User.builder().userName("llf").build()));
         log.info("结束测试");
 
     }
