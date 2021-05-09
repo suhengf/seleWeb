@@ -13,6 +13,8 @@ import com.auto.core.EngineResolver;
 import com.auto.entity.QueryParam;
 import com.auto.entity.User;
 import com.auto.mapper.UserMapper;
+import com.auto.observer.MyPubisher;
+import com.auto.observer.MyTestEvent;
 import com.auto.task.EventReflector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,9 @@ public class OrderController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private MyPubisher myPubisher;
 
 
     @PostMapping("/createOrder")
@@ -115,6 +120,15 @@ public class OrderController {
 
 
         log.info((System.currentTimeMillis() - startTime) / 1000 + "秒");
+    }
+
+
+    @PostMapping("/testObserver")
+    public void testObserver() {
+        log.info("开始测试");
+        myPubisher.publishEvent(new MyTestEvent(1));
+        log.info("结束测试");
+
     }
 
 
