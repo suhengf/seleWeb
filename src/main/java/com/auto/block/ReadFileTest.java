@@ -24,7 +24,7 @@ public class ReadFileTest {
 
     @Test
     public void TestReadFile(){
-        List<JobShared> jobSharedList = PlainFileDealer.nioFileSharding(FILE_PATH,8);
+        List<JobShared> jobSharedList = PlainFileDealer.nioFileSharding(FILE_PATH,3);
         jobSharedList.forEach(shared -> {
             List<String>shardInfo=  PlainFileDealer.nioShardingRead(shared, FILE_PATH);
             shardInfo.forEach(System.out::println);
