@@ -1,5 +1,6 @@
 package com.auto.observer;
 
+import com.auto.common.exception.BizException;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,10 @@ public class MyApplicationListener implements ApplicationListener<MyTestEvent> {
         try {
             Thread.sleep(10000);
             System.out.println("等待10s");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+           throw new BizException("ssasajakjdkjakdkak");
         }
-        System.out.println("get to MyApplicationListener...");
+        throw new BizException("ssasajakjdkjakdkak");
         //}
     }
 

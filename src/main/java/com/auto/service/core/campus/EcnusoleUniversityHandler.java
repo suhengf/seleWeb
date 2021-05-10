@@ -40,7 +40,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 driver.findElement(By.xpath("/html/body/div[2]/div[2]/div["+i+"]/div[1]/a")).click();
 
                 //开始界面处理
-
+                courseHandle(driver);
 
 
 
@@ -58,9 +58,11 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
-    public void courseHandle(WebDriver driver){
-
-
+    public void courseHandle(WebDriver driver) throws InterruptedException {
+        //进入学习进度页面
+        WebDriverUtils.switchToWindowByTitle(driver,"学习进度页面");
+        Thread.sleep(2000);
+        //判断 是否看过  若看过  跳过
 
     }
 
