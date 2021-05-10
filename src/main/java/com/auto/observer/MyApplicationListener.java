@@ -24,7 +24,6 @@ public class MyApplicationListener implements ApplicationListener<MyTestEvent> {
         } catch (Exception e) {
            throw new BizException("ssasajakjdkjakdkak");
         }
-        throw new BizException("ssasajakjdkjakdkak");
         //}
     }
 

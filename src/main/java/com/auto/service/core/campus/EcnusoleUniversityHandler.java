@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Slf4j
 @Component
 public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
@@ -50,10 +52,6 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
-        driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/div[2]/h3/a")).click();
-
-
-
     }
 
 
@@ -63,10 +61,35 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         WebDriverUtils.switchToWindowByTitle(driver,"学习进度页面");
         Thread.sleep(2000);
         //判断 是否看过  若看过  跳过
+        String isOrange = "/html/body/div[5]/div[1]/div[2]/div[3]/div[1]/div[";
+
+        AtomicInteger structureFirst = new AtomicInteger(1);
+        while(true){
+             String orangeXpath = isOrange+structureFirst+"]/h3/a/span[2]/em";
+            if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
+                needHandler(orangeXpath,driver);
+            }else{
+                break;
+            }
+            structureFirst.incrementAndGet();
+        }
 
     }
 
 
+
+    public void  needHandler(String orangeXpath,WebDriver driver) throws InterruptedException {
+        int viedos = 0;
+        String organTitle = driver.findElement(By.xpath(orangeXpath)).getText();
+        try {
+            viedos = Integer.parseInt(organTitle);
+        } catch (NumberFormatException e) {
+            return;
+        }
+        driver.findElement(By.xpath(orangeXpath)).click();
+        Thread.sleep(5000);
+
+    }
 
     @Override
     public EnumUniversityName universityName() {
