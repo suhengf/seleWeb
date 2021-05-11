@@ -1,6 +1,7 @@
 package com.auto.controller;
 
 
+import com.auto.async.AsyncUtil;
 import com.auto.biz.bo.CreateOrderRequest;
 import com.auto.biz.bo.CreateOrderResponse;
 import com.auto.biz.service.CreateOrderService;
@@ -25,7 +26,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
@@ -134,6 +139,77 @@ public class OrderController {
         }
 
         log.info("结束测试");
+
+    }
+
+
+    @PostMapping("/testAsync")
+    public void testAsync() throws InterruptedException {
+        log.info("执行A方法");
+        Thread.sleep(10000);
+        log.info("执行A方法结束");
+        AsyncUtil.runAsync(() -> {
+            try {
+                log.info("执行B方法开始");
+                Thread.sleep(20000);
+                log.info("执行B方法结束");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        log.info("testAsync方法结束");
+
+    }
+
+
+    @PostMapping("/testAsyncDelay")
+    public void testAsyncDelay() throws InterruptedException {
+        log.info("执行A方法");
+        Thread.sleep(10000);
+        log.info("执行A方法结束");
+        long startTime = System.currentTimeMillis();
+        AsyncUtil.runAsyncDelay(() -> {
+            try {
+                log.info(String.valueOf(System.currentTimeMillis() - startTime));
+                log.info("执行B方法开始");
+                Thread.sleep(1000);
+                log.info("执行B方法结束");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, 60, TimeUnit.SECONDS);
+
+        log.info("testAsync方法结束");
+
+    }
+
+
+    @PostMapping("/testcallAsync")
+    public void testcallAsync() throws InterruptedException, ExecutionException {
+        log.info("执行A方法");
+        Thread.sleep(2000);
+        log.info("执行A方法结束");
+        long startTime = System.currentTimeMillis();
+        CompletableFuture<List<String>> stringCompletableFuture = AsyncUtil.callAsync(() -> {
+            List<String> listStr = new ArrayList<>();
+            try {
+//                log.info(String.valueOf(System.currentTimeMillis() - startTime));
+                log.info("执行B方法开始");
+                Thread.sleep(1000);
+                log.info("执行B方法结束");
+                for (int i = 0; i < 100; i++) {
+                    Thread.sleep(1000);
+                    listStr.add("第"+i+"个");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return listStr;
+        });
+        log.info("     " + stringCompletableFuture.get());
+        log.info(String.valueOf(System.currentTimeMillis() - startTime));
+        log.info("testAsync方法结束");
 
     }
 

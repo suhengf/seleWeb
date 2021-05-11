@@ -3,6 +3,7 @@ package com.auto.service.core.campus;
 import com.auto.entity.UserInfo;
 import com.auto.service.core.CampusOnlineHandler;
 import com.auto.service.core.EnumUniversityName;
+import com.auto.utils.TimeUtils;
 import com.auto.utils.WebDriverUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -10,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
@@ -88,8 +91,129 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         }
         driver.findElement(By.xpath(orangeXpath)).click();
         Thread.sleep(5000);
-
+        chainHandler(viedos,driver);
     }
+
+
+
+    public static void chainHandler(int viedos,WebDriver driver)throws InterruptedException{
+        //判断viedos 有多少个
+        log.info("----------viedos------------"+viedos);
+        List<String> listFrames = new ArrayList<>();
+        switch (viedos) {
+            case 1:
+                listFrames.add("/html/body/div/div/p/div/iframe");
+                break;
+            case 2:
+                listFrames.add("/html/body/div/div/p[1]/div/iframe");
+                listFrames.add("/html/body/div/div/p[3]/div/iframe");
+                break;
+            case 3:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                break;
+            case 4:
+                listFrames.add("/html/body/div/div/p[2]/div/iframe");
+                listFrames.add("/html/body/div/div/p[4]/span/span/div/iframe");
+                listFrames.add("/html/body/div/div/p[6]/div/iframe");
+                listFrames.add("/html/body/div/div/p[8]/span/span/span/span/span/div/iframe");
+                break;
+            case 5:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                break;
+            case 6:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                break;
+            case 7:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                listFrames.add("/html/body/div/div/div[7]/iframe");
+                break;
+            case 8:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                listFrames.add("/html/body/div/div/div[7]/iframe");
+                listFrames.add("/html/body/div/div/div[8]/iframe");
+                break;
+            case 9:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                listFrames.add("/html/body/div/div/div[7]/iframe");
+                listFrames.add("/html/body/div/div/div[8]/iframe");
+                listFrames.add("/html/body/div/div/div[9]/iframe");
+                break;
+            case 10:
+                listFrames.add("/html/body/div/div/div[1]/iframe");
+                listFrames.add("/html/body/div/div/div[2]/iframe");
+                listFrames.add("/html/body/div/div/div[3]/iframe");
+                listFrames.add("/html/body/div/div/div[4]/iframe");
+                listFrames.add("/html/body/div/div/div[5]/iframe");
+                listFrames.add("/html/body/div/div/div[6]/iframe");
+                listFrames.add("/html/body/div/div/div[7]/iframe");
+                listFrames.add("/html/body/div/div/div[8]/iframe");
+                listFrames.add("/html/body/div/div/div[9]/iframe");
+                listFrames.add("/html/body/div/div/div[10]/iframe");
+                break;
+        }
+
+        for (String iframe: listFrames) {
+            AtomicInteger counts = new AtomicInteger(1);
+            while(true){
+                if (WebDriverUtils.check(driver, By.xpath("/html/body/div[3]/div/div[2]/div[2]/iframe"))) {
+                    break;
+                }
+                counts.incrementAndGet();
+
+                if(200000==counts.get()){
+                    log.info("重试6分钟之后  退出");
+                    driver.quit();
+                }
+            }
+
+
+
+            WebElement webElement0 = driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/div[2]/iframe"));
+            driver.switchTo().frame(webElement0);
+
+            String descIframe = WebDriverUtils.check(driver, By.xpath(iframe))?
+                    iframe:(iframe.substring(0,19)+"p/"+iframe.substring(19));
+            WebElement webElement1 = driver.findElement(By.xpath(descIframe));
+            driver.switchTo().frame(webElement1);
+            Thread.sleep(3000);
+            //点击开始播放按钮
+            driver.findElement(By.className("vjs-big-play-button")).click();
+            Thread.sleep(8000);
+            //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
+            Thread.sleep(TimeUtils.getDiffTime(driver,8,10));
+            driver.switchTo().defaultContent();
+            Thread.sleep(5000);
+        }
+        driver.findElement(By.xpath("/html/body/div[3]/div/div[1]/a")).click();
+        Thread.sleep(3000);
+    }
+
 
     @Override
     public EnumUniversityName universityName() {
