@@ -203,6 +203,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             driver.switchTo().frame(webElement1);
             Thread.sleep(3000);
             //点击开始播放按钮
+            log.info("点击开始播放按钮");
             driver.findElement(By.className("vjs-big-play-button")).click();
             Thread.sleep(8000);
             //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
@@ -211,6 +212,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             Thread.sleep(5000);
         }
         driver.findElement(By.xpath("/html/body/div[3]/div/div[1]/a")).click();
+        log.info("结束返回");
         Thread.sleep(3000);
     }
 
