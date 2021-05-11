@@ -2,6 +2,7 @@ package com.auto.service.ecnusole;
 
 import com.auto.entity.UserInfo;
 import com.auto.service.abstr.AbstractCommonUniversity;
+import com.auto.service.abstr.ThreadPoolParam;
 import com.auto.service.abstr.University;
 import com.auto.service.core.CampusResolver;
 import com.auto.service.core.EnumUniversityName;
@@ -48,6 +49,8 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
         driver.quit();
     }
 
-
+    public ThreadPoolParam getPoolParam(){
+        return ThreadPoolParam.builder().corePoolSize(1).maximumPoolSize(4).build();
+    }
 
 }

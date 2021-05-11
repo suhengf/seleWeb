@@ -51,5 +51,13 @@ public class SeleWebController {
         universityResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode()).excute(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode());
     }
 
+    /**
+     * 国开旅游学院
+     * http://www.ouchn.cn/
+     */
+    @PostMapping("/MaritimeUniversityJourney")
+    public void MaritimeUniversityJourneyWork() throws Exception {
+        universityResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode()).excute(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode());
+    }
 
 }
