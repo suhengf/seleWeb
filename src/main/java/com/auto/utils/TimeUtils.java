@@ -1,12 +1,14 @@
 package com.auto.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.helper.StringUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class TimeUtils {
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(TimeUtils.class);
+
 
     public static long getDiffTime(WebDriver driver,int divSon,int divMonther) throws InterruptedException {
         long diffSec = 0;
@@ -21,9 +23,9 @@ public class TimeUtils {
             }
             Thread.sleep(1000);
         }
-        logger.info("已播放 {}", startTime);
-        logger.info("总时长 {} ", endTime);
-        logger.info("还差多少毫秒播放结束: {}", diffSec(startTime, endTime));
+        log.info("已播放 {}", startTime);
+        log.info("总时长 {} ", endTime);
+        log.info("还差多少毫秒播放结束: {}", diffSec(startTime, endTime));
         return diffSec = "0:00".equals(endTime)?0:((diffSec(startTime, endTime))* divSon )/divMonther;
 
     }
@@ -48,9 +50,9 @@ public class TimeUtils {
 
     public static long getDiffTimeKai(String startTime,String endTime ) {
         long diffSec = 0;
-        logger.info("已播放 {}", startTime);
-        logger.info("总时长 {} ", endTime);
-        logger.info("还差多少毫秒播放结束: {}", diffSec(startTime, endTime));
+        log.info("已播放 {}", startTime);
+        log.info("总时长 {} ", endTime);
+        log.info("还差多少毫秒播放结束: {}", diffSec(startTime, endTime));
         return diffSec = "0:00".equals(endTime)?0:((diffSec(startTime, endTime)) );
 
     }
