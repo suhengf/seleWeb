@@ -36,13 +36,13 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
                     WebDriverUtils.switchToWindowByTitle(driver, "课程： "+text);
                     AtomicInteger firstStrct = new AtomicInteger(1);
                     StringBuilder sBuilder = new StringBuilder();
-                    //same structure
-                    sBuilder.append("/html/body/div[2]/div[4]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[");
-                    String Struct = sBuilder.toString() + firstStrct + "]/div/h3/img";
+                    //same structure /html/body/div[2]/div[3]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[1]/div/ul[2]/li[1]/div/ul/li/div/div/div[2]/div[1]/a/img
+                    sBuilder.append("/html/body/div[2]/div[3]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[");
+                    String Struct = sBuilder.toString() + firstStrct + "]/div/ul[2]/li[1]/div/ul/li/div/div/div[2]/div[1]/a/img";
                     if (WebDriverUtils.check(driver, By.xpath(Struct))) {
                         Thread.sleep(3000);
                         //处理每个标题下面的视频
-                        driver.findElement(By.xpath("/html/body/div[2]/div[4]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[1]/div/ul[2]/li[1]/div/ul/li/div/div/div[2]/div/a")).click();
+                        driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[3]/div/section[1]/div[2]/div/div/ul/li/div/ul[2]/li[1]/div/ul[2]/li[2]/div/ul/li[1]/div/div/div[2]/div[1]/a")).click();
                         openList(driver);
                     }
 
@@ -59,10 +59,10 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
 
     public static void openList(WebDriver driver) throws InterruptedException {
         Thread.sleep(1000);
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 20; i++) {
             Thread.sleep(3000);
-            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span"))) {
-                driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[2]/span")).click();
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[2]/div[1]/div[2]/span"))) {
+                driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[1]/div[2]/span")).click();
                 String baseStr = " //*[@id=\"list\"]/div/a[";
                 String baseStrct = baseStr + i + "]";
                 if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
@@ -89,7 +89,9 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
         while(true){
             driver.findElement(By.xpath("//*[@id=\"sec_right\"]")).click();
             StringBuilder sBuilder = new StringBuilder();
-            sBuilder.append("/html/body/div[2]/div[3]/div[2]/div/div[2]/div[3]/ul/li[");
+            // /html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/ul/li[1]/div
+           //  /html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/ul/li[2]/div
+            sBuilder.append("/html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/ul/li[");
             String firSct = sBuilder.toString() + firstStrct + "]";
             if (WebDriverUtils.check(driver, By.xpath(firSct))) {
                 //下一个视频
@@ -112,7 +114,7 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
             if (!alertExists(driver)) {
                 Thread.sleep(3000);
             } else {
-                closeAlter(driver);
+                closeAlter(driver);                 // /html/body/div[2]/div[2]/div[2]/div/div[3]/div[1]/div[2]/div/div[11]
                 if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
                     driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
                     //获取时间
@@ -166,6 +168,6 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
 
     @Override
     public EnumUniversityName universityName() {
-            return EnumUniversityName.ECNUSOLE_UNIVERSITY;
+            return EnumUniversityName.OPEN_UNIVERSITY_JOURNEY;
     }
 }
