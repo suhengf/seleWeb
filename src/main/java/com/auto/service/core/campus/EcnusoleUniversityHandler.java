@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
+    @Retryable(value= Exception.class,maxAttempts = 2,backoff = @Backoff(delay = 2000L))
     @Override
     public void onlineProcess(UserInfo userInfo, WebDriver driver) throws Exception {
         log.info("华东师范作业逻辑处理start");
