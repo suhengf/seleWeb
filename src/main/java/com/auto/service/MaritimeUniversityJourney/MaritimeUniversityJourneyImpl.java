@@ -2,6 +2,7 @@ package com.auto.service.MaritimeUniversityJourney;
 
 import com.auto.entity.UserInfo;
 import com.auto.service.abstr.AbstractCommonUniversity;
+import com.auto.service.abstr.ThreadPoolParam;
 import com.auto.service.abstr.University;
 import com.auto.service.core.CampusResolver;
 import com.auto.service.core.EnumUniversityName;
@@ -58,4 +59,10 @@ public class MaritimeUniversityJourneyImpl extends AbstractCommonUniversity impl
 	public String getFilePath() {
 		return "src\\main\\files\\guokai\\guokai.txt";
 	}
+
+	public ThreadPoolParam getPoolParam(){
+		return ThreadPoolParam.builder().corePoolSize(4).maximumPoolSize(4).build();
+	}
+
+
 }

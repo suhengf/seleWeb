@@ -59,11 +59,11 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
 
     public static void openList(WebDriver driver) throws InterruptedException {
         Thread.sleep(1000);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 1; i < 20; i++) {
             Thread.sleep(3000);
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[2]/div[1]/div[2]/span"))) {
                 driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[1]/div[2]/span")).click();
-                String baseStr = " //*[@id=\"list\"]/div/a[";
+                String baseStr = "/html/body/div[2]/div[2]/div[1]/div[2]/div/a[";
                 String baseStrct = baseStr + i + "]";
                 if (WebDriverUtils.check(driver, By.xpath(baseStrct))) {
                     try {
@@ -72,8 +72,10 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
                         handleViedos(driver);
                     } catch (Exception e) {
                         log.info("把异常吃了, 让她继续浪");
-                        log.info("e" + e);
+
                     }
+                }else{
+                    break;
                 }
             }
 
@@ -87,15 +89,19 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
         AtomicInteger firstStrct = new AtomicInteger(1);
         //same structure
         while(true){
-            driver.findElement(By.xpath("//*[@id=\"sec_right\"]")).click();
+            if(firstStrct.get()%4==0){
+                driver.findElement(By.xpath("//*[@id=\"sec_right\"]")).click();
+            }
             StringBuilder sBuilder = new StringBuilder();
-            // /html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/ul/li[1]/div
-           //  /html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/ul/li[2]/div
             sBuilder.append("/html/body/div[2]/div[2]/div[2]/div/div[1]/div[3]/ul/li[");
             String firSct = sBuilder.toString() + firstStrct + "]";
             if (WebDriverUtils.check(driver, By.xpath(firSct))) {
                 //下一个视频
-                driver.findElement(By.xpath(firSct)).click();
+                try {
+                    driver.findElement(By.xpath(firSct)).click();
+                } catch (Exception e) {
+                  log.info("handleViedos异常");
+                }
                 //如果出现弹框需要 点击播放   thread 一些时间
                 sleep(driver, firSct);
             } else {
@@ -115,17 +121,17 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
                 Thread.sleep(3000);
             } else {
                 closeAlter(driver);                 // /html/body/div[2]/div[2]/div[2]/div/div[3]/div[1]/div[2]/div/div[11]
-                if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas"))) {
-                    driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[9]/canvas")).click();
+                if (WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[2]/div[2]/div/div[3]/div[1]/div[2]/div/div[9]/canvas"))) {
+                    driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/div/div[3]/div[1]/div[2]/div/div[9]/canvas")).click();
                     //获取时间
-                    String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div/div[4]/div[1]/div[2]/div/div[2]/div[8]")).getText();
+                    String allTime = driver.findElement(By.xpath("/html/body/div[2]/div[2]/div[2]/div/div[3]/div[1]/div[2]/div/div[2]/div[8]")).getText();
                     //休眠
                     timeHandle(allTime, driver);
                 }
                 driver.findElement(By.xpath(firSct)).click();
             }
 
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             log.info(e.getMessage());
         }
     }
