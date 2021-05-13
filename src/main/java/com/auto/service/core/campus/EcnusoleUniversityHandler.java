@@ -25,7 +25,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
-    @Retryable(value= Exception.class,maxAttempts = 2,backoff = @Backoff(delay = 2000L))
+
     @Override
     public void onlineProcess(UserInfo userInfo, WebDriver driver) throws Exception {
         log.info("华东师范作业逻辑处理start");

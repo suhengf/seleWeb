@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,6 +37,7 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
         return EnumUniversityName.ECNUSOLE_UNIVERSITY;
     }
 
+    @Retryable(value= Exception.class,maxAttempts = 2,backoff = @Backoff(delay = 2000L))
     @Override
     public void singleHandler(UserInfo userInfo, ChromeOptions options) throws Exception {
         log.info("开始逻辑处理");

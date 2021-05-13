@@ -21,10 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,14 +89,13 @@ public class OrderController {
     }
 
 
-    @PostMapping("/selectSlice")
-    public void selectSlice() {
-        log.info("100页一分片");
+    @GetMapping("/selectSlice/{count}")
+    public void selectSlice(@PathVariable("count") Long count) {
+        log.info(count+"页一分片");
         Long startTime = System.currentTimeMillis();
-        int count = 100;
-        List<String> userStr = userMapper.selectSlice(QueryParam.builder().userName("刘凌峰").fixNum(count).build());
+        List<String> userStr = userMapper.selectSlice(QueryParam.builder().userName("刘凌峰").fixNum(Integer.parseInt(String.valueOf(count))).build());
         userStr.forEach(idStr -> {
-            List<User> userList = userMapper.selectSliceById(QueryParam.builder().id(Integer.parseInt(idStr)).userName("刘凌峰").fixNum(count).build());
+            List<User> userList = userMapper.selectSliceById(QueryParam.builder().id(Integer.parseInt(idStr)).userName("刘凌峰").fixNum(Integer.parseInt(String.valueOf(count))).build());
             for (User user : userList) {
                 log.info("当前用户id{},密码{}", user.getId(), user.getPassWord());
             }
@@ -109,14 +105,13 @@ public class OrderController {
     }
 
 
-    @PostMapping("/selectAll")
-    public void selectAll() {
+    @GetMapping("/selectAll/{count}")
+    public void selectAll(@PathVariable("count") Long count) {
         log.info("查询所有");
         Long startTime = System.currentTimeMillis();
-        int count =1000;
         for (int i = 0; i <60 ; i++) {
             count=count*i;
-            List<User> userList =userMapper.selectAll(QueryParam.builder().userName("刘凌峰").fixNum(count).build());
+            List<User> userList =userMapper.selectAll(QueryParam.builder().userName("刘凌峰").fixNum(Integer.parseInt(String.valueOf(count))).build());
             for (User user : userList) {
                 log.info("当前用户id{},密码{}", user.getId(), user.getPassWord());
             }
