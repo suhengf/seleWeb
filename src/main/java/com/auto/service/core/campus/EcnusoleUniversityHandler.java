@@ -67,19 +67,24 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         //进入学习进度页面
         WebDriverUtils.switchToWindowByTitle(driver,"学习进度页面");
         Thread.sleep(2000);
-        //判断 是否看过  若看过  跳过
-        String isOrange = "/html/body/div[5]/div[1]/div[2]/div[3]/div[1]/div[";
 
-        AtomicInteger structureFirst = new AtomicInteger(1);
-        while(true){
-             String orangeXpath = isOrange+structureFirst+"]/h3/a/span[2]/em";
-            if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
-                needHandler(orangeXpath,driver);
-            }else{
-                break;
+        //目前支持两层
+        for (int i = 1; i <10 ; i++) {
+            //判断 是否看过  若看过  跳过
+            String isOrange = "/html/body/div[5]/div[1]/div[2]/div[3]/div["+i+"]/div[";
+
+            AtomicInteger structureFirst = new AtomicInteger(1);
+            while(true){
+                String orangeXpath = isOrange+structureFirst+"]/h3/a/span[2]/em";
+                if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
+                    needHandler(orangeXpath,driver);
+                }else{
+                    break;
+                }
+                structureFirst.incrementAndGet();
             }
-            structureFirst.incrementAndGet();
         }
+
 
     }
 
