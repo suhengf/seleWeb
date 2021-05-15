@@ -26,6 +26,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
+    //课程
     @Override
     public void onlineProcess(UserInfo userInfo, WebDriver driver) throws Exception {
         log.info("华东师范作业逻辑处理start");
@@ -91,6 +92,10 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             viedos = Integer.parseInt(organTitle);
         } catch (NumberFormatException e) {
             return;
+        }
+        String text = driver.findElement(By.xpath(orangeXpath)).getText();
+        if ("巩固练习".equals(text)) {
+            return ;
         }
         driver.findElement(By.xpath(orangeXpath)).click();
         Thread.sleep(5000);
