@@ -93,7 +93,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         } catch (NumberFormatException e) {
             return;
         }
-        String text = driver.findElement(By.xpath(orangeXpath)).getText();
+        String text = driver.findElement(By.xpath(orangeXpath.replace("2]/em","3]"))).getText();
         if ("巩固练习".equals(text)) {
             return ;
         }
