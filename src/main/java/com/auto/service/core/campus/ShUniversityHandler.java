@@ -16,19 +16,20 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
     @Override
     public void onlineProcess(UserInfo userInfo, WebDriver driver, int course) throws Exception {
         log.info("上海大学逻辑处理");
-        Thread.sleep(30000);
+        Thread.sleep(10000);
         //课程信息
         driver.findElement(By.xpath("/html/body/div[2]/div[3]/table/tbody/tr/td[1]/div[2]/div/div[2]/div[2]/ul/li[4]/a")).click();
-        Thread.sleep(30000);
+        Thread.sleep(10000);
         //网上学习
         String str = "/html/body/div[2]/div[3]/table/tbody/tr/td[2]/div/div[3]/div/table[2]/tbody/tr[";
         for (int i = 3; i < 15; i++) {
             String onlineStudy = str+i+"]/td[10]/a";
             if (WebDriverUtils.check(driver, By.xpath(onlineStudy))) {
                 String text = str+i+"]/td[2]";
-                String courseTitle = driver.findElement(By.xpath(onlineStudy)).getText();
-                if(text.contains("现代物流管理")){
+                String courseTitle = driver.findElement(By.xpath(text)).getText();
+                if(courseTitle.contains("现代物流管理")){
                     driver.findElement(By.xpath(onlineStudy)).click();
+                    Thread.sleep(10000);
                     //视频逻辑处理
                     courseHandle(driver,courseTitle);
                 }
@@ -43,11 +44,11 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
 
     public void courseHandle(WebDriver driver,String courseTitle) throws InterruptedException {
-        //进入学习进度页面  重新开了个页面
+        //进入学习进度页面  重新开了个页面 现代物流管理* - 首页
         WebDriverUtils.switchToWindowByTitle(driver,courseTitle+" - 首页");
         Thread.sleep(20000);
         //开始学习
-        String startStudy = "/html/body/div[1]/div/div[1]/div/div[2]/div[1]/div/div/div/div/table/tbody/tr/td[1]/div[1]/table/tbody/tr/td[2]/div/div[2]/table/tbody/tr/td[3]/button";
+        String startStudy = "/html/body/div[1]/div/div[1]/div/div[2]/div[1]/div/div/div/div/table/tbody/tr/td[1]/div[1]/table/tbody/tr/td[2]/div/div[2]/table/tbody/tr/td[3]";
         if (WebDriverUtils.check(driver, By.xpath(startStudy))) {
             driver.findElement(By.xpath(startStudy)).click();
             //视频处理逻辑
