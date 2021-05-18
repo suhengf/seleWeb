@@ -2,6 +2,7 @@ package com.auto.service.shUniversity;
 
 import com.auto.entity.UserInfo;
 import com.auto.service.abstr.AbstractCommonUniversity;
+import com.auto.service.abstr.ThreadPoolParam;
 import com.auto.service.abstr.University;
 import com.auto.service.core.CampusResolver;
 import com.auto.service.core.EnumUniversityName;
@@ -54,5 +55,8 @@ public class ShUniversityImpl extends AbstractCommonUniversity implements Univer
         log.info("用户{}登录成功,开始逻辑处理 end", userInfo.getUserId());
     }
 
+    public ThreadPoolParam getPoolParam(){
+        return ThreadPoolParam.builder().corePoolSize(3).maximumPoolSize(4).build();
+    }
 
 }

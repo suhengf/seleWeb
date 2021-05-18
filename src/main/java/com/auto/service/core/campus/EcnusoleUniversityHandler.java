@@ -39,7 +39,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 break;
             }
             counts.incrementAndGet();
-
+            Thread.sleep(1);
             if (200000 == counts.get()) {
                 log.info("重试6分钟之后  退出");
                  throw new BizException("重试6分钟之后  退出");
@@ -448,7 +448,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                     break;
                 }
                 counts.incrementAndGet();
-
+                Thread.sleep(1);
                 if(200000==counts.get()){
                     log.info("重试6分钟之后  退出");
                     driver.quit();
@@ -476,6 +476,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             if (WebDriverUtils.check(driver, By.className("vjs-control-text"))) {
                 Thread.sleep(8000);
                 for (int i = 0; i <3 ; i++) {
+                    //快进  倍速
                     driver.findElement(By.xpath("/html/body/div[4]/div/div[5]/div[1]/button")).click();
                     Thread.sleep(1000);
                 }
