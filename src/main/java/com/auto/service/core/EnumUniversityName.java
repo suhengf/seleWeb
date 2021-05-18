@@ -10,7 +10,9 @@ public enum EnumUniversityName  {
     ECNUSOLE_UNIVERSITY("EcnusoleUniversity","华东师范大学"),
     OPEN_UNIVERSITY("OpenUniversity","上海开放大学"),
     MARITIME_UNIVERSITY("MaritimeUniversity","上海海事大学"),
-    OPEN_UNIVERSITY_JOURNEY("MaritimeUniversityJourney","上海开放大学旅游学院"),;
+    OPEN_UNIVERSITY_JOURNEY("MaritimeUniversityJourney","上海开放大学旅游学院"),
+    SH_UNIVERSITY("ShUniversity","上海大学"),
+    ;
 
     private String code;
     private String desc;

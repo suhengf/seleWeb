@@ -1,6 +1,7 @@
 package com.auto.service.core.campus;
 
 import com.alibaba.druid.sql.visitor.functions.Char;
+import com.auto.common.exception.BizException;
 import com.auto.entity.UserInfo;
 import com.auto.service.core.CampusOnlineHandler;
 import com.auto.service.core.EnumUniversityName;
@@ -31,6 +32,19 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     @Override
     public void onlineProcess(UserInfo userInfo, WebDriver driver,int course) throws Exception {
         log.info("华东师范作业逻辑处理start");
+
+        AtomicInteger counts = new AtomicInteger(1);
+        while(true) {
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[1]/div/div/div[2]/div/a[1]"))) {
+                break;
+            }
+            counts.incrementAndGet();
+
+            if (200000 == counts.get()) {
+                log.info("重试6分钟之后  退出");
+                 throw new BizException("重试6分钟之后  退出");
+            }
+        }
         //点击我的课程  /html/body/div[1]/div/div/div[2]/div/a[1]
         driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div/a[1]")).click();
         Thread.sleep(30000);
@@ -460,7 +474,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
             if (WebDriverUtils.check(driver, By.className("vjs-control-text"))) {
-                Thread.sleep(1000);
+                Thread.sleep(8000);
                 for (int i = 0; i <3 ; i++) {
                     driver.findElement(By.xpath("/html/body/div[4]/div/div[5]/div[1]/button")).click();
                     Thread.sleep(1000);

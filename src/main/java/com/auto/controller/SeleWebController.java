@@ -61,4 +61,13 @@ public class SeleWebController {
         universityResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode()).excute(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode(),course);
     }
 
+    /**
+     * 上海大学
+     * http://www.ouchn.cn/
+     */
+    @PostMapping("/ShUniversity/{course}")
+    public void ShUniversityWork(@PathVariable("course") int course) throws Exception {
+        universityResolver.getExecutor(EnumUniversityName.SH_UNIVERSITY.getCode()).excute(EnumUniversityName.SH_UNIVERSITY.getCode(),course);
+    }
+
 }

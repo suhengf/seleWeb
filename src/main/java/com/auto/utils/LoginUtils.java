@@ -138,6 +138,29 @@ public class LoginUtils {
     }
 
 
+    public static WebDriver  shCoLogin(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String userInput,String userPsdInput,String loginBotton) throws Exception {
+        WebDriver driver = new ChromeDriver(options);
+
+        try {
+            driver.manage().window().maximize();
+            driver.get(url);
+            Thread.sleep(10000);
+            driver.findElement(By.xpath(studentXpath)).click();
+            Thread.sleep(10000);
+            driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
+            Thread.sleep(10000);
+            driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());
+            log.info("current userId：{}"  ,userInfo.getUserId());
+            Thread.sleep(8000);
+            driver.findElement(By.xpath(loginBotton)).click();
+            Thread.sleep(8000);
+        } catch (Exception e) {
+            log.error("e",e);
+            driver.quit();
+        }
+        return driver;
+    }
+
     public static void closeAlter(WebDriver driver) {
         try {
             Alert alert = driver.switchTo().alert();
