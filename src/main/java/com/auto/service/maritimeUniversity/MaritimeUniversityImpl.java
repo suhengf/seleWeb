@@ -39,14 +39,14 @@ public class MaritimeUniversityImpl  extends AbstractCommonUniversity implements
     }
 
     @Override
-    public void singleHandler(UserInfo userInfo, ChromeOptions options) throws Exception {
+    public void singleHandler(UserInfo userInfo, ChromeOptions options,int course) throws Exception {
         String url = "https://passport.zhihuishu.com/login?service=https://onlineservice.zhihuishu.com/login/gologin#signin";
         WebDriver driver= LoginUtils.login(userInfo,options,url,"/html/body/div[4]/div/form/div[1]/ul[1]/li[1]/input[4]",
                 "/html/body/div[4]/div/form/div[1]/ul[1]/li[2]/input","/html/body/div[4]/div/form/div[1]/span");
 
         closeAlter(driver);
         log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
-        campusResolver.getExecutor(EnumUniversityName.MARITIME_UNIVERSITY.getCode()).onlineProcess(userInfo,driver);
+        campusResolver.getExecutor(EnumUniversityName.MARITIME_UNIVERSITY.getCode()).onlineProcess(userInfo,driver,course);
         log.info("用户{}登录成功,开始逻辑处理 end", userInfo.getUserId());
         driver.quit();
 

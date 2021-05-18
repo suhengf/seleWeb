@@ -29,7 +29,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     //登录
     //处理逻辑
     @Override
-    public void onlineProcess(UserInfo userInfo, WebDriver driver) throws Exception {
+    public void onlineProcess(UserInfo userInfo, WebDriver driver,int course) throws Exception {
         log.info("华东师范作业逻辑处理start");
         //点击我的课程  /html/body/div[1]/div/div/div[2]/div/a[1]
         driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div/a[1]")).click();
@@ -40,7 +40,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         driver.switchTo().frame(webElement);
         Thread.sleep(2000);
 
-        for (int i = 3; i < 10; i++) {
+        for (int i = course; i < 10; i++) {
             //  /html/body/div[2]/div[2]/div[2]/div[1]/a  判断这个标签存在不存在
             if(WebDriverUtils.check(driver, By.xpath("/html/body/div[2]/div[2]/div["+i+"]/div[1]/a"))){
                 String titleName= driver.findElement(By.xpath("/html/body/div[2]/div[2]/div["+i+"]/div[2]/h3/a")).getText();

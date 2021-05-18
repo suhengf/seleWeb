@@ -40,14 +40,14 @@ public class OpenUniversityImpl extends AbstractCommonUniversity implements Univ
 
 	//处理单个学生信息
 	@Override
-	public void singleHandler(UserInfo userInfo, ChromeOptions options) throws Exception {
+	public void singleHandler(UserInfo userInfo, ChromeOptions options,int course) throws Exception {
 		log.info("开始逻辑处理");
 		WebDriver driver  =LoginUtils.login(userInfo, options,
 				"https://www.oucbx.com/OUCWEB/LEAP/Web/html/home.html", "/html/body/div/div[1]/div[1]/div/div/span[3]", "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[1]/div[1]/input"
 				, "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[2]/div[1]/input",
 				"/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[3]/div[1]/input", "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/button");
 		log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
-		campusResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY.getCode()).onlineProcess(userInfo,driver);
+		campusResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY.getCode()).onlineProcess(userInfo,driver,course);
 		log.info("用户{}登录成功,开始逻辑处理 end", userInfo.getUserId());
 		driver.quit();
 	}

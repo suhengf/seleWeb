@@ -7,9 +7,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public interface University {
 
 
-    void excute(String university) throws Exception;
+    void excute(String university,int course) throws Exception;
 
     EnumUniversityName getUniversityName();
 
-    void singleHandler(UserInfo userInfo, ChromeOptions options) throws Exception;
+    void singleHandler(UserInfo userInfo, ChromeOptions options,int course) throws Exception;
 }

@@ -10,7 +10,7 @@ public interface CampusOnlineHandler {
     /**
      * 处理逻辑
      */
-    void onlineProcess(UserInfo userInfo, WebDriver driver )throws Exception ;
+    void onlineProcess(UserInfo userInfo, WebDriver driver,int course )throws Exception ;
 
     /**
      * 学校名称

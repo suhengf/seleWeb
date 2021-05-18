@@ -34,7 +34,7 @@ public class SbseduHandler {
 
         closeAlter(driver);
         log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
-        campusResolver.getExecutor(EnumUniversityName.MARITIME_UNIVERSITY.getCode()).onlineProcess(userInfo,driver);
+        campusResolver.getExecutor(EnumUniversityName.MARITIME_UNIVERSITY.getCode()).onlineProcess(userInfo,driver,1);
         log.info("用户{}登录成功,开始逻辑处理 end", userInfo.getUserId());
 
 

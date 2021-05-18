@@ -23,13 +23,13 @@ public abstract class AbstractCommonUniversity implements University{
     //解析名单
     //起线程 去执行其中一个子类的主处理方法
     @Override
-    public void excute(String university) throws Exception {
+    public void excute(String university,int course) throws Exception {
         List<UserInfo> userInfoList = LoginUtils.parseUserList(WIN_WEBDRIVER, getFilePath());
         ChromeOptions chromeOptions = new ChromeOptions();
         for (UserInfo userInfo : userInfoList) {
             Runnable task = () -> {
                 try {
-                    universityResolver.getExecutor(university).singleHandler(userInfo,chromeOptions);
+                    universityResolver.getExecutor(university).singleHandler(userInfo,chromeOptions,course);
                 } catch (Exception e) {
                     log.info("异常",e);
                     throw new BizException(ErrorEnum.getErrorEnum(university).getMsg());

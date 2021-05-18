@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 @Component
 public class MaritimeUniversityHandler  implements CampusOnlineHandler {
     @Override
-    public void onlineProcess(UserInfo userInfo, WebDriver driver) throws Exception {
+    public void onlineProcess(UserInfo userInfo, WebDriver driver,int course) throws Exception {
         //基本信息查看
         driver.findElement(By.xpath("/html/body/div[1]/div/div[3]/div[2]/div[1]/div[3]/div/div[1]/div[2]/ul[1]/div/dl/dt/div[1]/div[1]")).click();
         Thread.sleep(1000);

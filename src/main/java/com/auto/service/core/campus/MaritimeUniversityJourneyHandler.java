@@ -23,7 +23,7 @@ public class MaritimeUniversityJourneyHandler implements CampusOnlineHandler {
 
 
     @Override
-    public void onlineProcess(UserInfo userInfo, WebDriver driver) throws Exception {
+    public void onlineProcess(UserInfo userInfo, WebDriver driver,int course) throws Exception {
         log.info("开放大学旅游学院start");
         //点击我的课程 //*[@id="zaixuekecheng"]/div/div/div[1]/div[2]/h3
         for (int i = 1; i < 13; i++) {

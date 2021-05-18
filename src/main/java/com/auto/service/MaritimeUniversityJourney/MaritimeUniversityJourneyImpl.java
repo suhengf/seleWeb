@@ -41,7 +41,7 @@ public class MaritimeUniversityJourneyImpl extends AbstractCommonUniversity impl
 
 	//处理单个学生信息
 	@Override
-	public void singleHandler(UserInfo userInfo, ChromeOptions options) throws Exception {
+	public void singleHandler(UserInfo userInfo, ChromeOptions options,int course) throws Exception {
 		log.info("开始逻辑处理");
 		WebDriver driver  =LoginUtils.login(userInfo, options,
 				"http://www.ouchn.cn/", "/html/body/div/div[1]/div/div/div/header/div[2]/ul[2]/li[1]/button[1]",
@@ -49,7 +49,7 @@ public class MaritimeUniversityJourneyImpl extends AbstractCommonUniversity impl
 				, "/html/body/div/div/div/form/div/div/div[3]/div/input",
 				"/html/body/div/div/div/form/div/div/div[4]/button");
 		log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
-		campusResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode()).onlineProcess(userInfo,driver);
+		campusResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode()).onlineProcess(userInfo,driver,course);
 		log.info("用户{}登录成功,开始逻辑处理 end", userInfo.getUserId());
 		driver.quit();
 	}

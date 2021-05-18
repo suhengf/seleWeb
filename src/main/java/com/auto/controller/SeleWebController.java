@@ -4,6 +4,7 @@ package com.auto.controller;
 import com.auto.service.abstr.UniversityResolver;
 import com.auto.service.core.EnumUniversityName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +27,9 @@ public class SeleWebController {
      * 国家开大保险大学
      * @throws Exception
      */
-    @PostMapping("/OpenUniversity")
-    public void  openUniversityWork() throws Exception {
-        universityResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY.getCode()).excute(EnumUniversityName.OPEN_UNIVERSITY.getCode());
+    @PostMapping("/OpenUniversity/{course}")
+    public void  openUniversityWork(@PathVariable("course") int course) throws Exception {
+        universityResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY.getCode()).excute(EnumUniversityName.OPEN_UNIVERSITY.getCode(),course);
     }
 
 
@@ -36,9 +37,9 @@ public class SeleWebController {
      * 上海海事大学
      * @throws Exception
      */
-    @PostMapping("/MaritimeUniversity")
-    public void  universityWork() throws Exception {
-        universityResolver.getExecutor(EnumUniversityName.MARITIME_UNIVERSITY.getCode()).excute(EnumUniversityName.MARITIME_UNIVERSITY.getCode());
+    @PostMapping("/MaritimeUniversity/{course}")
+    public void  universityWork(@PathVariable("course") int course) throws Exception {
+        universityResolver.getExecutor(EnumUniversityName.MARITIME_UNIVERSITY.getCode()).excute(EnumUniversityName.MARITIME_UNIVERSITY.getCode(),course);
     }
 
 
@@ -46,18 +47,18 @@ public class SeleWebController {
      * 华东师范大学
      * @throws Exception
      */
-    @PostMapping("/EcnusoleUniversity")
-    public void ecnusoleWork() throws Exception {
-        universityResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode()).excute(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode());
+    @PostMapping("/EcnusoleUniversity/{course}")
+    public void ecnusoleWork(@PathVariable("course") int course) throws Exception {
+        universityResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode()).excute(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode(),course);
     }
 
     /**
      * 国开旅游学院
      * http://www.ouchn.cn/
      */
-    @PostMapping("/MaritimeUniversityJourney")
-    public void MaritimeUniversityJourneyWork() throws Exception {
-        universityResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode()).excute(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode());
+    @PostMapping("/MaritimeUniversityJourney/{course}")
+    public void MaritimeUniversityJourneyWork(@PathVariable("course") int course) throws Exception {
+        universityResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode()).excute(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode(),course);
     }
 
 }
