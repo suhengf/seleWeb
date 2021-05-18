@@ -460,11 +460,13 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
             if (WebDriverUtils.check(driver, By.className("vjs-control-text"))) {
-                driver.findElement(By.className("vjs-big-play-button")).click();
                 Thread.sleep(1000);
-                driver.findElement(By.className("vjs-playback-rate vjs-menu-button vjs-menu-button-popup vjs-button")).click();
-                driver.findElement(By.className("vjs-playback-rate vjs-menu-button vjs-menu-button-popup vjs-button")).click();
-                driver.findElement(By.className("vjs-playback-rate vjs-menu-button vjs-menu-button-popup vjs-button")).click();
+                for (int i = 0; i <3 ; i++) {
+                    driver.findElement(By.xpath("/html/body/div[4]/div/div[5]/div[1]/button")).click();
+                    Thread.sleep(1000);
+                }
+
+
                 //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
                 Thread.sleep(TimeUtils.getDiffTime(driver,1,2));
             }else{
