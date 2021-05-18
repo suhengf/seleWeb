@@ -17,6 +17,7 @@ import java.util.Map;
  *
  * @author liuulingfeng
  * @since $Revision:1.0.0, $Date: 2021年1月27日 上午10:59:49 $
+ * 工厂类  spring 容器初始化的时候
  */
 @Component
 public class UniversityResolver implements InitializingBean, ApplicationContextAware {
@@ -25,6 +26,10 @@ public class UniversityResolver implements InitializingBean, ApplicationContextA
 
     private Map<String, University> universityHashMap = new HashMap<>();
 
+    /**
+     * spring 容器加载 去把 实现University 的类 把这五个类  存到一个Map<String, University> beanMap
+     * 循环去遍历 拿到具体的五个实现实现University接口的五个类 最后把这些存到一个map容器 根据的自己key
+     */
     @Override
     public void afterPropertiesSet() {
         Map<String, University> beanMap = applicationContext.getBeansOfType(University.class);

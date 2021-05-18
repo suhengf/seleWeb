@@ -61,6 +61,7 @@ public class OrderController {
         return createOrderService.createOrder(request);
     }
 
+    //责任链加递归
     @PostMapping("/chainTest")
     public void createOrder1() {
         List<CreditApplyMqChain> chains = creditApplyMqChainList;
@@ -122,7 +123,7 @@ public class OrderController {
         log.info((System.currentTimeMillis() - startTime) / 1000 + "秒");
     }
 
-
+    //观察者模式  事件发布  mq消息
     @PostMapping("/testObserver")
     public void testObserver() {
         log.info("开始测试");

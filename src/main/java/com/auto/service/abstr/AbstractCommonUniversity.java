@@ -20,6 +20,8 @@ public abstract class AbstractCommonUniversity implements University{
 
     private ThreadPoolExecutor executor = new ThreadPoolExecutor(getPoolParam().getCorePoolSize(), getPoolParam().getMaximumPoolSize(), 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(200));
 
+    //解析名单
+    //起线程 去执行其中一个子类的主处理方法
     @Override
     public void excute(String university) throws Exception {
         List<UserInfo> userInfoList = LoginUtils.parseUserList(WIN_WEBDRIVER, getFilePath());
@@ -39,11 +41,12 @@ public abstract class AbstractCommonUniversity implements University{
     }
 
 
+    //设置线程参数
     public ThreadPoolParam getPoolParam(){
         return ThreadPoolParam.builder().corePoolSize(1).maximumPoolSize(4).build();
     }
 
-
+    //传文件名
     public abstract String getFilePath();
 
 }
