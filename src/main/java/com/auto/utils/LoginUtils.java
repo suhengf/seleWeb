@@ -93,7 +93,7 @@ public class LoginUtils {
      * @return
      * @throws Exception
      */
-    public synchronized static WebDriver hsdLogin(UserInfo userInfo, ChromeOptions options, String url, String studentXpath, String zhanghaodenglu, String userInput, String userPsdInput, String verifyCodeInput, String loginBotton) throws Exception {
+    public  static WebDriver hsdLogin(UserInfo userInfo, ChromeOptions options, String url, String studentXpath, String zhanghaodenglu, String userInput, String userPsdInput, String verifyCodeInput, String loginBotton) throws Exception {
         WebDriver driver = new ChromeDriver(options);
 
         try {

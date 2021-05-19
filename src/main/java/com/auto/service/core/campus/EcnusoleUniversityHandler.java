@@ -129,7 +129,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         log.info("任务点名称：{}",text);
         log.info("xpath路径：{}",orangeXpath);
         if ("巩固练习".equals(text)) {
-            universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
+//            universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
             return true;
         }else{
             WebDriverUtils.findElement(driver,orangeXpath,"点击"+text);
