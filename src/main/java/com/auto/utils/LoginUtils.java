@@ -104,10 +104,10 @@ public class LoginUtils {
             driver.findElement(By.xpath(studentXpath)).click();
             Thread.sleep(8000);
             WebDriverUtils.findElement(driver, zhanghaodenglu,"点击账号登录");
-            Thread.sleep(8000);
+            Thread.sleep(15000);
             driver.findElement(By.xpath(zhanghaodenglu)).click();
             WebDriverUtils.findElement(driver, userInput,"输入用户名");
-            Thread.sleep(8000);
+            Thread.sleep(15000);
             driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
             WebDriverUtils.findElement(driver, userPsdInput,"输入密码");
             Thread.sleep(8000);
