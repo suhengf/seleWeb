@@ -1,6 +1,8 @@
 package com.auto.service.core;
 
 
+import com.auto.service.core.housework.CourseNameEnum;
+import com.auto.service.core.housework.EcnusoleUniversityCommanAnswerHandler;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -24,6 +26,8 @@ public class CampusResolver implements InitializingBean, ApplicationContextAware
 
     private Map<String, CampusOnlineHandler> CampusExecutorMap = new HashMap<>();
 
+
+
     @Override
     public void afterPropertiesSet() {
         Map<String, CampusOnlineHandler> beanMap = applicationContext.getBeansOfType(CampusOnlineHandler.class);
@@ -31,6 +35,9 @@ public class CampusResolver implements InitializingBean, ApplicationContextAware
             EnumUniversityName universityName = executor.universityName();
             this.CampusExecutorMap.put(universityName.getCode(), executor);
         }
+
+
+
     }
 
     @Override
@@ -41,5 +48,7 @@ public class CampusResolver implements InitializingBean, ApplicationContextAware
     public CampusOnlineHandler getExecutor(String universityName) {
         return CampusExecutorMap.get(universityName);
     }
+
+
 
 }

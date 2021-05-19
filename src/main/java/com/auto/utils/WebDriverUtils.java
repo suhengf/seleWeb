@@ -61,12 +61,28 @@ public class WebDriverUtils {
         AtomicInteger counts = new AtomicInteger(1);
         while(true) {
             if (WebDriverUtils.check(driver, By.xpath(xpath))) {
-                log.info("找到标签"+xPathName);
+                log.info("找到标签 : {}",xPathName);
                 break;
             }
             counts.incrementAndGet();
             Thread.sleep(1);
-            if (900000 == counts.get()) {
+            if (90000 == counts.get()) {
+                log.info("重试90秒之后  退出");
+                throw new BizException("重试90秒之后  退出");
+            }
+        }
+    }
+
+    public static void findClassName(WebDriver driver,String xpath,String xPathName) throws Exception {
+        AtomicInteger counts = new AtomicInteger(1);
+        while(true) {
+            if (WebDriverUtils.check(driver, By.className(xpath))) {
+                log.info("找到标签 : {}",xPathName);
+                break;
+            }
+            counts.incrementAndGet();
+            Thread.sleep(1);
+            if (90000 == counts.get()) {
                 log.info("重试90秒之后  退出");
                 throw new BizException("重试90秒之后  退出");
             }

@@ -2,6 +2,8 @@ package com.auto.service.abstr;
 
 
 import com.auto.service.core.EnumUniversityName;
+import com.auto.service.core.housework.CourseNameEnum;
+import com.auto.service.core.housework.EcnusoleUniversityCommanAnswerHandler;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +28,8 @@ public class UniversityResolver implements InitializingBean, ApplicationContextA
 
     private Map<String, University> universityHashMap = new HashMap<>();
 
+    private Map<String, EcnusoleUniversityCommanAnswerHandler> ecnusoleUniversityCommanAnswerHandlerHashMap = new HashMap<>();
+
     /**
      * spring 容器加载 去把 实现University 的类 把这五个类  存到一个Map<String, University> beanMap
      * 循环去遍历 拿到具体的五个实现实现University接口的五个类 最后把这些存到一个map容器 根据的自己key
@@ -37,6 +41,14 @@ public class UniversityResolver implements InitializingBean, ApplicationContextA
             EnumUniversityName universityName = executor.getUniversityName();
             this.universityHashMap.put(universityName.getCode(), executor);
         }
+
+
+        Map<String, EcnusoleUniversityCommanAnswerHandler> abstractMap = applicationContext.getBeansOfType(EcnusoleUniversityCommanAnswerHandler.class);
+        for (EcnusoleUniversityCommanAnswerHandler executor : abstractMap.values()) {
+            CourseNameEnum courseNameEnum = executor.courseName();
+            this.ecnusoleUniversityCommanAnswerHandlerHashMap.put(courseNameEnum.getChineseName(), executor);
+        }
+
     }
 
     @Override
@@ -46,6 +58,10 @@ public class UniversityResolver implements InitializingBean, ApplicationContextA
 
     public University getExecutor(String universityName) {
         return universityHashMap.get(universityName);
+    }
+
+    public EcnusoleUniversityCommanAnswerHandler getEcnusoleUniversityAnswerHandler(String courseName) {
+        return ecnusoleUniversityCommanAnswerHandlerHashMap.get(courseName);
     }
 
 }
