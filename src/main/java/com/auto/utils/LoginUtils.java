@@ -1,5 +1,6 @@
 package com.auto.utils;
 
+import com.auto.common.exception.BizException;
 import com.auto.entity.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Alert;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.util.ResourceUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,31 +93,40 @@ public class LoginUtils {
      * @return
      * @throws Exception
      */
-    public static WebDriver  hsdLogin(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String zhanghaodenglu,String userInput,String userPsdInput,String verifyCodeInput,String loginBotton) throws Exception {
+    public synchronized static WebDriver hsdLogin(UserInfo userInfo, ChromeOptions options, String url, String studentXpath, String zhanghaodenglu, String userInput, String userPsdInput, String verifyCodeInput, String loginBotton) throws Exception {
         WebDriver driver = new ChromeDriver(options);
 
         try {
-        driver.manage().window().maximize();
-        driver.get(url);
-        Thread.sleep(10000);
-        driver.findElement(By.xpath(studentXpath)).click();
-        Thread.sleep(10000);
-        driver.findElement(By.xpath(zhanghaodenglu)).click();
-        Thread.sleep(10000);
-        driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
-        Thread.sleep(10000);
-        driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());
-        log.info("current userId：{}"  ,userInfo.getUserId());
-        String verifyCode = recognize(elementSnapshot(driver,url));
-        log.info("verifyCode：{}" , verifyCode);
-        Thread.sleep(10000);
-        driver.findElement(By.xpath(verifyCodeInput)).sendKeys(verifyCode);
-        //点击确定
-        driver.findElement(By.xpath(loginBotton)).click();
-        Thread.sleep(8000);
+            driver.manage().window().maximize();
+            driver.get(url);
+            WebDriverUtils.findElement(driver, studentXpath,"点击学生地址");
+            Thread.sleep(8000);
+            driver.findElement(By.xpath(studentXpath)).click();
+            Thread.sleep(8000);
+            WebDriverUtils.findElement(driver, zhanghaodenglu,"点击账号登录");
+            Thread.sleep(8000);
+            driver.findElement(By.xpath(zhanghaodenglu)).click();
+            WebDriverUtils.findElement(driver, userInput,"输入用户名");
+            Thread.sleep(8000);
+            driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
+            WebDriverUtils.findElement(driver, userPsdInput,"输入密码");
+            Thread.sleep(8000);
+            driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());
+            log.info("current userId：{}", userInfo.getUserId());
+            Thread.sleep(15000);
+            String verifyCode = recognize(elementSnapshot(driver, url));
+            log.info("verifyCode：{}", verifyCode);
+            WebDriverUtils.findElement(driver, verifyCodeInput,"输入验证码");
+            Thread.sleep(20000);
+            driver.findElement(By.xpath(verifyCodeInput)).sendKeys(verifyCode);
+            //点击确定
+            WebDriverUtils.findElement(driver, loginBotton,"点击登录");
+            driver.findElement(By.xpath(loginBotton)).click();
+            Thread.sleep(8000);
         } catch (Exception e) {
             log.error("e",e);
             driver.quit();
+            throw new BizException(e.getMessage());
         }
         return driver;
     }

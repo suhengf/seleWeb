@@ -1,12 +1,15 @@
 package com.auto.utils;
 
+import com.auto.common.exception.BizException;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
-
+import java.util.concurrent.atomic.AtomicInteger;
+@Slf4j
 public class WebDriverUtils {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(WebDriverUtils.class);
 
@@ -53,5 +56,22 @@ public class WebDriverUtils {
             driver.findElement(By.xpath("/html/body/div[11]/div/a")).click();
         }
     }
+
+    public static void findElement(WebDriver driver,String xpath,String xPathName) throws Exception {
+        AtomicInteger counts = new AtomicInteger(1);
+        while(true) {
+            if (WebDriverUtils.check(driver, By.xpath(xpath))) {
+                log.info("找到标签"+xPathName);
+                break;
+            }
+            counts.incrementAndGet();
+            Thread.sleep(1);
+            if (900000 == counts.get()) {
+                log.info("重试90秒之后  退出");
+                throw new BizException("重试90秒之后  退出");
+            }
+        }
+    }
+
 
 }

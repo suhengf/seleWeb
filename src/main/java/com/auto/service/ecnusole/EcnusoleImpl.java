@@ -50,6 +50,9 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
             campusResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode()).onlineProcess(userInfo, driver,course);
         } catch (Exception e) {
            log.error("异常",e);
+            if (driver != null) {
+                driver.quit();
+            }
         }finally {
             if (driver != null) {
                 driver.quit();

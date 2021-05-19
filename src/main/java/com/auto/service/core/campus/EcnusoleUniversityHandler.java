@@ -1,14 +1,11 @@
 package com.auto.service.core.campus;
 
-import com.alibaba.druid.sql.visitor.functions.Char;
-import com.auto.common.exception.BizException;
 import com.auto.entity.UserInfo;
 import com.auto.service.core.CampusOnlineHandler;
 import com.auto.service.core.EnumUniversityName;
 import com.auto.utils.TimeUtils;
 import com.auto.utils.WebDriverUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.helper.StringUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,28 +22,31 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
     private static final String  COMMON_COURSE = "/html/body/div[5]/div[1]/div[2]/div[3]";
 
+    private static  final String SPRCIAL_IFREAEM ="/html/body/div/div/p/span[2]/div/iframe";
 
+    private static final String IFRAME5 ="/html/body/div/div/p[5]/span/div/iframe";
 
+    private static final String IFRAME2 ="/html/body/div/div/p[2]/span/div/iframe";
+
+    private static final String IFRAME ="/html/body/div/div/p/div/iframe";
+
+    private static final String IFRAME1 ="/html/body/div/div/p[1]/span/div/iframe";
+
+    private static final String IFRAME3 ="/html/body/div/div/p[3]/span/div/iframe";
+
+    private static final String IFRAME4 ="/html/body/div/div/p[4]/span/div/iframe";
+
+    private static final String IFRAME6 ="/html/body/div/div/p[6]/span/div/iframe";
     //登录
     //处理逻辑
     @Override
     public void onlineProcess(UserInfo userInfo, WebDriver driver,int course) throws Exception {
         log.info("华东师范作业逻辑处理start");
 
-        AtomicInteger counts = new AtomicInteger(1);
-        while(true) {
-            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[1]/div/div/div[2]/div/a[1]"))) {
-                break;
-            }
-            counts.incrementAndGet();
-            Thread.sleep(1);
-            if (200000 == counts.get()) {
-                log.info("重试6分钟之后  退出");
-                 throw new BizException("重试6分钟之后  退出");
-            }
-        }
-        //点击我的课程  /html/body/div[1]/div/div/div[2]/div/a[1]
-        driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div/a[1]")).click();
+        //点击我的课程
+        String myCourse = "/html/body/div[1]/div/div/div[2]/div/a[1]";
+        WebDriverUtils.findElement(driver,myCourse,"点击我的课程");
+        driver.findElement(By.xpath(myCourse)).click();
         Thread.sleep(30000);
 
         //先进ifram
@@ -79,7 +79,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
-    public void courseHandle(WebDriver driver) throws InterruptedException {
+    public void courseHandle(WebDriver driver) throws Exception {
         //进入学习进度页面  重新开了个页面  跳到另外一个页面
         WebDriverUtils.switchToWindowByTitle(driver,"学习进度页面");
         Thread.sleep(20000);
@@ -93,7 +93,9 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             while(true){
                 String orangeXpath = isOrange+structureFirst+"]/h3/a/span[2]/em";
                 if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
-                    needHandler(orangeXpath,driver);
+                    if (needHandler(orangeXpath,driver)) {
+                        break;
+                    }
                 }else{
                     break;
                 }
@@ -106,15 +108,17 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
-    public void  needHandler(String orangeXpath,WebDriver driver) throws InterruptedException {
+    public boolean  needHandler(String orangeXpath,WebDriver driver) throws Exception {
         int viedos = 0;
         String organTitle = driver.findElement(By.xpath(orangeXpath)).getText();
         try {
             viedos = Integer.parseInt(organTitle);
         } catch (Exception e) {
-            return;
+            return false;
         }
         String text = driver.findElement(By.xpath(orangeXpath.replace("2]/em","3]"))).getText();
+        log.info("任务点名称：{}",text);
+        log.info("xpath路径：{}",orangeXpath);
         if ("巩固练习".equals(text)) {
 //            driver.findElement(By.xpath(orangeXpath)).click();
 //
@@ -127,11 +131,23 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 //                arr_36 = Integer.valueOf(String.valueOf(arr[36]) + String.valueOf(arr[42]));
 //            }
 //            excuteHoomeWork(driver,arr_36);
-            return ;
+            return true;
         }
-        driver.findElement(By.xpath(orangeXpath)).click();
-        Thread.sleep(5000);
+
+        WebDriverUtils.findElement(driver,orangeXpath,"点击"+text);
+        for (int i = 0; i < 3; i++) {
+            try {
+                driver.findElement(By.xpath(orangeXpath)).click();
+            } catch (Exception e) {
+                log.info("点击橙色小点异常");
+            }
+            log.info("点击橙色课程进入");
+            Thread.sleep(1000);
+        }
+
+
         chainHandler(viedos,driver);
+        return false;
     }
 
     public void excuteHoomeWork(WebDriver driver,int arr_36) {
@@ -359,7 +375,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         System.out.println(str);
     }*/
 
-    public static void chainHandler(int viedos,WebDriver driver)throws InterruptedException{
+    public static void chainHandler(int viedos,WebDriver driver) throws Exception {
         //判断viedos 有多少个
         log.info("----------viedos------------"+viedos);
         List<String> listFrames = new ArrayList<>();
@@ -441,6 +457,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 break;
         }
 
+        log.info("-----遍历iframe------------");
         for (String iframe: listFrames) {
             AtomicInteger counts = new AtomicInteger(1);
             while(true){
@@ -457,16 +474,36 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
+            log.info("-----进入iframe------------");
             WebElement webElement0 = driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/div[2]/iframe"));
             driver.switchTo().frame(webElement0);
 
-            String descIframe = WebDriverUtils.check(driver, By.xpath(iframe))?
-                    iframe:(iframe.substring(0,19)+"p/"+iframe.substring(19));
+            String descIframe = "";
+            if(WebDriverUtils.check(driver, By.xpath(iframe))){
+                descIframe= iframe;
+            }else if(WebDriverUtils.check(driver, By.xpath(iframe))){
+                descIframe= SPRCIAL_IFREAEM;
+            }else if(WebDriverUtils.check(driver, By.xpath(IFRAME))){
+                descIframe= IFRAME;
+            }else if(WebDriverUtils.check(driver, By.xpath(IFRAME1))){
+                descIframe= IFRAME1;
+            }else if(WebDriverUtils.check(driver, By.xpath(IFRAME2))){
+                descIframe= IFRAME2;
+            }else if(WebDriverUtils.check(driver, By.xpath(IFRAME3))){
+                descIframe= IFRAME3;
+            }else if(WebDriverUtils.check(driver, By.xpath(IFRAME4))){
+                descIframe= IFRAME4;
+            }
+            else if(WebDriverUtils.check(driver, By.xpath(IFRAME5))){
+                descIframe= IFRAME5;
+            }
+            log.info("descIframe路径:{}",descIframe);
+
             WebElement webElement1 = driver.findElement(By.xpath(descIframe));
             driver.switchTo().frame(webElement1);
             Thread.sleep(3000);
 
-
+            log.info("-----进入iframe------------结束");
             //点击开始播放按钮
             log.info("点击开始播放按钮");
             driver.findElement(By.className("vjs-big-play-button")).click();
@@ -474,22 +511,20 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
             if (WebDriverUtils.check(driver, By.className("vjs-control-text"))) {
-                Thread.sleep(8000);
+                Thread.sleep(18000);
                 for (int i = 0; i <3 ; i++) {
                     //快进  倍速
-                    driver.findElement(By.xpath("/html/body/div[4]/div/div[5]/div[1]/button")).click();
+                    String speedFast ="/html/body/div[4]/div/div[5]/div[1]/button";
+                    WebDriverUtils.findElement(driver,speedFast,"点击快进按钮");
+                    driver.findElement(By.xpath(speedFast)).click();
                     Thread.sleep(1000);
                 }
-
-
                 //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
                 Thread.sleep(TimeUtils.getDiffTime(driver,1,2));
             }else{
                 //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
                 Thread.sleep(TimeUtils.getDiffTime(driver,8,10));
             }
-
-
             driver.switchTo().defaultContent();
             Thread.sleep(5000);
         }
