@@ -1,5 +1,6 @@
 package com.auto.block;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class ReadFileTest {
 
     private static  final  String FILE_PATH ="src\\main\\files\\20210124_0.txt";
@@ -26,6 +28,7 @@ public class ReadFileTest {
     public void TestReadFile(){
         List<JobShared> jobSharedList = PlainFileDealer.nioFileSharding(FILE_PATH,3);
         jobSharedList.forEach(shared -> {
+
             List<String>shardInfo=  PlainFileDealer.nioShardingRead(shared, FILE_PATH);
             shardInfo.forEach(System.out::println);
 

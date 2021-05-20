@@ -144,7 +144,7 @@ public class ChineseCourse extends EcnusoleUniversityCommanAnswerHandler{
         answer10.add("C");
         answer10.add("D");
         answer10.add("BC");
-        titleAnswer.put(10,answer9);
+        titleAnswer.put(10,answer10);
         /**
          * B
          * D
@@ -159,7 +159,7 @@ public class ChineseCourse extends EcnusoleUniversityCommanAnswerHandler{
         answer11.add("D");
         answer11.add("BC");
 
-        titleAnswer.put(11,answer9);
+        titleAnswer.put(11,answer11);
     }
 
     @Override

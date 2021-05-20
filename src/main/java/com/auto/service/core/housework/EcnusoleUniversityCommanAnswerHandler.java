@@ -37,7 +37,11 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
         Map<Integer, List<String>> loadAnswer = new HashMap<>();
         loadAnswer(loadAnswer);
         List<String> anList = loadAnswer.get(arr_36);
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
 
+        }
         WebElement webElement0 = driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/div[2]/iframe"));
         driver.switchTo().frame(webElement0);
         WebElement webElement1 = driver.findElement(By.xpath("/html/body/div/div/p/div/iframe"));
@@ -71,10 +75,20 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
             sBottom.append("/div[4]");
         }
         sBottom.append("/div[5]/a[2]");
+        try {
+            Thread.sleep(5000);
+        } catch (Exception e) {
 
-        //确认提交
-        driver.findElement(By.xpath(String.valueOf(sBottom))).click();
+        }
+        try {
+            //确认提交
+            WebDriverUtils.findElement(driver, sBottom.toString(), "确认提交");
+            driver.findElement(By.xpath(String.valueOf(sBottom))).click();
 
+            Thread.sleep(6000);
+        } catch (Exception e) {
+            log.info("e", e);
+        }
         try {
             WebDriverUtils.findClassName(driver, "bluebtn", "确认提交");
             //确认提交
@@ -84,9 +98,17 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
             log.info("e", e);
         }
 
+        driver.switchTo().defaultContent();
 
-        //回到课程 /html/body/div[3]/div/div[1]/a
-        driver.findElement(By.xpath(("/html/body/div[3]/div/div[1]/a"))).click();
+        //回到课程 /html/body/div[3]/div/div[1]/a  /html/body/div[3]/div/div[1]/a
+        try {
+            WebDriverUtils.findElement(driver, "/html/body/div[3]/div/div[1]/a", "回到课程");
+            driver.findElement(By.xpath(("/html/body/div[3]/div/div[1]/a"))).click();
+        } catch (Exception e) {
+            log.info("e", e);
+        }
+
+
         try {
             Thread.sleep(5000);
         } catch (Exception e) {

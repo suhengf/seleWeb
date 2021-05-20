@@ -50,7 +50,7 @@ public class QRtool {
         Thread.sleep(8000);
         for (int i = 0; i < 3; i++) {
             screen = elementSnap(driver, url);
-            log.info("截屏第一次重试");
+            log.info("截屏第{}次重试",i+1);
             if (screen != null) {
                 break;
             }

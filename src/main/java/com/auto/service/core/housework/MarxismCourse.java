@@ -40,6 +40,7 @@ public class MarxismCourse extends EcnusoleUniversityCommanAnswerHandler{
         answer3.add("B");
         answer3.add("A");
         answer3.add("D");
+        answer3.add("B");
         answer3.add("ABC");
         titleAnswer.put(3,answer3);
 

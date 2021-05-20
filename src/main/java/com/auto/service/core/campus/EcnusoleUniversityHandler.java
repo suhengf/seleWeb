@@ -1,5 +1,6 @@
 package com.auto.service.core.campus;
 
+import com.auto.common.exception.BizException;
 import com.auto.entity.UserInfo;
 import com.auto.service.abstr.UniversityResolver;
 import com.auto.service.core.CampusOnlineHandler;
@@ -104,9 +105,9 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             while(true){
                 String orangeXpath = isOrange+structureFirst+"]/h3/a/span[2]/em";
                 if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
-                    if (needHandler(orangeXpath,driver,titleName)) {
-                        break;
-                    }
+                   if(needHandler(orangeXpath,driver,titleName)){
+                       break;
+                   }
                 }else{
                     break;
                 }
@@ -130,23 +131,31 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         String text = driver.findElement(By.xpath(orangeXpath.replace("2]/em","3]"))).getText();
         log.info("任务点名称：{}",text);
         log.info("xpath路径：{}",orangeXpath);
+        log.info("科目: {}",titleName);
         if ("巩固练习".equals(text)) {
-//            universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
+
+            try {
+                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
+            } catch (Exception e) {
+              log.error("作业处理异常",e);
+              throw new BizException("作业处理异常");
+            }
+
             return true;
         }else{
-             String courseXpath = orangeXpath.replace("2]/em", "3]");
-             log.info("courseXpath : {}",courseXpath);
-            WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
-            for (int i = 0; i < 3; i++) {
-                try {
-                    driver.findElement(By.xpath(courseXpath)).click();
-                } catch (Exception e) {
-                    log.info("点击橙色小点异常");
-                }
-                log.info("点击橙色课程进入");
-                Thread.sleep(1000);
-            }
-            chainHandler(viedos,driver);
+//             String courseXpath = orangeXpath.replace("2]/em", "3]");
+//             log.info("courseXpath : {}",courseXpath);
+//            WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
+//            for (int i = 0; i < 3; i++) {
+//                try {
+//                    driver.findElement(By.xpath(courseXpath)).click();
+//                } catch (Exception e) {
+//                    log.info("点击橙色小点异常");
+//                }
+//                log.info("点击橙色课程进入");
+//                Thread.sleep(1000);
+//            }
+//            chainHandler(viedos,driver);
             return false;
         }
 
@@ -283,7 +292,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
             WebElement webElement1 = driver.findElement(By.xpath(descIframe));
             driver.switchTo().frame(webElement1);
-            Thread.sleep(3000);
+            Thread.sleep(8000);
 
             log.info("-----进入iframe------------结束");
             //点击开始播放按钮

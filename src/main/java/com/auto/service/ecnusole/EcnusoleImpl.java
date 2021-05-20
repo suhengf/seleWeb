@@ -1,5 +1,6 @@
 package com.auto.service.ecnusole;
 
+import com.auto.entity.User;
 import com.auto.entity.UserInfo;
 import com.auto.service.abstr.AbstractCommonUniversity;
 import com.auto.service.abstr.ThreadPoolParam;
@@ -41,13 +42,18 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
         log.info("开始逻辑处理");
         WebDriver driver = null;
         try {
-        // /html/body/div/div[1]/div[1]/div/div/span[3]
-        driver = LoginUtils.hsdLogin(userInfo, options,
-                "https://wljy.ecnusole.com/mh", "/html/body/div[1]/div/div/div[2]/div/a[1]", "/html/body/div/div/div/div[2]/div[1]/a[2]","/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[1]/input"
-                , "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[2]/input",
-                "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[3]/input", "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[4]/button");
-        log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
-            campusResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode()).onlineProcess(userInfo, driver,course);
+
+
+
+            driver = LoginUtils.hsdLogin(userInfo, options,
+                    "https://wljy.ecnusole.com/mh", "/html/body/div[1]/div/div/div[2]/div/a[1]", "/html/body/div/div/div/div[2]/div[1]/a[2]", "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[1]/input"
+                    , "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[2]/input",
+                    "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[3]/input", "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[4]/button");
+
+
+            log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
+
+            campusResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode()).onlineProcess(userInfo, driver, course);
         } catch (Exception e) {
            log.error("异常",e);
             if (driver != null) {
