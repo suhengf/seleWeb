@@ -56,7 +56,9 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         Thread.sleep(30000);
 
         //先进ifram
-        WebElement webElement = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/iframe"));
+       String myIframe = "/html/body/div[1]/div[2]/div[2]/div/iframe";
+        WebDriverUtils.findElement(driver,myIframe,"进入iframe");
+        WebElement webElement = driver.findElement(By.xpath(myIframe));
         driver.switchTo().frame(webElement);
         Thread.sleep(2000);
 
@@ -132,10 +134,12 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 //            universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
             return true;
         }else{
-            WebDriverUtils.findElement(driver,orangeXpath,"点击"+text);
+             String courseXpath = orangeXpath.replace("2]/em", "3]");
+             log.info("courseXpath : {}",courseXpath);
+            WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
             for (int i = 0; i < 3; i++) {
                 try {
-                    driver.findElement(By.xpath(orangeXpath)).click();
+                    driver.findElement(By.xpath(courseXpath)).click();
                 } catch (Exception e) {
                     log.info("点击橙色小点异常");
                 }
@@ -244,8 +248,8 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 }
                 counts.incrementAndGet();
                 Thread.sleep(1);
-                if(200000==counts.get()){
-                    log.info("重试6分钟之后  退出");
+                if(60000==counts.get()){
+                    log.info("重试60秒之后  退出");
                     driver.quit();
                 }
             }
@@ -291,10 +295,15 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             if (WebDriverUtils.check(driver, By.className("vjs-control-text"))) {
                 Thread.sleep(18000);
                 for (int i = 0; i <3 ; i++) {
-                    //快进  倍速
-                    String speedFast ="/html/body/div[4]/div/div[5]/div[1]/button";
-                    WebDriverUtils.findElement(driver,speedFast,"点击快进按钮");
-                    driver.findElement(By.xpath(speedFast)).click();
+                    try {
+                        //快进  倍速
+                        String speedFast ="/html/body/div[4]/div/div[5]/div[1]/button";
+                        WebDriverUtils.findElement(driver,speedFast,"点击快进按钮");
+                        driver.findElement(By.xpath(speedFast)).click();
+                    } catch (Exception e) {
+                        driver.findElement(By.className("vjs-big-play-button")).click();
+                       log.info("点击快进异常");
+                    }
                     Thread.sleep(1000);
                 }
                 //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频

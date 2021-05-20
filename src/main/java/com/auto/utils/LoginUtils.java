@@ -104,20 +104,20 @@ public class LoginUtils {
             driver.findElement(By.xpath(studentXpath)).click();
             Thread.sleep(8000);
             WebDriverUtils.findElement(driver, zhanghaodenglu,"点击账号登录");
-            Thread.sleep(15000);
+            Thread.sleep(8000);
             driver.findElement(By.xpath(zhanghaodenglu)).click();
             WebDriverUtils.findElement(driver, userInput,"输入用户名");
-            Thread.sleep(15000);
+            Thread.sleep(8000);
             driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
             WebDriverUtils.findElement(driver, userPsdInput,"输入密码");
             Thread.sleep(8000);
             driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());
             log.info("current userId：{}", userInfo.getUserId());
-            Thread.sleep(15000);
+            Thread.sleep(8000);
             String verifyCode = recognize(elementSnapshot(driver, url));
             log.info("verifyCode：{}", verifyCode);
             WebDriverUtils.findElement(driver, verifyCodeInput,"输入验证码");
-            Thread.sleep(20000);
+            Thread.sleep(8000);
             driver.findElement(By.xpath(verifyCodeInput)).sendKeys(verifyCode);
             //点击确定
             WebDriverUtils.findElement(driver, loginBotton,"点击登录");
