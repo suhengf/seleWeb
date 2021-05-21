@@ -97,7 +97,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         Thread.sleep(20000);
 
         //目前支持两层
-        for (int i = 1; i <10 ; i++) {
+        for (int i = 1; i <15 ; i++) {
             //判断 是否看过  若看过  跳过
             String isOrange = "/html/body/div[5]/div[1]/div[2]/div[3]/div["+i+"]/div[";
 
@@ -134,28 +134,28 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         log.info("科目: {}",titleName);
         if ("巩固练习".equals(text)) {
 
-            try {
-                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
-            } catch (Exception e) {
-              log.error("作业处理异常",e);
-              throw new BizException("作业处理异常");
-            }
+//            try {
+//                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
+//            } catch (Exception e) {
+//              log.error("作业处理异常",e);
+//              throw new BizException("作业处理异常");
+//            }
 
             return true;
         }else{
-//             String courseXpath = orangeXpath.replace("2]/em", "3]");
-//             log.info("courseXpath : {}",courseXpath);
-//            WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
-//            for (int i = 0; i < 3; i++) {
-//                try {
-//                    driver.findElement(By.xpath(courseXpath)).click();
-//                } catch (Exception e) {
-//                    log.info("点击橙色小点异常");
-//                }
-//                log.info("点击橙色课程进入");
-//                Thread.sleep(1000);
-//            }
-//            chainHandler(viedos,driver);
+             String courseXpath = orangeXpath.replace("2]/em", "3]");
+             log.info("courseXpath : {}",courseXpath);
+            WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
+            for (int i = 0; i < 3; i++) {
+                try {
+                    driver.findElement(By.xpath(courseXpath)).click();
+                } catch (Exception e) {
+                    log.info("点击橙色小点异常");
+                }
+                log.info("点击橙色课程进入");
+                Thread.sleep(1000);
+            }
+            chainHandler(viedos,driver);
             return false;
         }
 

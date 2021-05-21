@@ -95,7 +95,7 @@ public class LoginUtils {
      * @return
      * @throws Exception
      */
-    public synchronized static WebDriver hsdLogin(UserInfo userInfo, ChromeOptions options, String url, String studentXpath, String zhanghaodenglu, String userInput, String userPsdInput, String verifyCodeInput, String loginBotton) throws Exception {
+    public  static WebDriver hsdLogin(UserInfo userInfo, ChromeOptions options, String url, String studentXpath, String zhanghaodenglu, String userInput, String userPsdInput, String verifyCodeInput, String loginBotton) throws Exception {
         WebDriver driver = new ChromeDriver(options);
         Actions action = new Actions(driver);
         driver.manage().window().maximize();
@@ -123,7 +123,21 @@ public class LoginUtils {
 
         log.info("current userId：{}", userInfo.getUserId());
         Thread.sleep(8000);
-        String verifyCode = recognize(elementSnapshot(driver, url));
+
+        String verifyCode ="";
+        for (int i = 0; i <4 ; i++) {
+
+            try {
+                verifyCode =recognize(elementSnapshot(driver, url));
+            } catch (Exception e) {
+                log.info("e",e);
+            }
+            if(!"".equals(verifyCode)){
+                break;
+            }
+        }
+
+
         log.info("verifyCode：{}", verifyCode);
 
 
