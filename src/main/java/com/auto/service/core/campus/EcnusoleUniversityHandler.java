@@ -123,11 +123,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     public boolean  needHandler(String orangeXpath,WebDriver driver,String titleName) throws Exception {
         int viedos = 0;
         String organTitle = driver.findElement(By.xpath(orangeXpath)).getText();
-        try {
-            viedos = Integer.parseInt(organTitle);
-        } catch (Exception e) {
-            return false;
-        }
+
         String text = driver.findElement(By.xpath(orangeXpath.replace("2]/em","3]"))).getText();
         log.info("任务点名称：{}",text);
         log.info("xpath路径：{}",orangeXpath);
@@ -143,6 +139,13 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
             return true;
         }else{
+
+            try {
+                viedos = Integer.parseInt(organTitle);
+            } catch (Exception e) {
+                return false;
+            }
+
              String courseXpath = orangeXpath.replace("2]/em", "3]");
              log.info("courseXpath : {}",courseXpath);
             WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
