@@ -66,7 +66,7 @@ public class WebDriverUtils {
             }
             counts.incrementAndGet();
             Thread.sleep(1);
-            if (90000 == counts.get()) {
+            if (9000 == counts.get()) {
                 log.info("重试90秒之后  退出");
                 throw new BizException("重试90秒之后  退出");
             }

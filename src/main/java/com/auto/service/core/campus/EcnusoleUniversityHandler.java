@@ -41,6 +41,9 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
     private static final String IFRAME6 ="/html/body/div/div/p[6]/span/div/iframe";
 
+    private static final String IFRAME7 ="/html/body/div/div/p[2]/span/span/div/iframe";
+
+
     @Autowired
     private UniversityResolver universityResolver;
 
@@ -54,7 +57,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         String myCourse = "/html/body/div[1]/div/div/div[2]/div/a[1]";
         WebDriverUtils.findElement(driver,myCourse,"点击我的课程");
         driver.findElement(By.xpath(myCourse)).click();
-        Thread.sleep(30000);
+        Thread.sleep(10000);
 
         //先进ifram
        String myIframe = "/html/body/div[1]/div[2]/div[2]/div/iframe";
@@ -65,9 +68,9 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
         for (int i = course; i < 10; i++) {
             //进入学习
-            String courseName = "/html/body/div[2]/div[2]/div["+i+"]/div[1]/a";
+            String courseName = "/html/body/div[3]/div[2]/div["+i+"]/div[1]/a";
             //课程名称
-            String courseTitleName ="/html/body/div[2]/div[2]/div["+i+"]/div[2]/h3/a";
+            String courseTitleName ="/html/body/div[3]/div[2]/div["+i+"]/div[2]/h3/a";
             if(WebDriverUtils.check(driver, By.xpath(courseName))){
                 String titleName= driver.findElement(By.xpath(courseTitleName)).getText();
                 if("形势与政策1".equals(titleName)||"公共英语A".equals(titleName)){
@@ -94,23 +97,54 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     public void courseHandle(WebDriver driver,String titleName) throws Exception {
         //进入学习进度页面  重新开了个页面  跳到另外一个页面
         WebDriverUtils.switchToWindowByTitle(driver,"学习进度页面");
-        Thread.sleep(20000);
+        Thread.sleep(2000);
 
         //目前支持两层
         for (int i = 1; i <15 ; i++) {
             //判断 是否看过  若看过  跳过
             String isOrange = "/html/body/div[5]/div[1]/div[2]/div[3]/div["+i+"]/div[";
-
             AtomicInteger structureFirst = new AtomicInteger(1);
             while(true){
-                String orangeXpath = isOrange+structureFirst+"]/h3/a/span[2]/em";
-                if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
-                   if(needHandler(orangeXpath,driver,titleName)){
-                       break;
-                   }
-                }else{
+                String orangeXpath="";
+                if(i == 6 && "思想道德与法治".equals(titleName)){
+                    //orangeXpath = isOrange+structureFirst+"]/h3/a/span[1]/em";
+
+                    for (int j = 1; j <= 4; j++) {
+                        AtomicInteger mks = new AtomicInteger(1);
+                        while(true){
+                            orangeXpath = isOrange+j+"]/div/h3["+mks+"]/a/span[1]/em";
+                            if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
+                                //判断是否已经播放
+                                String isPlay = driver.findElement(By.xpath(orangeXpath)).getText();
+                                Thread.sleep(50);
+                                if(!"openlock".equals(isPlay) && !"".equals(isPlay)){
+                                    if(needHandler(orangeXpath,driver,titleName)){
+                                        break;
+                                    }
+                                }
+                            }else{
+                                break;
+                            }
+                            mks.incrementAndGet();
+                        }
+                    }
                     break;
+                }else {
+                    orangeXpath = isOrange+structureFirst+"]/h3/a/span[2]/em";
+                    if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
+                        //判断是否已经播放
+                        String isPlay = driver.findElement(By.xpath(orangeXpath)).getText();
+                        Thread.sleep(50);
+                        if(!"openlock".equals(isPlay) && !"".equals(isPlay)){
+                            if(needHandler(orangeXpath,driver,titleName)){
+                                break;
+                            }
+                        }
+                    }else{
+                        break;
+                    }
                 }
+
                 structureFirst.incrementAndGet();
             }
         }
@@ -123,19 +157,20 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     public boolean  needHandler(String orangeXpath,WebDriver driver,String titleName) throws Exception {
         int viedos = 0;
         String organTitle = driver.findElement(By.xpath(orangeXpath)).getText();
-
-        String text = driver.findElement(By.xpath(orangeXpath.replace("2]/em","3]"))).getText();
+        orangeXpath = orangeXpath.replace("2]/em","3]");
+        orangeXpath = orangeXpath.replace("1]/em","2]");
+        String text = driver.findElement(By.xpath(orangeXpath)).getText();
         log.info("任务点名称：{}",text);
         log.info("xpath路径：{}",orangeXpath);
         log.info("科目: {}",titleName);
-        if ("巩固练习".equals(text)) {
+        if ("巩固练习".equals(text) || text.contains("巩固练习")) {
 
-//            try {
-//                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
-//            } catch (Exception e) {
-//              log.error("作业处理异常",e);
-//              throw new BizException("作业处理异常");
-//            }
+            try {
+                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath,driver);
+            } catch (Exception e) {
+              log.error("作业处理异常",e);
+              throw new BizException("作业处理异常");
+            }
 
             return true;
         }else{
@@ -146,12 +181,12 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 return false;
             }
 
-             String courseXpath = orangeXpath.replace("2]/em", "3]");
+             String courseXpath = orangeXpath;
              log.info("courseXpath : {}",courseXpath);
             WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
             for (int i = 0; i < 3; i++) {
                 try {
-                    driver.findElement(By.xpath(courseXpath)).click();
+                    driver.findElement(By.xpath(courseXpath.trim())).click();
                 } catch (Exception e) {
                     log.info("点击橙色小点异常");
                 }
@@ -191,63 +226,6 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 listFrames.add("/html/body/div/div/p[4]/span/span/div/iframe");
                 listFrames.add("/html/body/div/div/p[6]/div/iframe");
                 listFrames.add("/html/body/div/div/p[8]/span/span/span/span/span/div/iframe");
-                break;
-            case 5:
-                listFrames.add("/html/body/div/div/div[1]/iframe");
-                listFrames.add("/html/body/div/div/div[2]/iframe");
-                listFrames.add("/html/body/div/div/div[3]/iframe");
-                listFrames.add("/html/body/div/div/div[4]/iframe");
-                listFrames.add("/html/body/div/div/div[5]/iframe");
-                break;
-            case 6:
-                listFrames.add("/html/body/div/div/div[1]/iframe");
-                listFrames.add("/html/body/div/div/div[2]/iframe");
-                listFrames.add("/html/body/div/div/div[3]/iframe");
-                listFrames.add("/html/body/div/div/div[4]/iframe");
-                listFrames.add("/html/body/div/div/div[5]/iframe");
-                listFrames.add("/html/body/div/div/div[6]/iframe");
-                break;
-            case 7:
-                listFrames.add("/html/body/div/div/div[1]/iframe");
-                listFrames.add("/html/body/div/div/div[2]/iframe");
-                listFrames.add("/html/body/div/div/div[3]/iframe");
-                listFrames.add("/html/body/div/div/div[4]/iframe");
-                listFrames.add("/html/body/div/div/div[5]/iframe");
-                listFrames.add("/html/body/div/div/div[6]/iframe");
-                listFrames.add("/html/body/div/div/div[7]/iframe");
-                break;
-            case 8:
-                listFrames.add("/html/body/div/div/div[1]/iframe");
-                listFrames.add("/html/body/div/div/div[2]/iframe");
-                listFrames.add("/html/body/div/div/div[3]/iframe");
-                listFrames.add("/html/body/div/div/div[4]/iframe");
-                listFrames.add("/html/body/div/div/div[5]/iframe");
-                listFrames.add("/html/body/div/div/div[6]/iframe");
-                listFrames.add("/html/body/div/div/div[7]/iframe");
-                listFrames.add("/html/body/div/div/div[8]/iframe");
-                break;
-            case 9:
-                listFrames.add("/html/body/div/div/div[1]/iframe");
-                listFrames.add("/html/body/div/div/div[2]/iframe");
-                listFrames.add("/html/body/div/div/div[3]/iframe");
-                listFrames.add("/html/body/div/div/div[4]/iframe");
-                listFrames.add("/html/body/div/div/div[5]/iframe");
-                listFrames.add("/html/body/div/div/div[6]/iframe");
-                listFrames.add("/html/body/div/div/div[7]/iframe");
-                listFrames.add("/html/body/div/div/div[8]/iframe");
-                listFrames.add("/html/body/div/div/div[9]/iframe");
-                break;
-            case 10:
-                listFrames.add("/html/body/div/div/div[1]/iframe");
-                listFrames.add("/html/body/div/div/div[2]/iframe");
-                listFrames.add("/html/body/div/div/div[3]/iframe");
-                listFrames.add("/html/body/div/div/div[4]/iframe");
-                listFrames.add("/html/body/div/div/div[5]/iframe");
-                listFrames.add("/html/body/div/div/div[6]/iframe");
-                listFrames.add("/html/body/div/div/div[7]/iframe");
-                listFrames.add("/html/body/div/div/div[8]/iframe");
-                listFrames.add("/html/body/div/div/div[9]/iframe");
-                listFrames.add("/html/body/div/div/div[10]/iframe");
                 break;
         }
 
@@ -290,6 +268,10 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             }
             else if(WebDriverUtils.check(driver, By.xpath(IFRAME5))){
                 descIframe= IFRAME5;
+            } else if(WebDriverUtils.check(driver, By.xpath(IFRAME6))){
+                descIframe= IFRAME6;
+            }else if(WebDriverUtils.check(driver, By.xpath(IFRAME7))){
+                descIframe= IFRAME7;
             }
             log.info("descIframe路径:{}",descIframe);
 
@@ -300,6 +282,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             log.info("-----进入iframe------------结束");
             //点击开始播放按钮
             log.info("点击开始播放按钮");
+            WebDriverUtils.findClassName(driver,"vjs-big-play-button","点击开始播放按钮");
             driver.findElement(By.className("vjs-big-play-button")).click();
             Thread.sleep(8000);
 
@@ -329,7 +312,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         }
         driver.findElement(By.xpath("/html/body/div[3]/div/div[1]/a")).click();
         log.info("结束返回");
-        Thread.sleep(3000);
+        Thread.sleep(10000);
     }
 
 
