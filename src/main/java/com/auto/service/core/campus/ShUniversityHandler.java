@@ -24,16 +24,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
         //课程信息
         String courseInfo ="/html/body/div[2]/div[3]/table/tbody/tr/td[1]/div[2]/div/div[2]/div[2]/ul/li[4]/a";
 
-        AtomicInteger counts = new AtomicInteger(0);
-        while(true){
-            if (WebDriverUtils.check(driver, By.xpath(courseInfo))) {
-                break;
-            }
-            if(2000000==counts.get()){
-                log.info("超过2000秒 还是无法找到该标签");
-                break;
-            }
-        }
+        WebDriverUtils.findElement(driver,"courseInfo","课程信息");
         driver.findElement(By.xpath(courseInfo)).click();
 
         Thread.sleep(10000);
@@ -44,7 +35,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             if (WebDriverUtils.check(driver, By.xpath(onlineStudy))) {
                 String text = str+i+"]/td[2]";
                 String courseTitle = driver.findElement(By.xpath(text)).getText();
-                if(courseTitle.contains("现代物流管理")){
+                if(courseTitle.contains("形势与政策实践(2)*")){
                     driver.findElement(By.xpath(onlineStudy)).click();
                     Thread.sleep(10000);
                     //视频逻辑处理
@@ -66,14 +57,14 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
         Thread.sleep(20000);
         //开始学习
 
-        String startStudy = null;
         try {
-            startStudy = "/html/body/div[1]/div/div[1]/div/div[2]/div[1]/div/div/div/div/table/tbody/tr/td[1]/div[1]/table/tbody/tr/td[2]/div/div[2]/table/tbody/tr/td[3]";
+            String startStudy = "/html/body/div[1]/div/div[1]/div/div[2]/div[1]/div/div/div/div/table/tbody/tr/td[1]/div[1]/table/tbody/tr/td[2]/div/div[2]/table/tbody/tr/td[3]";
             if (WebDriverUtils.check(driver, By.xpath(startStudy))) {
                 driver.findElement(By.xpath(startStudy)).click();
                 //视频处理逻辑
-                 long time = TimeUtils.diffTime(driver, 10, 9);
+                 long time = TimeUtils.getDiffTime(driver, 100, 97);
                  log.info("该视频时长:{}",time);
+                 boolean isNext = false;
                 AtomicInteger counts = new AtomicInteger(0);
                 while(true){
                     //判断结束标志
@@ -86,6 +77,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                         log.info("继续播放");
                         driver.findElement(By.xpath("/html/body/div[4]/div[3]/a[1]")).click();
                     }
+                    Thread.sleep(1);
                     if(time==counts.get()){
                         log.info("重试6分钟之后  退出");
                         break;
@@ -95,12 +87,6 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                         log.info("遇见作业");
                         break;
                     }
-                    if(WebDriverUtils.check(driver,By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[1]/div[2]"))){
-                        log.info("遇见作业");
-                        break;
-                    }
-
-
                     counts.incrementAndGet();
                 }
 

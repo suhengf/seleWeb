@@ -66,6 +66,7 @@ public class MarxismCourse extends EcnusoleUniversityCommanAnswerHandler{
         answer5.add("×");
         titleAnswer.put(5,answer5);
 
+
         //专题六
         List<String> answer61 = new ArrayList<>();
         answer61.add("C");

@@ -31,7 +31,13 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
         if (arr_36 == 6 && "思想品德".equals("")) {
             arr_36 = Integer.valueOf(String.valueOf(arr[36]) + String.valueOf(arr[42]));
         }
-        excuteHoomeWork(driver, arr_36);
+
+
+        try {
+            excuteHoomeWork(driver, arr_36);
+        } catch (Exception e) {
+          log.info("e",e);
+        }
 
     }
 

@@ -68,7 +68,7 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
     }
 
     public ThreadPoolParam getPoolParam(){
-        return ThreadPoolParam.builder().corePoolSize(6).maximumPoolSize(6).build();
+        return ThreadPoolParam.builder().corePoolSize(4).maximumPoolSize(4).build();
     }
 
 
