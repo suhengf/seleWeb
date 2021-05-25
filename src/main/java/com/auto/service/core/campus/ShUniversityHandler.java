@@ -21,10 +21,10 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
     public void onlineProcess(UserInfo userInfo, WebDriver driver, int course) throws Exception {
         log.info("上海大学逻辑处理");
         Thread.sleep(10000);
-        //课程信息
+        //课程信息 /html/body/div[2]/div[3]/table/tbody/tr/td[1]/div[2]/div/div[2]/div[2]/ul/li[4]/a
         String courseInfo ="/html/body/div[2]/div[3]/table/tbody/tr/td[1]/div[2]/div/div[2]/div[2]/ul/li[4]/a";
 
-        WebDriverUtils.findElement(driver,"courseInfo","课程信息");
+        WebDriverUtils.findElement(driver,courseInfo,"课程信息");
         driver.findElement(By.xpath(courseInfo)).click();
 
         Thread.sleep(10000);
