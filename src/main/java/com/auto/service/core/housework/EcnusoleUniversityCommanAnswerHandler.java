@@ -156,8 +156,8 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
         title = title.replaceAll("B", "2");
         title = title.replaceAll("C", "3");
         title = title.replaceAll("D", "4");
-        title = title.replaceAll("√", "1");
-        title = title.replaceAll("×", "2");
+        title = title.replaceAll("true", "1");
+        title = title.replaceAll("false", "2");
         return title;
     }
 

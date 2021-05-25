@@ -37,11 +37,11 @@ public class PreEducationCourse  extends EcnusoleUniversityCommanAnswerHandler{
         answer2.add("A");
         answer2.add("A");
         answer2.add("ABCD");
-        answer2.add("×");
-        answer2.add("√");
-        answer2.add("×");
-        answer2.add("×");
-        answer2.add("×");
+        answer2.add("false");
+        answer2.add("true");
+        answer2.add("false");
+        answer2.add("false");
+        answer2.add("false");
         titleAnswer.put(2,answer2);
 
         //专题三
@@ -64,10 +64,10 @@ public class PreEducationCourse  extends EcnusoleUniversityCommanAnswerHandler{
         answer4.add("ABC");
         answer4.add("ABCD");
         answer4.add("ABD");
-        answer4.add("×");
-        answer4.add("×");
-        answer4.add("×");
-        answer4.add("×");
+        answer4.add("false");
+        answer4.add("false");
+        answer4.add("false");
+        answer4.add("false");
         titleAnswer.put(4,answer4);
 
         //专题五 D
@@ -80,8 +80,8 @@ public class PreEducationCourse  extends EcnusoleUniversityCommanAnswerHandler{
         answer5.add("D");
         answer5.add("A");
         answer5.add("A");
-        answer5.add("×");
-        answer5.add("×");
+        answer5.add("false");
+        answer5.add("false");
         titleAnswer.put(5,answer5);
 
         //专题六B
@@ -95,8 +95,8 @@ public class PreEducationCourse  extends EcnusoleUniversityCommanAnswerHandler{
         answer6.add("A");
         answer6.add("A");
         answer6.add("A");
-        answer6.add("×");
-        answer6.add("√");
+        answer6.add("false");
+        answer6.add("true");
         titleAnswer.put(6,answer6);
 
         List<String> answer7 = new ArrayList<>();
@@ -121,8 +121,8 @@ public class PreEducationCourse  extends EcnusoleUniversityCommanAnswerHandler{
         answer8.add("D");
         answer8.add("C");
         answer8.add("D");
-        answer8.add("×");
-        answer8.add("×");
+        answer8.add("false");
+        answer8.add("false");
         titleAnswer.put(8,answer8);
 
         /**
@@ -137,7 +137,7 @@ public class PreEducationCourse  extends EcnusoleUniversityCommanAnswerHandler{
         answer9.add("B");
         answer9.add("A");
         answer9.add("C");
-        answer9.add("x");
+        answer9.add("false");
         titleAnswer.put(9,answer9);
         /**
          * B
@@ -151,7 +151,7 @@ public class PreEducationCourse  extends EcnusoleUniversityCommanAnswerHandler{
         answer10.add("C");
         answer10.add("D");
         answer10.add("A");
-        answer10.add("√");
+        answer10.add("true");
         titleAnswer.put(10,answer10);
 
     }

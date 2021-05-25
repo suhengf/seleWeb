@@ -59,11 +59,11 @@ public class MarxismCourse extends EcnusoleUniversityCommanAnswerHandler{
         answer5.add("A");
         answer5.add("A");
         answer5.add("B");
-        answer5.add("√");
-        answer5.add("×");
-        answer5.add("√");
-        answer5.add("×");
-        answer5.add("×");
+        answer5.add("true");
+        answer5.add("false");
+        answer5.add("true");
+        answer5.add("false");
+        answer5.add("false");
         titleAnswer.put(5,answer5);
 
 
