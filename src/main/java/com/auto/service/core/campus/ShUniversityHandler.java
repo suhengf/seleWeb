@@ -171,55 +171,53 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
     public void judgeCondition(WebDriver driver,long sleepTime) throws Exception {
         Actions action = new Actions(driver);
         AtomicInteger counts = new AtomicInteger(0);
-        String center ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/video";
-        WebDriverUtils.findElement(driver,center,"主屏幕");
-        if (WebDriverUtils.check(driver, By.xpath(center))) {
-            log.info("播放下一个");
-            WebElement element = driver.findElement(By.xpath(center));
-            action.moveToElement(element).perform();
-            WebDriverUtils.threeClick(element);
-        }
         while(true){
             //判断结束标志
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[1]"))) {
                 log.info("播放下一个");
                 Thread.sleep(1000);
-                WebElement element1 = driver.findElement(By.xpath(center));
-                WebDriverUtils.threeClick(element1);
-                Thread.sleep(1000);
                 WebElement element = driver.findElement(By.xpath("/html/body/div[5]/div[3]/a[1]"));
                 action.moveToElement(element).perform();
                 WebDriverUtils.threeClick(element);
             }
+
             //继续播放
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[1]"))) {
                 log.info("继续播放");
-                 WebElement element1 = driver.findElement(By.xpath(center));
-                WebDriverUtils.threeClick(element1);
                 Thread.sleep(3000);
                  WebElement element = driver.findElement(By.xpath("/html/body/div[4]/div[3]/a[1]"));
                 action.moveToElement(element).perform();
                 WebDriverUtils.threeClick(element);
-
-                WebElement element2 = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/div[4]/button[1]"));
-                action.moveToElement(element2).perform();
-                WebDriverUtils.threeClick(element);
-
-
             }
             Thread.sleep(1);
             if(sleepTime==counts.get()){
                 log.info("重试{} 之后  退出",sleepTime);
                 break;
             }
-            //作业课程
-            if(WebDriverUtils.check(driver,By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[3]/div/div/div/button"))){
-                log.info("遇见作业");
-                break;
+
+            //是否暂停
+            String isStop = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/div[4]/button[1]";
+            if(WebDriverUtils.check(driver,By.xpath(isStop))){
+                if ("播放".equals(driver.findElement(By.xpath(isStop)).getAttribute("title"))) {
+                    log.info("暂停点击播放");
+                    clickCenter(driver,action);
+                }
             }
+
             counts.incrementAndGet();
         }
 
+    }
+
+    public void clickCenter(WebDriver driver,Actions actions) throws Exception {
+        String center ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/video";
+        WebDriverUtils.findElement(driver,center,"主屏幕");
+        if (WebDriverUtils.check(driver, By.xpath(center))) {
+            log.info("点击播放");
+            WebElement element = driver.findElement(By.xpath(center));
+            actions.moveToElement(element).perform();
+            WebDriverUtils.threeClick(element);
+        }
     }
 
 
