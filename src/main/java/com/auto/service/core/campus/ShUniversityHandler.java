@@ -7,10 +7,12 @@ import com.auto.service.core.CampusOnlineHandler;
 import com.auto.service.core.EnumUniversityName;
 import com.auto.utils.TimeUtils;
 import com.auto.utils.WebDriverUtils;
+import jdk.nashorn.internal.ir.CallNode;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -70,7 +72,14 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             if (WebDriverUtils.check(driver, By.xpath(startStudy))) {
                 driver.findElement(By.xpath(startStudy)).click();
                 log.info("点击开始学习");
-//                /html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[1]/div[1]/i
+                Thread.sleep(8000);
+                String secTitle ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i";
+                if (WebDriverUtils.check(driver, By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i"))) {
+                    driver.findElement(By.xpath(secTitle)).click();
+                    Thread.sleep(1000);
+                }
+
+//
                 String topicXpath = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[";
                 for (int i = 1; i <10 ; i++) {
                     String fullXPath= topicXpath+i+"]/div[1]/i";
@@ -78,28 +87,12 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                         String titleName = driver.findElement(By.xpath(fullXPath)).getText();
                         driver.findElement(By.xpath(fullXPath)).click();
                         log.info("打开第 {} 主题 :{}", i,titleName);
-                        isFinishFlag(driver);
+                        String sonTitle ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div["+i+"]/div[2]/div[";
+                        isFinishFlag(driver,sonTitle);
 
                     }
 
-
                 }
-
-
-
-                String endTimeClassName = "vjs-duration-display";
-                WebDriverUtils.findClassName(driver, endTimeClassName, "结束时间");
-                String allviedoTime = driver.findElement(By.className(endTimeClassName)).getText();
-                log.info("视频总时长:---->  {}"+allviedoTime);
-                String haveShowTimeXpath ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div/span[4]";
-                WebDriverUtils.findElement(driver, haveShowTimeXpath, "学习总时长");
-                String haveStudyTime = driver.findElement(By.xpath(haveShowTimeXpath)).getText();
-                log.info("学习总时长:---->  {}"+haveStudyTime);
-
-                long sleepTime = TimeUtils.diffSec(haveStudyTime, allviedoTime);
-                Thread.sleep(sleepTime);
-
-
 
             }
         } catch (Exception e) {
@@ -110,23 +103,68 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
     }
 
 
-    public void isFinishFlag(WebDriver driver) throws Exception {
-        String finishTitle = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[1]/div[2]/div[";
+    public void isFinishFlag(WebDriver driver,String sonTitle) throws Exception {
+
         for (int i = 1; i <25 ; i++) {
-            String finishTitleFullPath= finishTitle+i+"]/span[1]/i";
+            String finishTitleFullPath= sonTitle+i+"]/span[1]/i";
             if(WebDriverUtils.check(driver, By.xpath(finishTitleFullPath))){
-                String value = driver.findElement(By.xpath(finishTitleFullPath)).getText();
-                log.info("value----> {}",value);
-//                String clickTitle = finishTitleFullPath.replace("]/span[1]/i", "]/span[2]");
-//                driver.findElement(By.xpath(clickTitle)).click();
-                log.info("进入课程");
-                Thread.sleep(1000);
+                String attributevalue = driver.findElement(By.xpath(finishTitleFullPath)).getAttribute("ng-switch-when");
+                log.info("attributevalue----> {}",attributevalue);
+                String clickTitle = finishTitleFullPath.replace("]/span[1]/i", "]/span[2]");
+                String attributClick = sonTitle+i+"]/span[2]";
+                String text = driver.findElement(By.xpath(clickTitle)).getText();
+                if("2".equals(attributevalue)){
+
+                    log.info("该小课程已经播放完成 :{}",text);
+                    continue;
+                }else if("1".equals(attributevalue)){
+                    log.info("该小课程已经播放一部分 :{}",text);
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(attributClick)).click();
+                    Thread.sleep(1000);
+                     long leftTime = leftTime(driver);
+                     if(leftTime<=0){
+                         continue;
+                     }
+                    judgeCondition(driver,leftTime);
+                }else if("0".equals(attributevalue)){
+                    log.info("该小课程刚开始播放 :{}",text);
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath(attributClick)).click();
+                    Thread.sleep(1000);
+                    long leftTime = leftTime(driver);
+                    judgeCondition(driver,leftTime);
+                }
 
 
             }
 
 
         }
+    }
+
+
+    public long leftTime(WebDriver driver) throws Exception {
+        Actions action = new Actions(driver);
+        Thread.sleep(3000);
+        judgeCondition(driver,10000);
+        String endTimeClassName = "vjs-duration-display";
+        WebDriverUtils.findClassName(driver, endTimeClassName, "结束时间");
+        WebElement element = driver.findElement(By.className(endTimeClassName));
+        action.moveToElement(element).perform();
+        String allviedoTime = element.getText();
+        log.info("视频总时长:---->  {}",allviedoTime);
+        String haveShowTimeXpath ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div/span[4]";
+        WebDriverUtils.findElement(driver, haveShowTimeXpath, "学习总时长");
+        String haveStudyTime = driver.findElement(By.xpath(haveShowTimeXpath)).getText();
+        log.info("学习总时长:---->  {}",haveStudyTime);
+
+        String startTime = haveStudyTime.replace("秒", "");
+        startTime = startTime.replace("分", ":").trim();
+        log.info("学习总时长:---->  {}",startTime);
+        long sleepTime = TimeUtils.diffSec(startTime, allviedoTime);
+        log.info("sleepTime :-->{}",sleepTime);
+        return sleepTime;
     }
 
 

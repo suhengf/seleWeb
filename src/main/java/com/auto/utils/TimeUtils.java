@@ -133,6 +133,14 @@ public class TimeUtils {
     }
 
 
+    public static void main(String[] args) {
+        String str ="00:22";
+         int i = countSec(str);
+        System.out.println(i);
+    }
+
+
+
 
     public static long getDiffTimeKai(String startTime,String endTime ) {
         long diffSec = 0;
