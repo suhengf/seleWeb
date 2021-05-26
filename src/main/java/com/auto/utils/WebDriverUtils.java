@@ -94,6 +94,7 @@ public class WebDriverUtils {
         for (int i = 0; i < 4; i++) {
             try {
                 element.click();
+                 return;
             } catch (Exception e) {
                 Thread.sleep(1000);
                 log.info("e",e);

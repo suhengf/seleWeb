@@ -200,6 +200,12 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                  WebElement element = driver.findElement(By.xpath("/html/body/div[4]/div[3]/a[1]"));
                 action.moveToElement(element).perform();
                 WebDriverUtils.threeClick(element);
+
+                WebElement element2 = driver.findElement(By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/div[4]/button[1]"));
+                action.moveToElement(element2).perform();
+                WebDriverUtils.threeClick(element);
+
+
             }
             Thread.sleep(1);
             if(sleepTime==counts.get()){

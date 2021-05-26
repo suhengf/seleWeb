@@ -178,14 +178,14 @@ public class LoginUtils {
         try {
             driver.manage().window().maximize();
             driver.get(url);
-            Thread.sleep(4000);
+            Thread.sleep(8000);
             driver.findElement(By.xpath(studentXpath)).click();
-            Thread.sleep(4000);
+            Thread.sleep(8000);
             driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
-            Thread.sleep(4000);
+            Thread.sleep(8000);
             driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());
             log.info("current userId：{}"  ,userInfo.getUserId());
-            Thread.sleep(4000);
+            Thread.sleep(8000);
             driver.findElement(By.xpath(loginBotton)).click();
             Thread.sleep(8000);
         } catch (Exception e) {
