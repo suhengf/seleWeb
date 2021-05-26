@@ -183,6 +183,10 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             //判断结束标志
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[1]"))) {
                 log.info("播放下一个");
+                Thread.sleep(1000);
+                WebElement element1 = driver.findElement(By.xpath(center));
+                WebDriverUtils.threeClick(element1);
+                Thread.sleep(1000);
                 WebElement element = driver.findElement(By.xpath("/html/body/div[5]/div[3]/a[1]"));
                 action.moveToElement(element).perform();
                 WebDriverUtils.threeClick(element);
@@ -190,6 +194,8 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             //继续播放
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[1]"))) {
                 log.info("继续播放");
+                 WebElement element1 = driver.findElement(By.xpath(center));
+                WebDriverUtils.threeClick(element1);
                 Thread.sleep(3000);
                  WebElement element = driver.findElement(By.xpath("/html/body/div[4]/div[3]/a[1]"));
                 action.moveToElement(element).perform();

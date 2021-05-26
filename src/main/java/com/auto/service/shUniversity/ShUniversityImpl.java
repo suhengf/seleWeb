@@ -56,7 +56,7 @@ public class ShUniversityImpl extends AbstractCommonUniversity implements Univer
     }
 
     public ThreadPoolParam getPoolParam(){
-        return ThreadPoolParam.builder().corePoolSize(1).maximumPoolSize(4).build();
+        return ThreadPoolParam.builder().corePoolSize(4).maximumPoolSize(4).build();
     }
 
 }
