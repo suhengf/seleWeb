@@ -145,13 +145,12 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
 
     public long leftTime(WebDriver driver) throws Exception {
-        Actions action = new Actions(driver);
+
         Thread.sleep(3000);
         judgeCondition(driver,10000);
         String endTimeClassName = "vjs-duration-display";
         WebDriverUtils.findClassName(driver, endTimeClassName, "结束时间");
         WebElement element = driver.findElement(By.className(endTimeClassName));
-        action.moveToElement(element).perform();
         String allviedoTime = element.getText();
         log.info("视频总时长:---->  {}",allviedoTime);
         String haveShowTimeXpath ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div/span[4]";
@@ -172,6 +171,14 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
     public void judgeCondition(WebDriver driver,long sleepTime) throws Exception {
         Actions action = new Actions(driver);
         AtomicInteger counts = new AtomicInteger(0);
+        String center ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/video";
+        WebDriverUtils.findElement(driver,center,"主屏幕");
+        if (WebDriverUtils.check(driver, By.xpath(center))) {
+            log.info("播放下一个");
+            WebElement element = driver.findElement(By.xpath(center));
+            action.moveToElement(element).perform();
+            WebDriverUtils.threeClick(element);
+        }
         while(true){
             //判断结束标志
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[1]"))) {
@@ -190,7 +197,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             }
             Thread.sleep(1);
             if(sleepTime==counts.get()){
-                log.info("重试6分钟之后  退出");
+                log.info("重试{} 之后  退出",sleepTime);
                 break;
             }
             //作业课程
