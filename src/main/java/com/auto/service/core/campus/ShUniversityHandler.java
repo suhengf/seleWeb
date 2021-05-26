@@ -188,6 +188,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                  WebElement element = driver.findElement(By.xpath("/html/body/div[4]/div[3]/a[1]"));
                 action.moveToElement(element).perform();
                 WebDriverUtils.threeClick(element);
+
             }
             Thread.sleep(1);
             if(sleepTime==counts.get()){
@@ -195,29 +196,32 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 break;
             }
 
-            //是否暂停
-            String isStop = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/div[4]/button[1]";
-            if(WebDriverUtils.check(driver,By.xpath(isStop))){
-                if ("播放".equals(driver.findElement(By.xpath(isStop)).getAttribute("title"))) {
-                    log.info("暂停点击播放");
-                    clickCenter(driver,action);
-                }
-            }
+            isStop(driver,action);
+
 
             counts.incrementAndGet();
         }
 
     }
 
-    public void clickCenter(WebDriver driver,Actions actions) throws Exception {
-        String center ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/video";
-        WebDriverUtils.findElement(driver,center,"主屏幕");
-        if (WebDriverUtils.check(driver, By.xpath(center))) {
-            log.info("点击播放");
-            WebElement element = driver.findElement(By.xpath(center));
-            actions.moveToElement(element).perform();
-            WebDriverUtils.threeClick(element);
+    public void isStop(WebDriver driver,Actions actions) throws Exception {
+        //是否暂停
+        String isStop = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/div[4]/button[1]";
+        if(WebDriverUtils.check(driver,By.xpath(isStop))){
+            if ("播放".equals(driver.findElement(By.xpath(isStop)).getAttribute("title"))) {
+                log.info("暂停点击播放");
+                String center ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/video";
+                WebDriverUtils.findElement(driver,center,"主屏幕");
+                if (WebDriverUtils.check(driver, By.xpath(center))) {
+                    log.info("点击播放");
+                    WebElement element = driver.findElement(By.xpath(center));
+                    actions.moveToElement(element).perform();
+                    WebDriverUtils.threeClick(element);
+                }
+            }
         }
+
+
     }
 
 
