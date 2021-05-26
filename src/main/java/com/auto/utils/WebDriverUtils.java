@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
@@ -87,6 +88,19 @@ public class WebDriverUtils {
                 throw new BizException("重试90秒之后  退出");
             }
         }
+    }
+
+    public static void threeClick(WebElement element) throws Exception {
+        for (int i = 0; i < 4; i++) {
+            try {
+                element.click();
+            } catch (Exception e) {
+                Thread.sleep(1000);
+                log.info("e",e);
+            }
+        }
+
+
     }
 
 

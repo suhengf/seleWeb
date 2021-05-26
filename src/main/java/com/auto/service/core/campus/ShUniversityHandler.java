@@ -170,17 +170,23 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
 
     public void judgeCondition(WebDriver driver,long sleepTime) throws Exception {
+        Actions action = new Actions(driver);
         AtomicInteger counts = new AtomicInteger(0);
         while(true){
             //判断结束标志
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[1]"))) {
                 log.info("播放下一个");
-                driver.findElement(By.xpath("/html/body/div[5]/div[3]/a[1]")).click();
+                WebElement element = driver.findElement(By.xpath("/html/body/div[5]/div[3]/a[1]"));
+                action.moveToElement(element).perform();
+                WebDriverUtils.threeClick(element);
             }
             //继续播放
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[1]"))) {
                 log.info("继续播放");
-                driver.findElement(By.xpath("/html/body/div[4]/div[3]/a[1]")).click();
+                Thread.sleep(3000);
+                 WebElement element = driver.findElement(By.xpath("/html/body/div[4]/div[3]/a[1]"));
+                action.moveToElement(element).perform();
+                WebDriverUtils.threeClick(element);
             }
             Thread.sleep(1);
             if(sleepTime==counts.get()){
