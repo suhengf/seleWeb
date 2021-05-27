@@ -14,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -75,6 +76,8 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 Thread.sleep(8000);
                 String secTitle ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i";
                 if (WebDriverUtils.check(driver, By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i"))) {
+
+                    judgeCondition(driver);
                     driver.findElement(By.xpath(secTitle)).click();
                     Thread.sleep(1000);
                 }
@@ -122,8 +125,9 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                     Thread.sleep(2000);
                     driver.findElement(By.xpath(attributClick)).click();
                     Thread.sleep(1000);
-                     long leftTime = leftTime(driver);
-                     if(leftTime<=0||judgeCondition(driver,leftTime)){
+                     long leftTime = leftTime(driver, sonTitle, i);
+                    judgeCondition(driver,leftTime,sonTitle,i);
+                     if(leftTime<=0){
                          continue;
                      }
                 }else if("0".equals(attributevalue)){
@@ -131,10 +135,9 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                     Thread.sleep(2000);
                     driver.findElement(By.xpath(attributClick)).click();
                     Thread.sleep(1000);
-                    long leftTime = leftTime(driver);
-                    if (judgeCondition(driver,leftTime)) {
+                    long leftTime = leftTime(driver, sonTitle, i);
+                    judgeCondition(driver,leftTime,sonTitle,i);
                         continue;
-                    }
                 }
 
 
@@ -145,10 +148,10 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
     }
 
 
-    public long leftTime(WebDriver driver) throws Exception {
+    public long leftTime(WebDriver driver,String sonTitle,int i) throws Exception {
 
         Thread.sleep(3000);
-        judgeCondition(driver,10000);
+        judgeCondition(driver,10000, sonTitle, i);
         String endTimeClassName = "vjs-duration-display";
         WebDriverUtils.findClassName(driver, endTimeClassName, "结束时间");
         WebElement element = driver.findElement(By.className(endTimeClassName));
@@ -162,26 +165,56 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
         String startTime = haveStudyTime.replace("秒", "");
         startTime = startTime.replace("分", ":").trim();
         log.info("学习总时长:---->  {}",startTime);
-        long sleepTime = TimeUtils.diffSec(startTime, allviedoTime);
+        String endTime= StringUtils.isEmpty(allviedoTime)?"30:10":allviedoTime;
+        long sleepTime = TimeUtils.diffSec(startTime, endTime);
         log.info("sleepTime :-->{}",sleepTime);
         return sleepTime;
     }
 
 
 
-    public boolean judgeCondition(WebDriver driver,long sleepTime) throws Exception {
+    public void judgeCondition(WebDriver driver) throws Exception {
+
+        AtomicInteger counts = new AtomicInteger(0);
+        while (true) {
+            //学习下一节
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[2]"))) {
+                WebDriverUtils.threeClick(driver, "/html/body/div[4]/div[3]/a[2]");
+                break;
+            }
+
+            //知道了 /html/body/div[4]/div[3]/a[1]
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[2]"))) {
+                log.info("知道了");
+                Thread.sleep(3000);
+                WebDriverUtils.threeClick(driver, "/html/body/div[5]/div[3]/a[2]");
+
+            }
+            Thread.sleep(1);
+            if (2000 - counts.get() == 0) {
+                log.info("重试{} 之后  退出");
+
+                break;
+            }
+
+            counts.incrementAndGet();
+        }
+    }
+
+
+
+    public long judgeCondition(WebDriver driver,long sleepTime,String sonTitle,int i) throws Exception {
         Actions action = new Actions(driver);
         AtomicInteger counts = new AtomicInteger(0);
-        boolean next = false;
+
         while(true){
             //学习下一节
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[2]"))) {
                 log.info("学习下一节 取消");
                 Thread.sleep(1000);
                 WebDriverUtils.threeClick(driver,"/html/body/div[4]/div[3]/a[2]");
-                next =true;
+                WebDriverUtils.threeClick(driver,sonTitle +(i+1)+"]/span[2]");
                 break;
-
             }
 
             //知道了 /html/body/div[4]/div[3]/a[1]
@@ -192,18 +225,16 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
             }
             Thread.sleep(1);
-            if(sleepTime==counts.get()){
+            if(sleepTime-counts.get()==0){
                 log.info("重试{} 之后  退出",sleepTime);
-                next =true;
+
                 break;
             }
 
             isStop(driver,action);
-
-
             counts.incrementAndGet();
         }
-        return next;
+        return counts.get();
     }
 
     public void isStop(WebDriver driver,Actions actions) throws Exception {
