@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.slf4j.LoggerFactory;
+
 
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -90,10 +90,10 @@ public class WebDriverUtils {
         }
     }
 
-    public static void threeClick(WebElement element) throws Exception {
+    public static void threeClick(WebDriver driver,String xpath) throws Exception {
         for (int i = 0; i < 4; i++) {
             try {
-                element.click();
+                driver.findElement(By.xpath(xpath)).click();
                  return;
             } catch (Exception e) {
                 Thread.sleep(1000);

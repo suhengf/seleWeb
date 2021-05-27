@@ -172,22 +172,18 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
         Actions action = new Actions(driver);
         AtomicInteger counts = new AtomicInteger(0);
         while(true){
-            //判断结束标志
-            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[1]"))) {
-                log.info("播放下一个");
+            //学习下一节
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[2]"))) {
+                log.info("学习下一节 取消");
                 Thread.sleep(1000);
-                WebElement element = driver.findElement(By.xpath("/html/body/div[5]/div[3]/a[1]"));
-                action.moveToElement(element).perform();
-                WebDriverUtils.threeClick(element);
+                WebDriverUtils.threeClick(driver,"/html/body/div[4]/div[3]/a[2]");
             }
 
-            //继续播放
-            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[1]"))) {
-                log.info("继续播放");
+            //知道了 /html/body/div[4]/div[3]/a[1]
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[2]"))) {
+                log.info("知道了");
                 Thread.sleep(3000);
-                 WebElement element = driver.findElement(By.xpath("/html/body/div[4]/div[3]/a[1]"));
-                action.moveToElement(element).perform();
-                WebDriverUtils.threeClick(element);
+                WebDriverUtils.threeClick(driver,"/html/body/div[5]/div[3]/a[2]");
 
             }
             Thread.sleep(1);
@@ -214,9 +210,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 WebDriverUtils.findElement(driver,center,"主屏幕");
                 if (WebDriverUtils.check(driver, By.xpath(center))) {
                     log.info("点击播放");
-                    WebElement element = driver.findElement(By.xpath(center));
-                    actions.moveToElement(element).perform();
-                    WebDriverUtils.threeClick(element);
+                    WebDriverUtils.threeClick(driver,center);
                 }
             }
         }
