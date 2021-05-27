@@ -97,7 +97,9 @@ public class WebDriverUtils {
                  return;
             } catch (Exception e) {
                 Thread.sleep(1000);
-                log.info("e",e);
+                if(i==1){
+                    log.error("错误",e);
+                }
             }
         }
 
