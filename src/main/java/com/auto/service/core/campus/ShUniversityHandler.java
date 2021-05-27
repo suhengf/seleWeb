@@ -123,17 +123,18 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                     driver.findElement(By.xpath(attributClick)).click();
                     Thread.sleep(1000);
                      long leftTime = leftTime(driver);
-                     if(leftTime<=0){
+                     if(leftTime<=0||judgeCondition(driver,leftTime)){
                          continue;
                      }
-                    judgeCondition(driver,leftTime);
                 }else if("0".equals(attributevalue)){
                     log.info("该小课程刚开始播放 :{}",text);
                     Thread.sleep(2000);
                     driver.findElement(By.xpath(attributClick)).click();
                     Thread.sleep(1000);
                     long leftTime = leftTime(driver);
-                    judgeCondition(driver,leftTime);
+                    if (judgeCondition(driver,leftTime)) {
+                        continue;
+                    }
                 }
 
 
@@ -168,15 +169,19 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
 
 
-    public void judgeCondition(WebDriver driver,long sleepTime) throws Exception {
+    public boolean judgeCondition(WebDriver driver,long sleepTime) throws Exception {
         Actions action = new Actions(driver);
         AtomicInteger counts = new AtomicInteger(0);
+        boolean next = false;
         while(true){
             //学习下一节
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[2]"))) {
                 log.info("学习下一节 取消");
                 Thread.sleep(1000);
                 WebDriverUtils.threeClick(driver,"/html/body/div[4]/div[3]/a[2]");
+                next =true;
+                break;
+
             }
 
             //知道了 /html/body/div[4]/div[3]/a[1]
@@ -189,6 +194,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             Thread.sleep(1);
             if(sleepTime==counts.get()){
                 log.info("重试{} 之后  退出",sleepTime);
+                next =true;
                 break;
             }
 
@@ -197,7 +203,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
             counts.incrementAndGet();
         }
-
+        return next;
     }
 
     public void isStop(WebDriver driver,Actions actions) throws Exception {
