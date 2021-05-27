@@ -192,7 +192,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
             }
             Thread.sleep(1);
-            if (2000 - counts.get() == 0) {
+            if (90 - counts.get() == 0) {
                 log.info("重试{} 之后  退出");
 
                 break;
