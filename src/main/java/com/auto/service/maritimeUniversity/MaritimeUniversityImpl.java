@@ -3,6 +3,7 @@ package com.auto.service.maritimeUniversity;
 
 import com.auto.entity.UserInfo;
 import com.auto.service.abstr.AbstractCommonUniversity;
+import com.auto.service.abstr.ThreadPoolParam;
 import com.auto.service.abstr.University;
 import com.auto.service.core.CampusResolver;
 import com.auto.service.core.EnumUniversityName;
@@ -142,12 +143,12 @@ public class MaritimeUniversityImpl  extends AbstractCommonUniversity implements
         //逻辑处理 针对问题  自己选择一个
         driver.findElement(By.xpath(allXpath)).click();
         //问题选择完 可以 需要重新点击下
+    }
 
 
-
-
-
-
+    //设置线程参数
+    public ThreadPoolParam getPoolParam(){
+        return ThreadPoolParam.builder().corePoolSize(4).maximumPoolSize(4).build();
     }
 
 }

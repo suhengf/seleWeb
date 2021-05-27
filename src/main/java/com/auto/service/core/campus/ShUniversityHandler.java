@@ -41,15 +41,33 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 String text = str + i + "]/td[2]";
                 String courseTitle = driver.findElement(By.xpath(text)).getText();
                 log.info("courseTitle ->:{}", courseTitle);
-                if (courseTitle.contains("形势与政策实践")
-                        || courseTitle.contains("传统养生")
-                        || courseTitle.contains("公关社交礼仪")) {
+//                if (courseTitle.contains("形势与政策实践")) {
+//                    Thread.sleep(1000);
+//                    driver.findElement(By.xpath(onlineStudy)).click();
+//                    Thread.sleep(8000);
+//                    //视频逻辑处理
+//                    courseHandle(driver, courseTitle);
+//                } else
+                   if( courseTitle.contains("传统养生")){
                     Thread.sleep(1000);
                     driver.findElement(By.xpath(onlineStudy)).click();
                     Thread.sleep(8000);
                     //视频逻辑处理
                     courseHandle(driver, courseTitle);
-                }
+                } else if(courseTitle.contains("公关社交礼仪")) {
+                    Thread.sleep(1000);
+                    driver.findElement(By.xpath(onlineStudy)).click();
+                    Thread.sleep(8000);
+                    //视频逻辑处理
+                    courseHandle(driver, courseTitle);
+                }else if(courseTitle.contains("中国近现代史纲要")) {
+                       Thread.sleep(1000);
+                       driver.findElement(By.xpath(onlineStudy)).click();
+                       Thread.sleep(8000);
+                       //视频逻辑处理
+                       courseHandle(driver, courseTitle);
+                   }
+
 
             }
 
