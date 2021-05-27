@@ -87,6 +87,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 for (int i = 1; i <10 ; i++) {
                     String fullXPath= topicXpath+i+"]/div[1]/i";
                     if(WebDriverUtils.check(driver, By.xpath(fullXPath))){
+                        judgeCondition(driver);
                         String titleName = driver.findElement(By.xpath(fullXPath)).getText();
                         driver.findElement(By.xpath(fullXPath)).click();
                         log.info("打开第 {} 主题 :{}", i,titleName);
