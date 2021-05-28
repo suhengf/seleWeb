@@ -102,7 +102,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
 //
                 String topicXpath = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[";
-                for (int i = 1; i <10 ; i++) {
+                for (int i = 1; i <15 ; i++) {
                     String fullXPath= topicXpath+i+"]/div[1]/i";
                     if(WebDriverUtils.check(driver, By.xpath(fullXPath))){
                         judgeCondition(driver);
