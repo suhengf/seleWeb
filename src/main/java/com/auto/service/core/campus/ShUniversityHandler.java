@@ -109,7 +109,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
     public void isFinishFlag(WebDriver driver,String sonTitle) throws Exception {
 
-        for (int i = 1; i <25 ; i++) {
+        for (int i = 1; i <35 ; i++) {
             String finishTitleFullPath= sonTitle+i+"]/span[1]/i";
             if(WebDriverUtils.check(driver, By.xpath(finishTitleFullPath))){
                 String attributevalue = driver.findElement(By.xpath(finishTitleFullPath)).getAttribute("ng-switch-when");
