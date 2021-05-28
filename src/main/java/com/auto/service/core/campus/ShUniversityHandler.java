@@ -5,11 +5,9 @@ import com.auto.entity.UserInfo;
 import com.auto.service.abstr.ThreadPoolParam;
 import com.auto.service.core.CampusOnlineHandler;
 import com.auto.service.core.EnumUniversityName;
-import com.auto.service.core.campus.component.CurrentLogistics;
 import com.auto.service.shUniversity.EnumCourseName;
 import com.auto.utils.TimeUtils;
 import com.auto.utils.WebDriverUtils;
-import jdk.nashorn.internal.ir.CallNode;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -81,13 +79,13 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 if (!courseTitle.contains(EnumCourseName.yansgheng.getDesc())) {
                     String secTitle ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i";
                     if (WebDriverUtils.check(driver, By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i"))) {
-                        new CurrentLogistics().judgeCondition(driver);
+                        judgeCondition(driver);
                         WebDriverUtils.click(driver,secTitle);
                         Thread.sleep(1000);
                     }
 
                 }else{
-                    new CurrentLogistics().judgeCondition(driver);
+                    judgeCondition(driver);
                     String topicXpath = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[1]/div[1]/i";
                     WebDriverUtils.click(driver,topicXpath);
                     Thread.sleep(3000);
@@ -98,12 +96,12 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 for (int i = 1; i <15 ; i++) {
                     String fullXPath= topicXpath+i+"]/div[1]/i";
                     if(WebDriverUtils.check(driver, By.xpath(fullXPath))){
-                        new CurrentLogistics().judgeCondition(driver);
+                        judgeCondition(driver);
                         String titleName = driver.findElement(By.xpath(fullXPath)).getText();
                         WebDriverUtils.threeClick(driver, fullXPath,2);
                         log.info("打开第 {} 主题 :{}", i,titleName);
                         String sonTitle ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div["+i+"]/div[2]/div[";
-                        new CurrentLogistics().isFinishFlag(driver,sonTitle);
+                        isFinishFlag(driver,sonTitle);
 
                     }
 
@@ -117,6 +115,158 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 
     }
 
+
+
+    public void isFinishFlag(WebDriver driver,String sonTitle) throws Exception {
+
+        for (int i = 1; i <35 ; i++) {
+            String finishTitleFullPath= sonTitle+i+"]/span[1]/i";
+            if(WebDriverUtils.check(driver, By.xpath(finishTitleFullPath))){
+                String attributevalue = driver.findElement(By.xpath(finishTitleFullPath)).getAttribute("ng-switch-when");
+                log.info("attributevalue----> {}",attributevalue);
+                String clickTitle = finishTitleFullPath.replace("]/span[1]/i", "]/span[2]");
+                String attributClick = sonTitle+i+"]/span[2]";
+                String text = driver.findElement(By.xpath(clickTitle)).getText();
+                if("2".equals(attributevalue)){
+
+                    log.info("该小课程已经播放完成 :{}",text);
+                    continue;
+                }else if("1".equals(attributevalue)){
+                    log.info("该小课程已经播放一部分 :{}",text);
+                    Thread.sleep(2000);
+                    judgeCondition(driver);
+                    WebDriverUtils.threeClick(driver, attributClick,1);
+                    Thread.sleep(1000);
+                    long leftTime = leftTime(driver, sonTitle, i);
+                    judgeCondition(driver,leftTime,sonTitle,i);
+                    if(leftTime<=0){
+                        continue;
+                    }
+                }else if("0".equals(attributevalue)){
+                    log.info("该小课程刚开始播放 :{}",text);
+                    Thread.sleep(2000);
+                    judgeCondition(driver);
+                    WebDriverUtils.threeClick(driver, attributClick,1);
+                    Thread.sleep(1000);
+                    long leftTime = leftTime(driver, sonTitle, i);
+                    judgeCondition(driver,leftTime,sonTitle,i);
+                    continue;
+                }
+
+
+            }
+
+
+        }
+    }
+
+
+    public long leftTime(WebDriver driver,String sonTitle,int i) throws Exception {
+
+        Thread.sleep(3000);
+        judgeCondition(driver,10000, sonTitle, i);
+        String endTimeClassName = "vjs-duration-display";
+        WebDriverUtils.findClassName(driver, endTimeClassName, "结束时间");
+        WebElement element = driver.findElement(By.className(endTimeClassName));
+        String allviedoTime = element.getText();
+        log.info("视频总时长:---->  {}",allviedoTime);
+        String haveShowTimeXpath ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[1]/div/div[1]/div/span[4]";
+        WebDriverUtils.findElement(driver, haveShowTimeXpath, "学习总时长");
+        String haveStudyTime = driver.findElement(By.xpath(haveShowTimeXpath)).getText();
+        log.info("学习总时长:---->  {}",haveStudyTime);
+
+        String startTime = haveStudyTime.replace("秒", "");
+        startTime = startTime.replace("分", ":").trim();
+        log.info("学习总时长:---->  {}",startTime);
+        String endTime= StringUtils.isEmpty(allviedoTime)?"30:10":allviedoTime;
+        long sleepTime = TimeUtils.diffSec(startTime, endTime);
+        log.info("sleepTime :-->{}",sleepTime);
+        return sleepTime;
+    }
+
+
+
+    public void judgeCondition(WebDriver driver) throws Exception {
+
+        AtomicInteger counts = new AtomicInteger(0);
+        while (true) {
+            //学习下一节
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[2]"))) {
+                WebDriverUtils.threeClick(driver, "/html/body/div[4]/div[3]/a[2]",1);
+                break;
+            }
+
+            //知道了 /html/body/div[4]/div[3]/a[1]
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[2]"))) {
+                log.info("知道了");
+                Thread.sleep(3000);
+                WebDriverUtils.threeClick(driver, "/html/body/div[5]/div[3]/a[2]",1);
+
+            }
+            Thread.sleep(1);
+            if (90 - counts.get() == 0) {
+                log.info("重试{} 之后  退出");
+
+                break;
+            }
+
+            counts.incrementAndGet();
+        }
+    }
+
+
+
+    public long judgeCondition(WebDriver driver,long sleepTime,String sonTitle,int i) throws Exception {
+        Actions action = new Actions(driver);
+        AtomicInteger counts = new AtomicInteger(0);
+
+        while(true){
+            //学习下一节
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[2]"))) {
+                log.info("学习下一节 取消");
+                Thread.sleep(1000);
+                WebDriverUtils.threeClick(driver,"/html/body/div[4]/div[3]/a[2]",1);
+                WebDriverUtils.threeClick(driver,sonTitle +(i+1)+"]/span[2]",1);
+                break;
+            }
+
+            //知道了 /html/body/div[4]/div[3]/a[1]
+            if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[2]"))) {
+                log.info("知道了");
+                Thread.sleep(3000);
+                WebDriverUtils.threeClick(driver,"/html/body/div[5]/div[3]/a[2]",1);
+
+            }
+            Thread.sleep(1);
+            if(sleepTime-counts.get()==0){
+                log.info("重试{} 之后  退出",sleepTime);
+
+                break;
+            }
+
+            isStop(driver,action);
+            counts.incrementAndGet();
+        }
+        return counts.get();
+    }
+
+    public void isStop(WebDriver driver,Actions actions) throws Exception {
+        //是否暂停
+        String isStop = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/div[4]/button[1]";
+        if(WebDriverUtils.check(driver,By.xpath(isStop))){
+            if ("播放".equals(driver.findElement(By.xpath(isStop)).getAttribute("title"))) {
+                log.info("暂停点击播放");
+                String center ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[2]/div[2]/div/div/div[2]/div/div/div[2]/table/tbody/tr/td/div/video";
+                WebDriverUtils.findElement(driver,center,"主屏幕");
+                if (WebDriverUtils.check(driver, By.xpath(center))) {
+                    log.info("点击播放");
+                    WebDriverUtils.threeClick(driver,center,2);
+                }
+            }
+        }
+
+
+    }
 
 
 
