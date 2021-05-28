@@ -192,7 +192,7 @@ public class LoginUtils {
             log.error("e",e);
             driver.quit();
         }
-        Thread.sleep(180000);
+        Thread.sleep(90000);
         return driver;
     }
 
