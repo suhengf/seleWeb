@@ -26,7 +26,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
     @Override
     public void onlineProcess(UserInfo userInfo, WebDriver driver, int course) throws Exception {
         log.info("上海大学逻辑处理");
-        Thread.sleep(4000);
+        Thread.sleep(6000);
         //课程信息 /html/body/div[2]/div[3]/table/tbody/tr/td[1]/div[2]/div/div[2]/div[2]/ul/li[4]/a
         String courseInfo ="/html/body/div[2]/div[3]/table/tbody/tr/td[1]/div[2]/div/div[2]/div[2]/ul/li[4]/a";
 
@@ -125,7 +125,8 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 }else if("1".equals(attributevalue)){
                     log.info("该小课程已经播放一部分 :{}",text);
                     Thread.sleep(2000);
-                    WebDriverUtils.threeClick(driver,attributClick,2);
+                    judgeCondition(driver);
+                    driver.findElement(By.xpath(attributClick)).click();
                     Thread.sleep(1000);
                      long leftTime = leftTime(driver, sonTitle, i);
                     judgeCondition(driver,leftTime,sonTitle,i);
@@ -135,7 +136,8 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 }else if("0".equals(attributevalue)){
                     log.info("该小课程刚开始播放 :{}",text);
                     Thread.sleep(2000);
-                    WebDriverUtils.threeClick(driver,attributClick,2);
+                    judgeCondition(driver);
+                    driver.findElement(By.xpath(attributClick)).click();
                     Thread.sleep(1000);
                     long leftTime = leftTime(driver, sonTitle, i);
                     judgeCondition(driver,leftTime,sonTitle,i);
@@ -181,7 +183,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
         while (true) {
             //学习下一节
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[2]"))) {
-                WebDriverUtils.threeClick(driver, "/html/body/div[4]/div[3]/a[2]",2);
+                WebDriverUtils.threeClick(driver, "/html/body/div[4]/div[3]/a[2]",1);
                 break;
             }
 
@@ -189,7 +191,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[2]"))) {
                 log.info("知道了");
                 Thread.sleep(3000);
-                WebDriverUtils.threeClick(driver, "/html/body/div[5]/div[3]/a[2]",2);
+                WebDriverUtils.threeClick(driver, "/html/body/div[5]/div[3]/a[2]",1);
 
             }
             Thread.sleep(1);
@@ -214,8 +216,8 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div[3]/a[2]"))) {
                 log.info("学习下一节 取消");
                 Thread.sleep(1000);
-                WebDriverUtils.threeClick(driver,"/html/body/div[4]/div[3]/a[2]",2);
-                WebDriverUtils.threeClick(driver,sonTitle +(i+1)+"]/span[2]",2);
+                WebDriverUtils.threeClick(driver,"/html/body/div[4]/div[3]/a[2]",1);
+                WebDriverUtils.threeClick(driver,sonTitle +(i+1)+"]/span[2]",1);
                 break;
             }
 
@@ -223,7 +225,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             if (WebDriverUtils.check(driver, By.xpath("/html/body/div[5]/div[3]/a[2]"))) {
                 log.info("知道了");
                 Thread.sleep(3000);
-                WebDriverUtils.threeClick(driver,"/html/body/div[5]/div[3]/a[2]",2);
+                WebDriverUtils.threeClick(driver,"/html/body/div[5]/div[3]/a[2]",1);
 
             }
             Thread.sleep(1);

@@ -102,9 +102,15 @@ public class WebDriverUtils {
                 }
             }
         }
-
-
     }
+
+
+    public static void click(WebDriver driver,String xpath)  {
+        if (WebDriverUtils.check(driver, By.xpath(xpath))) {
+            driver.findElement(By.xpath(xpath)).click();
+        }
+    }
+
 
 
 }
