@@ -90,8 +90,8 @@ public class WebDriverUtils {
         }
     }
 
-    public static void threeClick(WebDriver driver,String xpath) throws Exception {
-        for (int i = 0; i < 4; i++) {
+    public static void threeClick(WebDriver driver,String xpath,int count) throws Exception {
+        for (int i = 0; i < count; i++) {
             try {
                 driver.findElement(By.xpath(xpath)).click();
                  return;
