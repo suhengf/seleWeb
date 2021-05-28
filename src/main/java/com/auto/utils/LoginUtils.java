@@ -172,7 +172,7 @@ public class LoginUtils {
     }
 
 
-    public static WebDriver  shCoLogin(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String userInput,String userPsdInput,String loginBotton) throws Exception {
+    public static synchronized WebDriver  shCoLogin(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String userInput,String userPsdInput,String loginBotton) throws Exception {
         WebDriver driver = new ChromeDriver(options);
 
         try {
@@ -192,6 +192,7 @@ public class LoginUtils {
             log.error("e",e);
             driver.quit();
         }
+        Thread.sleep(180000);
         return driver;
     }
 

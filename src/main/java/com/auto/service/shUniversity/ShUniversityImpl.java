@@ -39,8 +39,8 @@ public class ShUniversityImpl extends AbstractCommonUniversity implements Univer
         log.info("上海大学开始逻辑处理");
         WebDriver driver = null;
         try {
-            options.addArguments("headless");
-            options.addArguments("no-sandbox");
+//            options.addArguments("headless");
+//            options.addArguments("no-sandbox");
             driver = LoginUtils.shCoLogin(userInfo, options,
                     "https://cce.shu.edu.cn/", "/html/body/div[1]/div[3]/div/div[2]/ul/li[2]/div/div[2]/a",
                     "/html/body/div/div[3]/div/div/form/div[1]/input"
@@ -59,7 +59,7 @@ public class ShUniversityImpl extends AbstractCommonUniversity implements Univer
     }
 
     public ThreadPoolParam getPoolParam(){
-        return ThreadPoolParam.builder().corePoolSize(2).maximumPoolSize(2).build();
+        return ThreadPoolParam.builder().corePoolSize(6).maximumPoolSize(6).build();
     }
 
 }
