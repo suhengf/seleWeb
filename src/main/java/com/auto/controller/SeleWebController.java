@@ -64,6 +64,10 @@ public class SeleWebController {
     /**
      * 上海大学
      * http://www.ouchn.cn/
+     *   yansgheng(1,"传统养生"),
+     *     history(2,"中国近现代史纲要"),
+     *     gonggongguanxi(3,"公关社交礼仪"),
+     *     xingshi(4,"形势与政策实践"),;
      */
     @PostMapping("/ShUniversity/{course}")
     public void ShUniversityWork(@PathVariable("course") int course) throws Exception {
