@@ -43,6 +43,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 String courseTitle = driver.findElement(By.xpath(text)).getText();
                 log.info("courseTitle ->:{}", courseTitle);
                 String desc = EnumCourseName.getEnumCourseName(course).getDesc();
+                log.info("处理的科目为: {}",desc);
                 if( courseTitle.contains(desc)){
                     Thread.sleep(1000);
                     driver.findElement(By.xpath(onlineStudy)).click();
