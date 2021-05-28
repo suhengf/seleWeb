@@ -76,7 +76,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 log.info("点击开始学习");
                 Thread.sleep(8000);
 
-                if (!courseTitle.contains(EnumCourseName.gonggongguanxi.getDesc())) {
+                if (courseTitle.contains(EnumCourseName.xingshi.getDesc())) {
                     String secTitle ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i";
                     if (WebDriverUtils.check(driver, By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i"))) {
                         judgeCondition(driver);
