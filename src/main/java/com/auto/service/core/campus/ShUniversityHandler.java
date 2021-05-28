@@ -79,7 +79,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 if (WebDriverUtils.check(driver, By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i"))) {
 
                     judgeCondition(driver);
-                    WebDriverUtils.threeClick(driver,secTitle,2);
+                    WebDriverUtils.click(driver,secTitle);
                     Thread.sleep(1000);
                 }
 
@@ -90,7 +90,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                     if(WebDriverUtils.check(driver, By.xpath(fullXPath))){
                         judgeCondition(driver);
                         String titleName = driver.findElement(By.xpath(fullXPath)).getText();
-                        WebDriverUtils.threeClick(driver,fullXPath,2);
+                        WebDriverUtils.click(driver,fullXPath);
                         log.info("打开第 {} 主题 :{}", i,titleName);
                         String sonTitle ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div["+i+"]/div[2]/div[";
                         isFinishFlag(driver,sonTitle);
