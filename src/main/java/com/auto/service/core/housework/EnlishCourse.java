@@ -182,7 +182,7 @@ public class EnlishCourse extends EcnusoleUniversityCommanAnswerHandler{
         answer10.add("D");
         answer10.add("B");
         answer10.add("A");
-        answer10.add("D");
+        answer10.add("B");
         answer10.add("A");
         answer10.add("D");
         answer10.add("C");
