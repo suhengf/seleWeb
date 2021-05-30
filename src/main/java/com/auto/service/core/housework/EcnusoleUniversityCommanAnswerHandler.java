@@ -1,6 +1,5 @@
 package com.auto.service.core.housework;
 
-import com.auto.common.exception.BizException;
 import com.auto.utils.WebDriverUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -19,7 +18,8 @@ import java.util.Map;
 public abstract class EcnusoleUniversityCommanAnswerHandler {
 
 
-    public void answerHandler(String orangeXpath, WebDriver driver) {
+    public void answerHandler(String orangeXpath, WebDriver driver) throws Exception {
+        WebDriverUtils.findElement(driver, orangeXpath, "");
         WebElement element = driver.findElement(By.xpath(orangeXpath));
         element.click();
 
@@ -33,29 +33,23 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
         }
 
 
-        try {
+
             excuteHoomeWork(driver, arr_36);
-        } catch (Exception e) {
-          log.info("e",e);
-        }
+
 
     }
 
 
-    public void excuteHoomeWork(WebDriver driver, int arr_36) {
+    public void excuteHoomeWork(WebDriver driver, int arr_36) throws Exception {
         Actions action = new Actions(driver);
         Map<Integer, List<String>> loadAnswer = new HashMap<>();
         loadAnswer(loadAnswer);
         List<String> anList = loadAnswer.get(arr_36);
-        try {
-            Thread.sleep(2000);
-        } catch (Exception e) {
 
-        }
+        Thread.sleep(2000);
 
 
-        try {
-            Thread.sleep(2000);
+        Thread.sleep(2000);
             WebDriverUtils.findElement(driver, "/html/body/div[3]/div/div[2]/div[2]/iframe", "进入iframe");
             WebElement webElement0 = driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/div[2]/iframe"));
             driver.switchTo().frame(webElement0);
@@ -66,10 +60,6 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
             WebElement webElement2 = driver.findElement(By.xpath("/html/body/iframe"));
             driver.switchTo().frame(webElement2);
 
-        } catch (Exception e) {
-            log.error("e", e);
-            throw new BizException("进入iframe 异常了");
-        }
 
         for (int i = 0; i < anList.size(); i++) {
             char[] arr = anList.get(i).toCharArray();
@@ -99,11 +89,9 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
             sBottom.append("/div[4]");
         }
         sBottom.append("/div[5]/a[2]");
-        try {
-            Thread.sleep(5000);
-        } catch (Exception e) {
 
-        }
+        Thread.sleep(5000);
+
         try {
             //确认提交
             WebDriverUtils.findElement(driver, sBottom.toString(), "确认提交");
@@ -115,6 +103,7 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
         } catch (Exception e) {
             log.info("e", e);
         }
+
         try {
             WebDriverUtils.findClassName(driver, "bluebtn", "确认提交");
             //确认提交
@@ -139,11 +128,8 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
         }
 
 
-        try {
-            Thread.sleep(5000);
-        } catch (Exception e) {
+        Thread.sleep(5000);
 
-        }
 
     }
 

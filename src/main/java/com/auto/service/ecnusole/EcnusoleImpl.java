@@ -1,6 +1,5 @@
 package com.auto.service.ecnusole;
 
-import com.auto.entity.User;
 import com.auto.entity.UserInfo;
 import com.auto.service.abstr.AbstractCommonUniversity;
 import com.auto.service.abstr.ThreadPoolParam;
@@ -43,8 +42,6 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
         WebDriver driver = null;
         try {
 
-
-
             driver = LoginUtils.hsdLogin(userInfo, options,
                     "https://wljy.ecnusole.com/mh", "/html/body/div[1]/div/div/div[2]/div/a[1]", "/html/body/div/div/div/div[2]/div[1]/a[2]", "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[1]/input"
                     , "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[2]/input",
@@ -68,7 +65,7 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
     }
 
     public ThreadPoolParam getPoolParam(){
-        return ThreadPoolParam.builder().corePoolSize(4).maximumPoolSize(4).build();
+        return ThreadPoolParam.builder().corePoolSize(2).maximumPoolSize(2).build();
     }
 
 

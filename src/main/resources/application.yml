@@ -1,6 +1,6 @@
 #服务启动端口
 server :  
-  port :  8080
+  port :  8083
 
 #数据库配置
 spring:

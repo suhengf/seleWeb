@@ -24,7 +24,7 @@ public abstract class AbstractCommonUniversity implements University{
     //起线程 去执行其中一个子类的主处理方法
     @Override
     public void excute(String university,int course) throws Exception {
-        List<UserInfo> userInfoList = LoginUtils.parseUserList(WIN_WEBDRIVER, getFilePath());
+        List<UserInfo> userInfoList = LoginUtils.parseUserList(getWinWebdriverPath() , getFilePath());
         ChromeOptions chromeOptions = new ChromeOptions();
         for (UserInfo userInfo : userInfoList) {
             Runnable task = () -> {
@@ -48,5 +48,10 @@ public abstract class AbstractCommonUniversity implements University{
 
     //传文件名
     public abstract String getFilePath();
+
+
+    public String getWinWebdriverPath() {
+        return WIN_WEBDRIVER;
+    }
 
 }

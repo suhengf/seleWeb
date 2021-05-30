@@ -26,8 +26,10 @@ public class ShUniversityImpl extends AbstractCommonUniversity implements Univer
 
     @Override
     public String getFilePath() {
-        return "src\\main\\files\\shanghaidaxue\\shanghaidaxue.txt";
+        return "D:\\houseWork\\shanghaidaxue.txt";
     }
+
+    private static final String WIN_WEBDRIVER = "D:\\houseWork\\chromedriver.exe";
 
     @Override
     public EnumUniversityName getUniversityName() {
@@ -60,6 +62,10 @@ public class ShUniversityImpl extends AbstractCommonUniversity implements Univer
 
     public ThreadPoolParam getPoolParam(){
         return ThreadPoolParam.builder().corePoolSize(4).maximumPoolSize(4).build();
+    }
+
+    public String getWinWebdriverPath() {
+        return WIN_WEBDRIVER;
     }
 
 }

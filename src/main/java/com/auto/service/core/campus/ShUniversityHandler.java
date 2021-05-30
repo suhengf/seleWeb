@@ -44,7 +44,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 String desc = EnumCourseName.getEnumCourseName(course).getDesc();
                 log.info("处理的科目为: {}",desc);
                 if( courseTitle.contains(desc)){
-                    Thread.sleep(9000);
+                    Thread.sleep(14000);
                     WebDriverUtils.findElement(driver, onlineStudy, "点击课程");
                     WebDriverUtils.click(driver,onlineStudy);
                     Thread.sleep(8000);
@@ -76,7 +76,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                 log.info("点击开始学习");
                 Thread.sleep(8000);
 
-                if (courseTitle.contains(EnumCourseName.xingshi.getDesc())) {
+                if (courseTitle.contains(EnumCourseName.xingshi.getDesc())||courseTitle.contains(EnumCourseName.history.getDesc())) {
                     String secTitle ="/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i";
                     if (WebDriverUtils.check(driver, By.xpath("/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/i"))) {
                         judgeCondition(driver);
@@ -94,6 +94,11 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
 //
                 String topicXpath = "/html/body/div[1]/div/div[1]/div/div[2]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[";
                 for (int i = 1; i <15 ; i++) {
+                    if(!courseTitle.contains(EnumCourseName.xingshi.getDesc())){
+                        if(i==2||i==3){
+                            continue;
+                        }
+                    }
                     String fullXPath= topicXpath+i+"]/div[1]/i";
                     if(WebDriverUtils.check(driver, By.xpath(fullXPath))){
                         judgeCondition(driver);
@@ -120,21 +125,35 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
     public void isFinishFlag(WebDriver driver,String sonTitle) throws Exception {
 
         for (int i = 1; i <35 ; i++) {
+
             String finishTitleFullPath= sonTitle+i+"]/span[1]/i";
             if(WebDriverUtils.check(driver, By.xpath(finishTitleFullPath))){
+                Thread.sleep(1000);
+                judgeCondition(driver);
                 String attributevalue = driver.findElement(By.xpath(finishTitleFullPath)).getAttribute("ng-switch-when");
                 log.info("attributevalue----> {}",attributevalue);
                 String clickTitle = finishTitleFullPath.replace("]/span[1]/i", "]/span[2]");
                 String attributClick = sonTitle+i+"]/span[2]";
-                String text = driver.findElement(By.xpath(clickTitle)).getText();
+
+
+                locate(driver,i,attributClick);
+                String xpath = "//*[@id=\"page_learn_courseware\"]/div/div/div[1]/div/div/div/div[1]/div[1]/div[2]/div["+i+"]/span[2]";
+                String text = StringUtils.isEmpty(driver.findElement(By.xpath(clickTitle)).getAttribute("title"))?driver.findElement(By.xpath(xpath)).getText():driver.findElement(By.xpath(clickTitle)).getText();
+                log.info("text---->{}",text);
                 if("2".equals(attributevalue)){
 
                     log.info("该小课程已经播放完成 :{}",text);
                     continue;
                 }else if("1".equals(attributevalue)){
+                    if("第11讲 期末大作业".equals(text)||text.contains("向武汉集结")||text.contains("抗击新型冠状病毒感染的肺炎疫情针对疫情")||text.contains("20200704_决战深度贫困")||text.contains("832个国家级贫困县全部脱贫摘帽")){
+                        continue;
+                    }
+                    judgeCondition(driver);
                     log.info("该小课程已经播放一部分 :{}",text);
                     Thread.sleep(2000);
-                    judgeCondition(driver);
+                    attributClick = WebDriverUtils.check(driver,By.xpath(attributClick))?attributClick:xpath;
+                    log.info("attributClick -->{}",attributClick);
+                    locate(driver,i,attributClick);
                     WebDriverUtils.threeClick(driver, attributClick,1);
                     Thread.sleep(1000);
                     long leftTime = leftTime(driver, sonTitle, i);
@@ -143,12 +162,21 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
                         continue;
                     }
                 }else if("0".equals(attributevalue)){
+                    if("第11讲 期末大作业".equals(text)||text.contains("向武汉集结")||text.contains("抗击新型冠状病毒感染的肺炎疫情针对疫情")||text.contains("20200704_决战深度贫困")||text.contains("832个国家级贫困县全部脱贫摘帽")){
+                        continue;
+                    }
                     log.info("该小课程刚开始播放 :{}",text);
                     Thread.sleep(2000);
                     judgeCondition(driver);
+                    locate(driver,i,attributClick);
+                    attributClick = WebDriverUtils.check(driver,By.xpath(attributClick))?attributClick:xpath;
+                    log.info("attributClick -->{}",attributClick);
                     WebDriverUtils.threeClick(driver, attributClick,1);
                     Thread.sleep(1000);
                     long leftTime = leftTime(driver, sonTitle, i);
+                    if(leftTime<=0){
+                        continue;
+                    }
                     judgeCondition(driver,leftTime,sonTitle,i);
                     continue;
                 }
@@ -178,13 +206,23 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
         String startTime = haveStudyTime.replace("秒", "");
         startTime = startTime.replace("分", ":").trim();
         log.info("学习总时长:---->  {}",startTime);
-        String endTime= StringUtils.isEmpty(allviedoTime)?"30:10":allviedoTime;
+        String endTime= StringUtils.isEmpty(allviedoTime)?"60:50":allviedoTime;
         long sleepTime = TimeUtils.diffSec(startTime, endTime);
         log.info("sleepTime :-->{}",sleepTime);
         return sleepTime;
     }
 
 
+
+    public void locate(WebDriver driver, int i,String attributClick) throws InterruptedException {
+        if(i>7){
+            Thread.sleep(3000);
+                log.info("输出i ：{}",i);
+            Actions act = new Actions(driver);
+            act.moveToElement(driver.findElement(By.xpath(attributClick)));
+            act.perform();
+        }
+    }
 
     public void judgeCondition(WebDriver driver) throws Exception {
 
@@ -205,7 +243,7 @@ public class ShUniversityHandler  implements CampusOnlineHandler {
             }
             Thread.sleep(1);
             if (90 - counts.get() == 0) {
-                log.info("重试{} 之后  退出");
+                log.info("休息90ms");
 
                 break;
             }

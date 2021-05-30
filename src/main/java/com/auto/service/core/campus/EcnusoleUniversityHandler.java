@@ -73,14 +73,19 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             String courseTitleName ="/html/body/div[3]/div[2]/div["+i+"]/div[2]/h3/a";
             if(WebDriverUtils.check(driver, By.xpath(courseName))){
                 String titleName= driver.findElement(By.xpath(courseTitleName)).getText();
-                if("形势与政策1".equals(titleName)||"公共英语A".equals(titleName)){
-                    continue;
-                }
+//                if("形势与政策1".equals(titleName)||"公共英语A".equals(titleName)){
+//                    continue;
+//                }
 
-                driver.findElement(By.xpath(courseName)).click();
+
 
                 //开始界面处理
-                courseHandle(driver,titleName);
+                if(titleName.contains("公共英语")){
+                    log.info("titleName--->{}",titleName);
+                    driver.findElement(By.xpath(courseName)).click();
+                    courseHandle(driver,titleName);
+                }
+
 
 
 
@@ -98,6 +103,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         //进入学习进度页面  重新开了个页面  跳到另外一个页面
         WebDriverUtils.switchToWindowByTitle(driver,"学习进度页面");
         Thread.sleep(2000);
+
 
         //目前支持两层
         for (int i = 1; i <15 ; i++) {
@@ -130,6 +136,8 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                     }
                     break;
                 }else {
+
+
                     orangeXpath = isOrange+structureFirst+"]/h3/a/span[2]/em";
                     if (WebDriverUtils.check(driver, By.xpath(orangeXpath))){
                         //判断是否已经播放
@@ -175,25 +183,25 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             return true;
         }else{
 
-            try {
-                viedos = Integer.parseInt(organTitle);
-            } catch (Exception e) {
-                return false;
-            }
-
-             String courseXpath = orangeXpath;
-             log.info("courseXpath : {}",courseXpath);
-            WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
-            for (int i = 0; i < 3; i++) {
-                try {
-                    driver.findElement(By.xpath(courseXpath.trim())).click();
-                } catch (Exception e) {
-                    log.info("点击橙色小点异常");
-                }
-                log.info("点击橙色课程进入");
-                Thread.sleep(1000);
-            }
-            chainHandler(viedos,driver);
+//            try {
+//                viedos = Integer.parseInt(organTitle);
+//            } catch (Exception e) {
+//                return false;
+//            }
+//
+//             String courseXpath = orangeXpath;
+//             log.info("courseXpath : {}",courseXpath);
+//            WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
+//            for (int i = 0; i < 3; i++) {
+//                try {
+//                    driver.findElement(By.xpath(courseXpath.trim())).click();
+//                } catch (Exception e) {
+//                    log.info("点击橙色小点异常");
+//                }
+//                log.info("点击橙色课程进入");
+//                Thread.sleep(1000);
+//            }
+//            chainHandler(viedos,driver);
             return false;
         }
 
