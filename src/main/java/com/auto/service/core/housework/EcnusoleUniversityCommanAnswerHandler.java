@@ -104,16 +104,14 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
             log.info("e", e);
         }
 
-        try {
-            WebDriverUtils.findClassName(driver, "bluebtn", "确认提交");
-            //确认提交
-            WebElement bluebtn = driver.findElement(By.className("bluebtn"));
-            action.moveToElement(bluebtn).perform();
-            bluebtn.click();
-            Thread.sleep(5000);
-        } catch (Exception e) {
-            log.info("e", e);
-        }
+        WebDriverUtils.findClassName(driver, "bluebtn", "确认提交");
+        //确认提交
+        Thread.sleep(5000);
+        WebElement bluebtn = driver.findElement(By.className("bluebtn"));
+        action.moveToElement(bluebtn).perform();
+        bluebtn.click();
+        Thread.sleep(5000);
+
         log.info("答题结束 返回");
         driver.switchTo().defaultContent();
 
