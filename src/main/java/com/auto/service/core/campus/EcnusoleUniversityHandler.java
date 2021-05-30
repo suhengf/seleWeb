@@ -13,10 +13,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
@@ -73,11 +72,9 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             String courseTitleName ="/html/body/div[3]/div[2]/div["+i+"]/div[2]/h3/a";
             if(WebDriverUtils.check(driver, By.xpath(courseName))){
                 String titleName= driver.findElement(By.xpath(courseTitleName)).getText();
-//                if("形势与政策1".equals(titleName)||"公共英语A".equals(titleName)){
-//                    continue;
-//                }
-
-
+                if("形势与政策1".equals(titleName)){
+                    continue;
+                }
 
                 //开始界面处理
                 if(titleName.contains("公共英语")){
@@ -85,10 +82,6 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                     driver.findElement(By.xpath(courseName)).click();
                     courseHandle(driver,titleName);
                 }
-
-
-
-
             }
 
         }
@@ -183,25 +176,19 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             return true;
         }else{
 
-//            try {
-//                viedos = Integer.parseInt(organTitle);
-//            } catch (Exception e) {
-//                return false;
-//            }
-//
-//             String courseXpath = orangeXpath;
-//             log.info("courseXpath : {}",courseXpath);
-//            WebDriverUtils.findElement(driver,courseXpath,"点击 :{ "+text+" }");
-//            for (int i = 0; i < 3; i++) {
-//                try {
-//                    driver.findElement(By.xpath(courseXpath.trim())).click();
-//                } catch (Exception e) {
-//                    log.info("点击橙色小点异常");
-//                }
-//                log.info("点击橙色课程进入");
-//                Thread.sleep(1000);
-//            }
+            try {
+                viedos = Integer.parseInt(organTitle);
+            } catch (Exception e) {
+                return false;
+            }
+
+            log.info("courseXpath : {}", orangeXpath);
+            WebDriverUtils.findElement(driver, orangeXpath, "点击 :{ " + text + " }");
+            WebDriverUtils.locate(driver, orangeXpath);
+            log.info("开始点击 --> {}", text);
+            WebDriverUtils.click(driver, orangeXpath);
 //            chainHandler(viedos,driver);
+            doEnglishViedo(orangeXpath,  driver,  viedos,  text);
             return false;
         }
 
@@ -210,11 +197,108 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
+    public void doEnglishViedo(String orangeXpath, WebDriver driver, int viedos, String text) throws Exception {
+        log.info("courseXpath : {}", orangeXpath);
+        WebDriverUtils.findElement(driver, orangeXpath, "点击 :{ " + text + " }");
+        WebDriverUtils.locate(driver, orangeXpath);
+        log.info("开始点击 --> {}", text);
+        WebDriverUtils.click(driver, orangeXpath);
+        englishChainHandler(viedos, driver);
+
+    }
 
 
-    public static void chainHandler(int viedos,WebDriver driver) throws Exception {
+    public static void englishChainHandler(int viedos, WebDriver driver) throws Exception {
         //判断viedos 有多少个
-        log.info("----------viedos------------"+viedos);
+        log.info("----------viedos个数{}-----------", viedos);
+        List<String> listFrames = new ArrayList<>();
+        switch (viedos) {
+            case 1:
+                listFrames.add("/html/body/div/div/p/div/iframe");
+                break;
+            case 2:
+                listFrames.add("/html/body/div/div/p[2]/div/iframe");
+                listFrames.add("/html/body/div/div/p[10]/div/iframe");
+                break;
+            case 3:
+                listFrames.add("/html/body/div/div/p[2]/div/iframe");
+                listFrames.add("/html/body/div/div/p[10]/div/iframe");
+                listFrames.add("/html/body/div/div/p[13]/div/iframe");
+                break;
+        }
+
+
+        String firstIframe = "/html/body/div[3]/div/div[2]/div[2]/iframe";
+        log.info("-----遍历iframe------------");
+        for (String iframe : listFrames) {
+            AtomicInteger counts = new AtomicInteger(1);
+            while (true) {
+                if (WebDriverUtils.check(driver, By.xpath(firstIframe))) {
+                    log.info("第一层 iframe");
+                    break;
+                }
+                counts.incrementAndGet();
+                Thread.sleep(1);
+                if (60000 == counts.get()) {
+                    log.info("重试60秒之后  退出");
+                    driver.quit();
+                }
+            }
+
+
+            log.info("-----进入iframe------------");
+            WebElement webElement0 = driver.findElement(By.xpath(firstIframe));
+            driver.switchTo().frame(webElement0);
+
+            String descIframe = "";
+            if (WebDriverUtils.check(driver, By.xpath(iframe))) {
+                descIframe = iframe;
+            } else if (WebDriverUtils.check(driver, By.xpath(SPRCIAL_IFREAEM))) {
+                descIframe = SPRCIAL_IFREAEM;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME))) {
+                descIframe = IFRAME;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME1))) {
+                descIframe = IFRAME1;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME2))) {
+                descIframe = IFRAME2;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME3))) {
+                descIframe = IFRAME3;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME4))) {
+                descIframe = IFRAME4;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME5))) {
+                descIframe = IFRAME5;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME6))) {
+                descIframe = IFRAME6;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME7))) {
+                descIframe = IFRAME7;
+            }
+            log.info("descIframe路径:{}", descIframe);
+
+            WebElement webElement1 = driver.findElement(By.xpath(descIframe));
+            driver.switchTo().frame(webElement1);
+            Thread.sleep(8000);
+
+            log.info("-----进入iframe------------结束");
+            //点击开始播放按钮
+            log.info("点击开始播放按钮");
+            WebDriverUtils.findClassName(driver, "vjs-play-control vjs-control vjs-button", "点击开始播放按钮");
+            driver.findElement(By.className("vjs-play-control vjs-control vjs-button")).click();
+
+            Thread.sleep(TimeUtils.getDiffTime(driver, 8, 10));
+
+            driver.switchTo().defaultContent();
+            Thread.sleep(5000);
+        }
+
+        driver.findElement(By.xpath("/html/body/div[3]/div/div[1]/a")).click();
+        log.info("结束返回");
+        Thread.sleep(10000);
+    }
+
+
+    public static void chainHandler(int viedos, WebDriver driver) throws Exception {
+        //判断viedos 有多少个
+        log.info("----------viedos------------" + viedos);
         List<String> listFrames = new ArrayList<>();
         switch (viedos) {
             case 1:

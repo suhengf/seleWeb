@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.slf4j.LoggerFactory;
 
 
@@ -90,6 +91,13 @@ public class WebDriverUtils {
         }
     }
 
+    /**
+     * 点击重试
+     * @param driver
+     * @param xpath
+     * @param count
+     * @throws Exception
+     */
     public static void threeClick(WebDriver driver,String xpath,int count) throws Exception {
         for (int i = 0; i < count; i++) {
             try {
@@ -105,10 +113,29 @@ public class WebDriverUtils {
     }
 
 
+    /**
+     * 点击之前判断 元素是否存在
+     * @param driver
+     * @param xpath
+     */
     public static void click(WebDriver driver,String xpath)  {
         if (WebDriverUtils.check(driver, By.xpath(xpath))) {
             driver.findElement(By.xpath(xpath)).click();
         }
+    }
+
+
+    /**
+     * 鼠标定位事件
+     * @param driver
+     * @param attributClick
+     * @throws InterruptedException
+     */
+    public static void locate(WebDriver driver, String attributClick) throws InterruptedException {
+            Thread.sleep(3000);
+            Actions act = new Actions(driver);
+            act.moveToElement(driver.findElement(By.xpath(attributClick)));
+            act.perform();
     }
 
 

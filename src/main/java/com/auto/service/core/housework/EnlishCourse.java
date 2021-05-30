@@ -176,17 +176,18 @@ public class EnlishCourse extends EcnusoleUniversityCommanAnswerHandler{
          * BC
          */
         List<String> answer10 = new ArrayList<>();
-        answer10.add("B");
-        answer10.add("C");
+        answer10.add("B");//1
+        answer10.add("C");//
         answer10.add("B");
         answer10.add("D");
         answer10.add("B");
         answer10.add("A");
-        answer10.add("B");
+        answer10.add("A");//7
         answer10.add("A");
         answer10.add("D");
         answer10.add("C");
         titleAnswer.put(10,answer10);
+        log.info("titleAnswer-->{}",titleAnswer);
     }
 
     @Override
