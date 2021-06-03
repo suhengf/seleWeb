@@ -5,6 +5,7 @@ import com.auto.entity.UserInfo;
 import com.auto.service.abstr.UniversityResolver;
 import com.auto.service.core.CampusOnlineHandler;
 import com.auto.service.core.EnumUniversityName;
+import com.auto.service.ecnusole.EcnusoleEnglish;
 import com.auto.utils.TimeUtils;
 import com.auto.utils.WebDriverUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -159,10 +160,6 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
                 orangeXpath = isOrange + structureFirst + "]/h3/a/span[2]/em";
                 if (WebDriverUtils.check(driver, By.xpath(orangeXpath))) {
-
-                    if (i==2) {
-                        break;
-                    }
                     for (int j = 0; j < 10; j++) {
                         String  sonXpath= isOrange + structureFirst + "]/div/h3["+j+"]/a/span[1]/em";
                         if(WebDriverUtils.check(driver, By.xpath(sonXpath))){
@@ -230,15 +227,6 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     }
 
 
-    public void doEnglishViedo(String orangeXpath, WebDriver driver, int viedos, String text) throws Exception {
-        log.info("courseXpath : {}", orangeXpath);
-        WebDriverUtils.findElement(driver, orangeXpath, "点击 :{ " + text + " }");
-        WebDriverUtils.locate(driver, orangeXpath);
-        log.info("开始点击 --> {}", text);
-        WebDriverUtils.click(driver, orangeXpath);
-        englishChainHandler(viedos, driver);
-
-    }
 
 
     public static void englishChainHandler(int viedos, WebDriver driver) throws Exception {
@@ -259,126 +247,8 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 listFrames.add("/html/body/div/div/p[13]/div/iframe");
                 break;
         }
+        new EcnusoleEnglish().handChain(driver,viedos,listFrames);
 
-
-        String firstIframe = "/html/body/div[3]/div/div[2]/div[2]/iframe";
-        log.info("-----遍历iframe------------");
-        for (String iframe : listFrames) {
-            AtomicInteger counts = new AtomicInteger(1);
-            while (true) {
-                if (WebDriverUtils.check(driver, By.xpath(firstIframe))) {
-                    log.info("第一层 iframe");
-                    break;
-                }
-                counts.incrementAndGet();
-                Thread.sleep(1);
-                if (60000 == counts.get()) {
-                    log.info("重试60秒之后  退出");
-                    driver.quit();
-                }
-            }
-
-
-            log.info("-----进入iframe------------");
-            WebElement webElement0 = driver.findElement(By.xpath(firstIframe));
-            driver.switchTo().frame(webElement0);
-
-            String descIframe = "";
-            if (WebDriverUtils.check(driver, By.xpath(iframe))) {
-                descIframe = iframe;
-            } else if (WebDriverUtils.check(driver, By.xpath(SPRCIAL_IFREAEM))) {
-                descIframe = SPRCIAL_IFREAEM;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME))) {
-                descIframe = IFRAME;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME1))) {
-                descIframe = IFRAME1;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME2))) {
-                descIframe = IFRAME2;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME3))) {
-                descIframe = IFRAME3;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME4))) {
-                descIframe = IFRAME4;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME5))) {
-                descIframe = IFRAME5;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME6))) {
-                descIframe = IFRAME6;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME7))) {
-                descIframe = IFRAME7;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME_STRING))) {
-                descIframe = IFRAME_STRING;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME_STRING1))) {
-                descIframe = IFRAME_STRING1;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME8))) {
-                descIframe = IFRAME8;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME9))) {
-                descIframe = IFRAME9;
-            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME10))) {
-                descIframe = IFRAME10;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME12))) {
-                descIframe = IFRAME12;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME13))) {
-                descIframe = IFRAME13;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME14))) {
-                descIframe = IFRAME14;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME15))) {
-                descIframe = IFRAME15;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME16))) {
-                descIframe = IFRAME16;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME11))) {
-                descIframe = IFRAME11;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME17))) {
-                descIframe = IFRAME17;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME18))) {
-                descIframe = IFRAME18;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME19))) {
-                descIframe = IFRAME19;
-            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME20))) {
-                descIframe = IFRAME20;
-            }
-
-            log.info("descIframe路径:{}", descIframe);
-
-            WebElement webElement1 = driver.findElement(By.xpath(descIframe));
-            driver.switchTo().frame(webElement1);
-            Thread.sleep(8000);
-
-            log.info("-----进入iframe------------结束");
-            //点击开始播放按钮
-            log.info("点击开始播放按钮");
-
-            String startButton =WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div/button"))?"/html/body/div[4]/div/button":"/html/body/div[3]/div/div[5]/button";
-
-            WebDriverUtils.findElement(driver, startButton, "点击开始播放按钮");
-            driver.findElement(By.xpath(startButton)).click();
-
-            if (WebDriverUtils.check(driver, By.className("/html/body/div[4]/div/div[5]/div[1]/button"))) {
-                Thread.sleep(18000);
-                for (int i = 0; i <3 ; i++) {
-                    try {
-                        //快进  倍速
-                        String speedFast ="/html/body/div[4]/div/div[5]/div[1]/button";
-                        WebDriverUtils.findElement(driver,speedFast,"点击快进按钮");
-                        driver.findElement(By.xpath(speedFast)).click();
-                    } catch (Exception e) {
-                        driver.findElement(By.className("vjs-big-play-button")).click();
-                        log.info("点击快进异常");
-                    }
-                    Thread.sleep(1000);
-                }
-                //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
-                Thread.sleep(TimeUtils.getDiffTime(driver,1,2));
-            }else{
-                Thread.sleep(TimeUtils.getDiffTime(driver, 10, 10));
-            }
-
-
-            driver.switchTo().defaultContent();
-            Thread.sleep(5000);
-        }
-
-        driver.findElement(By.xpath("/html/body/div[3]/div/div[1]/a")).click();
-        log.info("结束返回");
-        Thread.sleep(10000);
     }
 
 
