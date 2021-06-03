@@ -95,8 +95,8 @@ public class LoginUtils {
      * @return
      * @throws Exception
      */
-    public  static WebDriver hsdLogin(UserInfo userInfo, ChromeOptions options, String url, String studentXpath, String zhanghaodenglu, String userInput, String userPsdInput, String verifyCodeInput, String loginBotton) throws Exception {
-        WebDriver driver = new ChromeDriver(options);
+    public  static WebDriver hsdLogin(WebDriver driver ,UserInfo userInfo, ChromeOptions options, String url, String studentXpath, String zhanghaodenglu, String userInput, String userPsdInput, String verifyCodeInput, String loginBotton) throws Exception {
+
         Actions action = new Actions(driver);
         driver.manage().window().maximize();
         driver.get(url);

@@ -45,7 +45,31 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     private static final String IFRAME_STRING ="/html/body/div/div/p[1]/strong/div/iframe";
     private static final String IFRAME_STRING1 ="/html/body/div/div/p[1]/div/iframe";
 
+    private static final String IFRAME8 ="/html/body/div/div/p[9]/div/iframe";
 
+    private static final String IFRAME9 ="/html/body/div/div/p[9]/div/iframe";
+
+    private static final String IFRAME15 ="/html/body/div/div/p[15]/div/iframe";
+
+    private static final String IFRAME12 ="/html/body/div/div/p[12]/div/iframe";
+
+    private static final String IFRAME10 ="/html/body/div/div/p[10]/div/iframe";
+
+    private static final String IFRAME11 ="/html/body/div/div/p[11]/div/iframe";
+
+    private static final String IFRAME13 ="/html/body/div/div/p[13]/div/iframe";
+
+    private static final String IFRAME14 ="/html/body/div/div/p[14]/div/iframe";
+
+    private static final String IFRAME20 ="/html/body/div/div/p[20]/div/iframe";
+
+    private static final String IFRAME16 ="/html/body/div/div/p[16]/div/iframe";
+
+    private static final String IFRAME17 ="/html/body/div/div/p[17]/div/iframe";
+
+    private static final String IFRAME18 ="/html/body/div/div/p[18]/div/iframe";
+
+    private static final String IFRAME19 ="/html/body/div/div/p[19]/div/iframe";
 
     @Autowired
     private UniversityResolver universityResolver;
@@ -136,8 +160,11 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 orangeXpath = isOrange + structureFirst + "]/h3/a/span[2]/em";
                 if (WebDriverUtils.check(driver, By.xpath(orangeXpath))) {
 
+                    if (i==2) {
+                        break;
+                    }
                     for (int j = 0; j < 10; j++) {
-                       String  sonXpath= isOrange + structureFirst + "]/div/h3["+j+"]/a/span[1]/em";
+                        String  sonXpath= isOrange + structureFirst + "]/div/h3["+j+"]/a/span[1]/em";
                         if(WebDriverUtils.check(driver, By.xpath(sonXpath))){
                             isPlayed(driver,sonXpath,titleName);
                         }
@@ -173,12 +200,12 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         log.info("organTitle -->{}", organTitle);
         if ("巩固练习".equals(text) || text.contains("巩固练习")) {
 
-            try {
-                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath, driver);
-            } catch (Exception e) {
-                log.error("作业处理异常", e);
-                throw new BizException("作业处理异常");
-            }
+//            try {
+//                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath, driver);
+//            } catch (Exception e) {
+//                log.error("作业处理异常", e);
+//                throw new BizException("作业处理异常");
+//            }
 
             return true;
         }else{
@@ -281,6 +308,32 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 descIframe = IFRAME_STRING;
             }else if (WebDriverUtils.check(driver, By.xpath(IFRAME_STRING1))) {
                 descIframe = IFRAME_STRING1;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME8))) {
+                descIframe = IFRAME8;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME9))) {
+                descIframe = IFRAME9;
+            } else if (WebDriverUtils.check(driver, By.xpath(IFRAME10))) {
+                descIframe = IFRAME10;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME12))) {
+                descIframe = IFRAME12;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME13))) {
+                descIframe = IFRAME13;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME14))) {
+                descIframe = IFRAME14;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME15))) {
+                descIframe = IFRAME15;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME16))) {
+                descIframe = IFRAME16;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME11))) {
+                descIframe = IFRAME11;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME17))) {
+                descIframe = IFRAME17;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME18))) {
+                descIframe = IFRAME18;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME19))) {
+                descIframe = IFRAME19;
+            }else if (WebDriverUtils.check(driver, By.xpath(IFRAME20))) {
+                descIframe = IFRAME20;
             }
 
             log.info("descIframe路径:{}", descIframe);
@@ -298,7 +351,26 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             WebDriverUtils.findElement(driver, startButton, "点击开始播放按钮");
             driver.findElement(By.xpath(startButton)).click();
 
-            Thread.sleep(TimeUtils.getDiffTime(driver, 8, 10));
+            if (WebDriverUtils.check(driver, By.className("/html/body/div[4]/div/div[5]/div[1]/button"))) {
+                Thread.sleep(18000);
+                for (int i = 0; i <3 ; i++) {
+                    try {
+                        //快进  倍速
+                        String speedFast ="/html/body/div[4]/div/div[5]/div[1]/button";
+                        WebDriverUtils.findElement(driver,speedFast,"点击快进按钮");
+                        driver.findElement(By.xpath(speedFast)).click();
+                    } catch (Exception e) {
+                        driver.findElement(By.className("vjs-big-play-button")).click();
+                        log.info("点击快进异常");
+                    }
+                    Thread.sleep(1000);
+                }
+                //计算剩余时间 当总时间 减去 当前播放时间剩余时间等于0  去播放下一个视频
+                Thread.sleep(TimeUtils.getDiffTime(driver,1,2));
+            }else{
+                Thread.sleep(TimeUtils.getDiffTime(driver, 10, 10));
+            }
+
 
             driver.switchTo().defaultContent();
             Thread.sleep(5000);
@@ -420,14 +492,23 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     }
 
 
+
     public boolean isPlayed(WebDriver driver, String xPath,String titleName) throws Exception {
         Thread.sleep(100);
-        String isPlay = driver.findElement(By.xpath(xPath)).getText();
-        if (!"openlock".equals(isPlay) && !"".equals(isPlay)&& needHandler(xPath, driver, titleName)) {
+        if (needHandler(xPath, driver, titleName)) {
             return true;
         }
         return false;
     }
+
+//    public boolean isPlayed(WebDriver driver, String xPath,String titleName) throws Exception {
+//        Thread.sleep(100);
+//        String isPlay = driver.findElement(By.xpath(xPath)).getText();
+//        if (!"openlock".equals(isPlay) && !"".equals(isPlay)&& needHandler(xPath, driver, titleName)) {
+//            return true;
+//        }
+//        return false;
+//    }
 
 
     @Override

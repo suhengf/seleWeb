@@ -9,6 +9,7 @@ import com.auto.service.core.EnumUniversityName;
 import com.auto.utils.LoginUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +26,14 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
     @Autowired
     private CampusResolver campusResolver;
 
+
     @Override
     public String getFilePath() {
-        return "src\\main\\files\\huadongshifan\\huadongshifan.txt";
+        return "D:\\houseWork\\huadongshifan.txt";
     }
+
+    private static final String WIN_WEBDRIVER = "D:\\houseWork\\chromedriver.exe";
+
 
     @Override
     public EnumUniversityName getUniversityName() {
@@ -41,8 +46,8 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
         log.info("开始逻辑处理");
         WebDriver driver = null;
         try {
-
-            driver = LoginUtils.hsdLogin(userInfo, options,
+            driver = new ChromeDriver(options);
+            driver = LoginUtils.hsdLogin(driver,userInfo, options,
                     "https://wljy.ecnusole.com/mh", "/html/body/div[1]/div/div/div[2]/div/a[1]", "/html/body/div/div/div/div[2]/div[1]/a[2]", "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[1]/input"
                     , "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[2]/input",
                     "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[3]/input", "/html/body/div/div/div/div[2]/div[2]/div[2]/form/div[4]/button");
@@ -65,8 +70,12 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
     }
 
     public ThreadPoolParam getPoolParam(){
-        return ThreadPoolParam.builder().corePoolSize(2).maximumPoolSize(2).build();
+        return ThreadPoolParam.builder().corePoolSize(1).maximumPoolSize(1).build();
     }
 
+
+    public String getWinWebdriverPath() {
+        return WIN_WEBDRIVER;
+    }
 
 }

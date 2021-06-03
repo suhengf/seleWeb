@@ -28,7 +28,7 @@ public class Swagger2 {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("demo").description("自动化做作业接口列表").termsOfServiceUrl(
-                "http://localhost:8083/swagger-ui.html#/").version("1.0").build();
+                "http://localhost:8080/swagger-ui.html#/").version("1.0").build();
     }
 
     public static String unicodeToString(String str) {

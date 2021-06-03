@@ -16,7 +16,7 @@ public class TestFile {
 //        readFile();
         StringBuilder stringBuilder = readFile("src\\main\\files\\20210124_0.txt", 0);
 
-        writeFile(stringBuilder,"src\\main\\files\\20210124_101.txt");
+        writeFile(stringBuilder,"D:\\houseWork\\8080log.txt");
     }
 
     public static  StringBuilder readFile(String filePath,int skipLine){
@@ -44,8 +44,8 @@ public class TestFile {
 
     public static void writeFile(StringBuilder stringBuilder,String fullPath) throws Exception {
          Path path = Paths.get(fullPath);
-//        Files.deleteIfExists(path);
-        Files.write(path,stringBuilder.toString().getBytes(),new StandardOpenOption[]{StandardOpenOption.CREATE_NEW,StandardOpenOption.WRITE});
+        Files.deleteIfExists(path);
+//        Files.write(path,stringBuilder.toString().getBytes(),new StandardOpenOption[]{StandardOpenOption.CREATE_NEW,StandardOpenOption.WRITE});
     }
 
 
