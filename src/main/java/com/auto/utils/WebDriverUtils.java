@@ -2,12 +2,12 @@ package com.auto.utils;
 
 import com.auto.common.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.log4j.DailyRollingFileAppender;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.slf4j.LoggerFactory;
-
 
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -120,10 +120,17 @@ public class WebDriverUtils {
      */
     public static void click(WebDriver driver,String xpath) throws InterruptedException {
         Thread.sleep(3000);
-        if (WebDriverUtils.check(driver, By.xpath(xpath))) {
-            log.info("点击进入");
-            driver.findElement(By.xpath(xpath)).click();
+        try {
+            for (int i = 0; i < 10; i++) {
+                log.info("点击进入");
+                driver.findElement(By.xpath(xpath)).click();
+                driver.navigate().refresh();
+                Thread.sleep(6000);
+            }
+        } catch (Exception e) {
+            return;
         }
+
     }
 
 

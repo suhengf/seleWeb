@@ -85,7 +85,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         String myCourse = "/html/body/div[1]/div/div/div[2]/div/a[1]";
         WebDriverUtils.findElement(driver,myCourse,"点击我的课程");
         driver.findElement(By.xpath(myCourse)).click();
-        Thread.sleep(10000);
+        Thread.sleep(5000);
 
         //先进ifram
         String myIframe = "/html/body/div[1]/div[2]/div[2]/div/iframe";
@@ -190,7 +190,13 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     public boolean  needHandler(String orangeXpath,WebDriver driver,String titleName) throws Exception {
         int viedos = 0;
         Thread.sleep(5000);
-        String organTitle = driver.findElement(By.xpath(orangeXpath)).getText();
+
+        String organTitle = "";
+        try {
+            organTitle = driver.findElement(By.xpath(orangeXpath)).getText();
+        } catch (Exception e) {
+            Thread.sleep(3000);
+        }
         orangeXpath = orangeXpath.replace("2]/em", "3]");
         orangeXpath = orangeXpath.replace("1]/em", "2]");
         String text = driver.findElement(By.xpath(orangeXpath)).getText();
