@@ -163,6 +163,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                     for (int j = 0; j < 10; j++) {
                         String  sonXpath= isOrange + structureFirst + "]/div/h3["+j+"]/a/span[1]/em";
                         if(WebDriverUtils.check(driver, By.xpath(sonXpath))){
+                            log.info("sonXpath 存在");
                             isPlayed(driver,sonXpath,titleName);
                         }
                     }
@@ -170,6 +171,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                     //判断是否已经播放
                     Thread.sleep(50);
                     if ( isPlayed(driver,orangeXpath,titleName)) {
+                        log.info("orangeXpath 存在");
                         break;
                     }
                     
@@ -187,6 +189,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
     public boolean  needHandler(String orangeXpath,WebDriver driver,String titleName) throws Exception {
         int viedos = 0;
+        Thread.sleep(5000);
         String organTitle = driver.findElement(By.xpath(orangeXpath)).getText();
         orangeXpath = orangeXpath.replace("2]/em", "3]");
         orangeXpath = orangeXpath.replace("1]/em", "2]");
@@ -220,6 +223,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             WebDriverUtils.click(driver, orangeXpath);
 //            chainHandler(viedos,driver);
             englishChainHandler(viedos, driver);
+
             return false;
         }
 

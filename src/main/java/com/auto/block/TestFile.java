@@ -9,9 +9,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestFile {
     public static void main(String[] args) throws Exception {
+
+        List<String> hasDoneList= new ArrayList<>();
+        hasDoneList.add("1");
+        System.out.println(hasDoneList.contains("1"));
 
 //        readFile();
         StringBuilder stringBuilder = readFile("src\\main\\files\\20210124_0.txt", 0);

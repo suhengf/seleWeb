@@ -68,7 +68,7 @@ public class WebDriverUtils {
             }
             counts.incrementAndGet();
             Thread.sleep(1);
-            if (9000 == counts.get()) {
+            if (10000 == counts.get()) {
                 log.info("重试9秒之后  退出");
                 throw new BizException("重试90秒之后  退出");
             }
@@ -121,6 +121,7 @@ public class WebDriverUtils {
     public static void click(WebDriver driver,String xpath) throws InterruptedException {
         Thread.sleep(3000);
         if (WebDriverUtils.check(driver, By.xpath(xpath))) {
+            log.info("点击进入");
             driver.findElement(By.xpath(xpath)).click();
         }
     }
