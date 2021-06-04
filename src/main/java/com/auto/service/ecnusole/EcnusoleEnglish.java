@@ -85,6 +85,7 @@ public class EcnusoleEnglish {
 
             String iframe1 = getIframe(driver, iframes.get(i),hasDoneList);
             hasDoneList.add(iframe1);
+            WebDriverUtils.findElement(driver,iframe1,"iframe1");
             WebElement webElement0 = driver.findElement(By.xpath(iframe1));
             driver.switchTo().frame(webElement0);
             String startButton =WebDriverUtils.check(driver, By.xpath("/html/body/div[4]/div/button"))?"/html/body/div[4]/div/button":"/html/body/div[3]/div/div[5]/button";
