@@ -222,6 +222,11 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                 return false;
             }
 
+            if(viedos==1&&(text.contains("对话")||text.contains("练习"))){
+                log.info("跳过第一个语音");
+                return false;
+            }
+
             log.info("courseXpath : {}", orangeXpath);
             WebDriverUtils.findElement(driver, orangeXpath, "点击 " + text + "");
             WebDriverUtils.locate(driver, orangeXpath);
