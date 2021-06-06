@@ -6,6 +6,7 @@ import com.auto.service.abstr.UniversityResolver;
 import com.auto.service.core.CampusOnlineHandler;
 import com.auto.service.core.EnumUniversityName;
 import com.auto.service.ecnusole.EcnusoleEnglish;
+import com.auto.service.ecnusole.SituationPolicy;
 import com.auto.utils.TimeUtils;
 import com.auto.utils.WebDriverUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -102,15 +103,17 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
             if(WebDriverUtils.check(driver, By.xpath(courseName))){
                 String titleName= driver.findElement(By.xpath(courseTitleName)).getText();
                 if("形势与政策1".equals(titleName)){
-                    continue;
+                                        log.info("titleName--->{}",titleName);
+                    driver.findElement(By.xpath(courseName)).click();
+                   new SituationPolicy().courseHandle(driver,titleName);
                 }
 
                 //开始界面处理
-                if(titleName.contains("公共英语")){
-                    log.info("titleName--->{}",titleName);
-                    driver.findElement(By.xpath(courseName)).click();
-                    courseHandle(driver,titleName);
-                }
+//                if(titleName.contains("公共英语")){
+//                    log.info("titleName--->{}",titleName);
+//                    driver.findElement(By.xpath(courseName)).click();
+//                    courseHandle(driver,titleName);
+//                }
             }
 
         }

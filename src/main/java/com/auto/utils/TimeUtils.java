@@ -33,6 +33,28 @@ public class TimeUtils {
     }
 
 
+
+    public static long getSitionPolicy(WebDriver driver,int divSon,int divMonther) throws InterruptedException {
+        long diffSec = 0;
+        Thread.sleep(3000);
+        String startTime = "0:00";
+        String endTime = "";
+        while (true) {
+            endTime= driver.findElement(By.className("vjs-remaining-time-display")).getText();
+            if (!StringUtil.isBlank(startTime)&&!StringUtil.isBlank(endTime)) {
+                break;
+            }
+            Thread.sleep(1000);
+        }
+        log.info("已播放 {}", startTime);
+        log.info("总时长 {} ", endTime);
+        log.info("还差多少毫秒播放结束: {}", diffSec(startTime, endTime));
+        return diffSec = "0:00".equals(endTime)?0:((diffSec(startTime, endTime))* divSon )/divMonther;
+
+    }
+
+
+
     public static long getDifferTime(WebDriver driver,int divSon,int divMonther) throws InterruptedException {
         long diffSec = 0;
         Thread.sleep(3000);

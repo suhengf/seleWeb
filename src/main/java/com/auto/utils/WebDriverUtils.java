@@ -148,5 +148,13 @@ public class WebDriverUtils {
     }
 
 
+    public static void locateClassName(WebDriver driver, String attributClick) throws InterruptedException {
+        Thread.sleep(3000);
+        Actions act = new Actions(driver);
+        act.moveToElement(driver.findElement(By.className(attributClick)));
+        act.perform();
+    }
+
+
 
 }
