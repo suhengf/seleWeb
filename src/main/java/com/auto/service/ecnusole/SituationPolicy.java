@@ -23,7 +23,7 @@ public class SituationPolicy {
 
             //判断 是否看过  若看过  跳过
             String isOrange = "/html/body/div[5]/div[1]/div[2]/div[3]/div/div[";
-            AtomicInteger structureFirst = new AtomicInteger(1);
+            AtomicInteger structureFirst = new AtomicInteger(2);
             while (true) {
                 String orangeXpath = "";
 
