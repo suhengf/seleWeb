@@ -48,8 +48,8 @@ public class TimeUtils {
         }
         log.info("已播放 {}", startTime);
         log.info("总时长 {} ", endTime);
-        log.info("还差多少毫秒播放结束: {}", diffSec(startTime, endTime));
-        return diffSec = "0:00".equals(endTime)?0:((diffSec(startTime, endTime))* divSon )/divMonther;
+        log.info("还差多少毫秒播放结束: {}", diffSec(endTime, startTime));
+        return diffSec = "0:00".equals(endTime)?0:((diffSec(endTime, startTime))* divSon )/divMonther;
 
     }
 

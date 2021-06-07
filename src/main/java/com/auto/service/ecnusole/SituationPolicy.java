@@ -23,7 +23,7 @@ public class SituationPolicy {
 
             //判断 是否看过  若看过  跳过
             String isOrange = "/html/body/div[5]/div[1]/div[2]/div[3]/div/div[";
-            AtomicInteger structureFirst = new AtomicInteger(2);
+            AtomicInteger structureFirst = new AtomicInteger(1);
             while (true) {
                 String orangeXpath = "";
 
@@ -103,11 +103,19 @@ public class SituationPolicy {
         WebElement webElement0 = driver.findElement(By.xpath(iframe1));
         driver.switchTo().frame(webElement0);
         Thread.sleep(100);
+
+        String iframe3 = "/html/body/iframe";
+        WebDriverUtils.findElement(driver, iframe3, "iframe3");
+        WebElement webElement2 = driver.findElement(By.xpath(iframe3));
+        driver.switchTo().frame(webElement2);
+        Thread.sleep(100);
+
         String iframe2 = "/html/body/div/div/div/div/iframe";
         WebDriverUtils.findElement(driver, iframe2, "iframe2");
         WebElement webElement1 = driver.findElement(By.xpath(iframe2));
         driver.switchTo().frame(webElement1);
         Thread.sleep(100);
+
         WebDriverUtils.findClassName(driver, "vjs-big-play-button", "点击开始播放按钮");
         WebDriverUtils.locateClassName(driver, "vjs-big-play-button");
         driver.findElement(By.className("vjs-big-play-button")).click();
