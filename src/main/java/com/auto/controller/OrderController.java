@@ -1,6 +1,8 @@
 package com.auto.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.auto.async.AsyncUtil;
 import com.auto.biz.bo.CreateOrderRequest;
 import com.auto.biz.bo.CreateOrderResponse;
@@ -16,6 +18,7 @@ import com.auto.entity.User;
 import com.auto.mapper.UserMapper;
 import com.auto.observer.MyPubisher;
 import com.auto.observer.MyTestEvent;
+import com.auto.redis.RedisUtils;
 import com.auto.task.EventReflector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +57,9 @@ public class OrderController {
 
     @Autowired
     private MyPubisher myPubisher;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
 
     @PostMapping("/createOrder")
@@ -209,5 +215,33 @@ public class OrderController {
 
     }
 
+
+    @PostMapping("setAndGet")
+    public String test(String k,String v){
+        redisUtils.set(k,v);
+        log.info((String) redisUtils.get(k));
+        return (String) redisUtils.get(k);
+    }
+
+    @PostMapping("test")
+    public Object test(){
+        //step1 先从redis中取
+        String strJson=(String) redisUtils.get("testCache");
+        if (strJson==null){
+            log.info("从db取值");
+            // step2如果拿不到则从DB取值
+            List<User> listNbaPlayer=userMapper.selectAll(QueryParam.builder().userName("刘凌峰").fixNum(Integer.parseInt(String.valueOf(1))).build());
+            // step3 DB非空情况刷新redis值
+            if (listNbaPlayer!=null){
+                redisUtils.set("testCache", JSON.toJSONString(listNbaPlayer));
+                return listNbaPlayer;
+            }
+            return null;
+        }else
+        {
+            log.info("从redis缓存取值");
+            return JSONObject.parseArray(strJson,User.class);
+        }
+    }
 
 }
