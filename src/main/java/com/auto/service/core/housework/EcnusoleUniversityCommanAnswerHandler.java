@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Map;
 public abstract class EcnusoleUniversityCommanAnswerHandler {
 
 
-    public void answerHandler(String orangeXpath, WebDriver driver) throws Exception {
+    public void answerHandler(String orangeXpath, WebDriver driver,String houseWork) throws Exception {
         WebDriverUtils.findElement(driver, orangeXpath, "");
         WebElement element = driver.findElement(By.xpath(orangeXpath));
         element.click();
@@ -33,6 +34,9 @@ public abstract class EcnusoleUniversityCommanAnswerHandler {
         }
 
 
+        if(!StringUtils.isEmpty(houseWork)){
+            arr_36 = Integer.valueOf(String.valueOf(arr[36]) + String.valueOf(arr[37]));
+        }
 
             excuteHoomeWork(driver, arr_36);
 

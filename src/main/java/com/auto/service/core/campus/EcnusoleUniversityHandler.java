@@ -108,7 +108,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                    new SituationPolicy().courseHandle(driver,titleName);
                 }
 
-                //开始界面处理
+//                //开始界面处理
 //                if(titleName.contains("公共英语")){
 //                    log.info("titleName--->{}",titleName);
 //                    driver.findElement(By.xpath(courseName)).click();
@@ -167,13 +167,13 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
                         String  sonXpath= isOrange + structureFirst + "]/div/h3["+j+"]/a/span[1]/em";
                         if(WebDriverUtils.check(driver, By.xpath(sonXpath))){
                             log.info("sonXpath 存在");
-                            isPlayed(driver,sonXpath,titleName);
+                            isPlayed(driver,sonXpath,titleName,i);
                         }
                     }
 
                     //判断是否已经播放
                     Thread.sleep(50);
-                    if ( isPlayed(driver,orangeXpath,titleName)) {
+                    if ( isPlayed(driver,orangeXpath,titleName,i)) {
                         log.info("orangeXpath 存在");
                         break;
                     }
@@ -190,7 +190,7 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
     }
 
 
-    public boolean  needHandler(String orangeXpath,WebDriver driver,String titleName) throws Exception {
+    public boolean  needHandler(String orangeXpath,WebDriver driver,String titleName,String houseWork) throws Exception {
         int viedos = 0;
         Thread.sleep(5000);
 
@@ -209,34 +209,34 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
         log.info("organTitle -->{}", organTitle);
         if ("巩固练习".equals(text) || text.contains("巩固练习")) {
 
-//            try {
-//                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath, driver);
-//            } catch (Exception e) {
-//                log.error("作业处理异常", e);
-//                throw new BizException("作业处理异常");
-//            }
+            try {
+                universityResolver.getEcnusoleUniversityAnswerHandler(titleName).answerHandler(orangeXpath, driver,houseWork);
+            } catch (Exception e) {
+                log.error("作业处理异常", e);
+                throw new BizException("作业处理异常");
+            }
 
             return true;
         }else{
 
-            try {
-                viedos = Integer.parseInt(organTitle);
-            } catch (Exception e) {
-                return false;
-            }
-
-            if(viedos==1&&(text.contains("对话")||text.contains("练习"))){
-                log.info("跳过第一个语音");
-                return false;
-            }
-
-            log.info("courseXpath : {}", orangeXpath);
-            WebDriverUtils.findElement(driver, orangeXpath, "点击 " + text + "");
-            WebDriverUtils.locate(driver, orangeXpath);
-            log.info("开始点击 --> {}", text);
-            WebDriverUtils.click(driver, orangeXpath);
-//            chainHandler(viedos,driver);
-            englishChainHandler(viedos, driver);
+//            try {
+//                viedos = Integer.parseInt(organTitle);
+//            } catch (Exception e) {
+//                return false;
+//            }
+//
+//            if(viedos==1&&(text.contains("对话")||text.contains("练习"))){
+//                log.info("跳过第一个语音");
+//                return false;
+//            }
+//
+//            log.info("courseXpath : {}", orangeXpath);
+//            WebDriverUtils.findElement(driver, orangeXpath, "点击 " + text + "");
+//            WebDriverUtils.locate(driver, orangeXpath);
+//            log.info("开始点击 --> {}", text);
+//            WebDriverUtils.click(driver, orangeXpath);
+////            chainHandler(viedos,driver);
+//            englishChainHandler(viedos, driver);
 
             return false;
         }
@@ -381,9 +381,10 @@ public class EcnusoleUniversityHandler  implements CampusOnlineHandler {
 
 
 
-    public boolean isPlayed(WebDriver driver, String xPath,String titleName) throws Exception {
+    public boolean isPlayed(WebDriver driver, String xPath,String titleName,int i) throws Exception {
         Thread.sleep(100);
-        if (needHandler(xPath, driver, titleName)) {
+        String houseWork = i>=10?"0":"";
+        if (needHandler(xPath, driver, titleName,houseWork)) {
             return true;
         }
         return false;

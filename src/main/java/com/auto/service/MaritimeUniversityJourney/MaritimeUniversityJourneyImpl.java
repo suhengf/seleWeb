@@ -44,10 +44,12 @@ public class MaritimeUniversityJourneyImpl extends AbstractCommonUniversity impl
 	public void singleHandler(UserInfo userInfo, ChromeOptions options,int course) throws Exception {
 		log.info("开始逻辑处理");
 		WebDriver driver  =LoginUtils.login(userInfo, options,
-				"http://www.ouchn.cn/", "/html/body/div/div[1]/div/div/div/header/div[2]/ul[2]/li[1]/button[1]",
-				"/html/body/div/div/div/form/div/div/div[2]/div/input"
-				, "/html/body/div/div/div/form/div/div/div[3]/div/input",
-				"/html/body/div/div/div/form/div/div/div[4]/button");
+				"http://www.ouchn.cn/",
+				"/html/body/div/div[1]/div/div/div/header/div[2]/ul[2]/li[1]/button[1]",
+				"/html/body/div[2]/div/div/form/div/div/div[2]/div/input"
+				, "/html/body/div[2]/div/div/form/div/div/div[3]/div/input",
+				"/html/body/div[2]/div/div/form/div/div/div[4]/button");
+		Thread.sleep(10000000);
 		log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
 		campusResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode()).onlineProcess(userInfo,driver,course);
 		log.info("用户{}登录成功,开始逻辑处理 end", userInfo.getUserId());
@@ -61,7 +63,7 @@ public class MaritimeUniversityJourneyImpl extends AbstractCommonUniversity impl
 	}
 
 	public ThreadPoolParam getPoolParam(){
-		return ThreadPoolParam.builder().corePoolSize(4).maximumPoolSize(4).build();
+		return ThreadPoolParam.builder().corePoolSize(1).maximumPoolSize(1).build();
 	}
 
 

@@ -64,15 +64,15 @@ public class LoginUtils {
      * @return
      * @throws Exception
      */
-    public static WebDriver  login(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String userInput,String userPsdInput,String loginBotton) throws Exception {
+    public synchronized static WebDriver  login(UserInfo userInfo, ChromeOptions options,String url,String studentXpath,String userInput,String userPsdInput,String loginBotton) throws Exception {
         WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(url);
         Thread.sleep(5000);
-        driver.findElement(By.xpath(studentXpath)).click();
-        Thread.sleep(5000);
+        WebDriverUtils.threeClick(driver,studentXpath,2);
+        Thread.sleep(3000);
         driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
-        Thread.sleep(7000);
+        Thread.sleep(3000);
         driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());
         log.info("current userId：{}"  ,userInfo.getUserId());
         //点击确定
