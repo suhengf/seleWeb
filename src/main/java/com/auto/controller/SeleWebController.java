@@ -23,6 +23,18 @@ public class SeleWebController {
     private UniversityResolver universityResolver;
 
 
+   //  http://student.moe.edu.cn/cdce-preweb/#/
+    /**
+     * 统考成绩查询
+     * @throws Exception
+     */
+    @PostMapping("/universal/{course}")
+    public void  universalExamination(@PathVariable("course") int course) throws Exception {
+        universityResolver.getExecutor(EnumUniversityName.UNIVERSAL_EXAMINATION.getCode()).excute(EnumUniversityName.UNIVERSAL_EXAMINATION.getCode(),course);
+    }
+
+
+
     /**
      * 国家开大保险大学
      * @throws Exception

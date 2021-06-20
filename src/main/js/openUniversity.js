@@ -59,6 +59,11 @@
                             }
                         }
                     }
+                }else{
+                    if(video[0].paused){
+                        console.log("暂停点击播放");
+                        video[0].click();
+                    }
                 }
             },3500);
         }else{ //文本直接翻页
