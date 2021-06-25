@@ -36,8 +36,8 @@ public class LoginUtils {
         driver.manage().window().maximize();
         driver.get(url);
         Thread.sleep(5000);
-        driver.findElement(By.xpath(studentXpath)).click();
-        Thread.sleep(5000);
+//        driver.findElement(By.xpath(studentXpath)).click();
+//        Thread.sleep(5000);
         driver.findElement(By.xpath(userInput)).sendKeys(userInfo.getUserId());
         Thread.sleep(7000);
         driver.findElement(By.xpath(userPsdInput)).sendKeys(userInfo.getPassword());

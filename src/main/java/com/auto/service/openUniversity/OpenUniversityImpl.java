@@ -43,7 +43,7 @@ public class OpenUniversityImpl extends AbstractCommonUniversity implements Univ
 	public void singleHandler(UserInfo userInfo, ChromeOptions options,int course) throws Exception {
 		log.info("开始逻辑处理");
 		WebDriver driver  =LoginUtils.login(userInfo, options,
-				"https://www.oucbx.com/OUCWEB/LEAP/Web/html/home.html", "/html/body/div/div[1]/div[1]/div/div/span[3]", "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[1]/div[1]/input"
+				"https://www.oucbx.com/OUCWEB/LEAP/Web/html/mystudy.html", "//*[@id=\"login\"]", "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[1]/div[1]/input"
 				, "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[2]/div[1]/input",
 				"/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/div[3]/div[1]/input", "/html/body/div/div[1]/div/div[2]/div/div[1]/div[2]/div[1]/button");
 		log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());

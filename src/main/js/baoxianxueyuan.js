@@ -394,7 +394,6 @@
         {"question": "商业银行通过支付中介职能为社会经济运行发挥了以下促进作用", "answer": [0, 1, 2, 3, 4]},
         {"question": "商业银行风险存在的原因主要包括以下几点", "answer": [0, 1, 2]},
         {"question": "银行贷款的定价方法包括", "answer": [0, 1, 2, 3]},
-        {"question": "内部经营风险是指由商业银行的( )等因素引起的风险", "answer": [0, 2, 3]},
         {"question": "常见的风险衡量方法有以下几种", "answer": [0, 1, 2, 3, 4]},
         {"question": "我国资本监管制度的三大支柱：第一支柱是针对信用风险、市场风险和操作风险的全球统一的最低资本要求", "answer": [0]},
         {"question": "所谓经济附加值又称经济利润、经济增加值是指一定时期的企业投入资本的资金成本和税后营业净利润的差额", "answer": [1]},
@@ -432,7 +431,6 @@
         {"question": "商业银行证券投资可以获得的利润主要包括", "answer": [0, 2]},
         {"question": "商业银行常用的风险补偿方法有以下几种", "answer": [0, 2, 3]},
         {"question": "商业银行风险存在的原因，主要包括以下几点", "answer": [0, 1, 2]},
-        {"question": "外部风险是指由于社会投资环境的变化，导致银行投资的证券可能受到损失。这类风险产生于国家的( )等因素", "answer": [0, 1, 2]},
         {"question": "商业银行办理委托贷款业务，应当遵循依法合规、平等自愿、责利匹配、审慎经营的原则", "answer": [0]},
         {"question": "监事会是商业银行内部负责检查监督业务经营活动规范与否的常设机构", "answer": [1]},
         {"question": "银行存款越多对银行经营就越有利", "answer": [1]},
@@ -449,7 +447,6 @@
         {"question": "是银行开展业务经营的先决条件", "answer": [0]},
         {"question": "银行贷款的定价方法包括", "answer": [0, 1, 2, 3]},
         {"question": "商业银行风险存在的原因，主要包括以下几点", "answer": [0, 1, 2]},
-        {"question": "外部风险是指由于社会投资环境的变化，导致银行投资的证券可能受到损失。这类风险产生于国家的( )等因素", "answer": [0, 1, 2]},
         {"question": "商业银行的信用分析技术，主要包括", "answer": [1, 2]},
         {"question": "普通股是指股份制商业银行所发行的、在收益分配以及资产分配方面比普通股具有优先要求权的股票", "answer": [1]},
         {"question": "单一银行制是一种既设有总行又设有分支机构的商业银行组织形式", "answer": [1]},
@@ -503,7 +500,6 @@
         {"question": "企业确认坏账损失的会计分录涉及到的会计科目有", "answer": [1, 2]},
         {"question": "某公司是一般纳税人，从胜利工厂购入甲材料100吨，每吨不含税价格2000元，增值税税率13%，全部款项以开出并承兑的商业汇票支付，材料尚未到达。该业务会计分录涉及到的会计科目有", "answer": [0, 1, 3]},
         {"question": "营业收入毛利率＝（营业收入－营业成本）÷营业收入×100％", "answer": [0]},
-        {"question": "财务报告包括财务会计报表及其说明（附注）。财务会计报表包括会计报表主表、会计报表附表、会计报表附注", "answer": [0]},
         {"question": "杜邦分析法是一种用来评价公司赢利能力和股东权益回报水平，从财务角度评价企业绩效的一种经典方法。其基本思想是将企业净资产收益率逐级分解为多项财务比率乘积，这样有助于深入分析比较企业经营业绩。由于这种分析方法最早由美国杜邦公司使用，故名杜邦分析法", "answer": [0]},
         {"question": "每股收益，又称每股税后利润、每股盈余，指税后利润与股本总数的比率，即公司某一时期净收益与股份数的比率", "answer": [0]},
         {"question": "关于编制银行存款余额调节表的作用表述不准确的是", "answer": [2]},
@@ -782,9 +778,9 @@
                 }, 500)
                 setTimeout(function() {
                     cels()
-                }, 1000)
+                }, 800)
             }
-        }, 1500)
+        }, 1000)
         // }
 
         function cels() {
@@ -942,34 +938,20 @@
                     function kksas() {
                         var i = 0;
                         var temp_arr = JSON.parse(localStorage.getItem("question_list")) || []
-                        var temp_arr1 = JSON.parse(localStorage.getItem("question_list")) || []
-                        console.log(temp_arr.length)
-                        console.table(temp_arr1)
-                        console.dir("temp_arr值"+temp_arr)
-                        for (let j = 0; j < temp_arr1.length; j++) {
-                            for (let k = 0; k < temp_arr1[j].qsd.length; k++) {
-                                console.log(temp_arr1[j].question + "|" + temp_arr1[j].qsd[k])
-                            }
-                        }
-
                         let await_get_qus = setInterval(function() {
                             if (i < $(".exam-card .grid-item").length) {
                                 var ans = $(".jiexi .content p:last-child").text().substring(5).split("")
-                                console.log("ans  :"+ans)
                                 var ten = []
                                 var answ =[]
                                 for (var s = 0; s < ans.length; s++) {
                                     ans[s] = ans[s].charCodeAt() - 65
-                                    console.log("ans[s]  :"+ans[s])
                                 }
                                 for (var p = 0; p < ans.length; p++) {
-                                    console.log("document.querySelectorAll(\".exam .item\")[ans[p]].innerText  :"+document.querySelectorAll(".exam .item")[ans[p]].innerText)
                                     ten.push(document.querySelectorAll(".exam .item")[ans[p]].innerText.substring(2))
                                     answ.push(document.querySelectorAll(".exam .item")[ans[p]].innerText.substring(0))
-                                    console.log("ten 值"+ten)
-                                    console.log("document.querySelectorAll(\".exam .item\")[ans[p]].innerText.substring(0)",document.querySelectorAll(".exam .item")[ans[p]].innerText.substring(0))
+                                    console.log("题目 :"+$(".exam dt").text().substr(1)+"  答案 ："+document.querySelectorAll(".exam .item")[ans[p]].innerText.substring(0))
                                 }
-                                temp_arr1.push({ "question": $(".exam dt").text().substr(1), "qsd": answ })
+
                                 temp_arr.push({ "question": $(".exam dt").text().substr(3), "qsd": ten })
                                 $("[class='button primary outline w']").eq(1)[0].click();
                                 i++
@@ -982,7 +964,7 @@
                                 console.log(temp_arr)
                                 $("[class='row w current'] [class='col v-m oneline']").click()
                             }
-                        }, 3000)
+                        }, 100)
 
                         }
                 } else if (da === "3") {

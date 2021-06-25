@@ -23,24 +23,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 public class EmployeeControllerTest {
 
-    public static ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(200));
 
     public static void main(String[] args) {
-        for (int i = 0; i <100 ; i++) {
-            Runnable task = () -> {
-                try {
-                    Thread.sleep(5000);
-                    System.out.println("执行: 任务");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            };
-            executor.execute(task);
+
+        Test1 test1 = new Test1();
+        if (test1==null) {
+            System.out.println("null");
         }
-
-        System.out.println("执行成功");
-
-
+        System.out.println("not null");
 
     }
 
