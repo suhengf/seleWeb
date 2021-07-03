@@ -49,7 +49,7 @@ public class MaritimeUniversityJourneyImpl extends AbstractCommonUniversity impl
 				"/html/body/div[2]/div/div/form/div/div/div[2]/div/input"
 				, "/html/body/div[2]/div/div/form/div/div/div[3]/div/input",
 				"/html/body/div[2]/div/div/form/div/div/div[4]/button");
-		Thread.sleep(10000000);
+		Thread.sleep(8000);
 		log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
 		campusResolver.getExecutor(EnumUniversityName.OPEN_UNIVERSITY_JOURNEY.getCode()).onlineProcess(userInfo,driver,course);
 		log.info("用户{}登录成功,开始逻辑处理 end", userInfo.getUserId());

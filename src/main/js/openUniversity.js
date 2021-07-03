@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         New Userscript
+// @name        国开大学 旅游学院
 // @namespace   
 // @version      v1
 // @description  hello world!
