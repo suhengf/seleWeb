@@ -1,0 +1,26 @@
+#服务启动端口
+server :  
+  port :  8080
+
+#数据库配置
+spring:
+  datasource:
+    username: gupeng
+    password: gupeng1234!
+    url: jdbc:mysql://rm-uf6kuocqua180o7md0o.mysql.rds.aliyuncs.com:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+  #Mybatis mapper 映射路径配置
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.auto.entity
+
+#redis配置
+redis:
+  # 连接的那个数据库
+  database: 0
+  # redis服务的ip地址
+  host: 127.0.0.1
+  # redis端口号
+  port: 6379
+  # redis连接超时时间（单位毫秒）
+  timeout: 0
