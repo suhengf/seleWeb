@@ -16,7 +16,20 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/selenium/pom.xml" />
         <option value="$PROJECT_DIR$/study/pom.xml" />
+        <option value="$PROJECT_DIR$/jdkdemo/pom.xml" />
+        <option value="$PROJECT_DIR$/lab-67-netty-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/netty-demo-client/pom.xml" />
+        <option value="$PROJECT_DIR$/netty-demo-common/pom.xml" />
+        <option value="$PROJECT_DIR$/netty-demo-server/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/lab-67-netty-demo/lab-67-netty-demo-client/pom.xml" />
+        <option value="$PROJECT_DIR$/lab-67-netty-demo/lab-67-netty-demo-common/pom.xml" />
+        <option value="$PROJECT_DIR$/lab-67-netty-demo/lab-67-netty-demo-server/pom.xml" />
+        <option value="$PROJECT_DIR$/lab-67-netty-demo/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">

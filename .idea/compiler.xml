@@ -7,15 +7,30 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="study" />
+        <module name="seleweb-common" />
+        <module name="netty-demo-server" />
         <module name="selenium" />
+        <module name="study" />
+        <module name="jdkdemo" />
+        <module name="netty-demo-client" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lab-67-netty-demo" target="1.8" />
+      <module name="lab-67-netty-demo-client" target="1.8" />
+      <module name="lab-67-netty-demo-common" target="1.8" />
+      <module name="lab-67-netty-demo-server" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="jdkdemo" options="-parameters" />
+      <module name="lab-67-netty-demo-client" options="-parameters" />
+      <module name="netty-demo-client" options="-parameters" />
+      <module name="netty-demo-server" options="-parameters" />
       <module name="seleWeb" options="" />
       <module name="selenium" options="-parameters" />
+      <module name="seleweb-common" options="-parameters" />
       <module name="study" options="-parameters" />
     </option>
   </component>

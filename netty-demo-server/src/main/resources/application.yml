@@ -1,0 +1,4 @@
+server :
+  port :  8901
+netty:
+  port: 8888
