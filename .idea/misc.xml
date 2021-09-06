@@ -21,6 +21,13 @@
         <option value="$PROJECT_DIR$/netty-demo-client/pom.xml" />
         <option value="$PROJECT_DIR$/netty-demo-common/pom.xml" />
         <option value="$PROJECT_DIR$/netty-demo-server/pom.xml" />
+        <option value="$PROJECT_DIR$/client/pom.xml" />
+        <option value="$PROJECT_DIR$/selewebcommon/pom.xml" />
+        <option value="$PROJECT_DIR$/selewebclient/pom.xml" />
+        <option value="$PROJECT_DIR$/selewebserver/pom.xml" />
+        <option value="$PROJECT_DIR$/seleweb-client/pom.xml" />
+        <option value="$PROJECT_DIR$/seleweb-server/pom.xml" />
+        <option value="$PROJECT_DIR$/seleweb-common/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

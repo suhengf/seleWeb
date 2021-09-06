@@ -2,10 +2,10 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/jdkdemo/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/netty-demo-client/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/netty-demo-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/selenium/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/seleweb-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/seleweb-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/seleweb-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/study/src/main/java" charset="UTF-8" />
   </component>
 </project>
