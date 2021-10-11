@@ -28,6 +28,7 @@
         <option value="$PROJECT_DIR$/seleweb-client/pom.xml" />
         <option value="$PROJECT_DIR$/seleweb-server/pom.xml" />
         <option value="$PROJECT_DIR$/seleweb-common/pom.xml" />
+        <option value="$PROJECT_DIR$/websocket/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="seleweb-common" />
+        <module name="websocket" />
         <module name="seleweb-server" />
         <module name="seleweb-client" />
         <module name="selenium" />
@@ -36,6 +37,7 @@
       <module name="seleweb-server" options="-parameters" />
       <module name="server" options="-parameters" />
       <module name="study" options="-parameters" />
+      <module name="websocket" options="-parameters" />
     </option>
   </component>
 </project>
