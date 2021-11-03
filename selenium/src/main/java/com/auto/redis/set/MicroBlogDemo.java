@@ -113,6 +113,7 @@ public class MicroBlogDemo {
 
         // 朋友看看自己被哪些人关注了，自己关注了哪些人
         Set<String> friendFollowers = demo.getFollowers(friendId);
+        System.out.println("2222"+friendFollowers);
         long friendFollowersCount = demo.getFollowersCount(friendId);
 
         Set<String> friendFollowUsers = demo.getFollowUsers(friendId);

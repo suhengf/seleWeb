@@ -13,6 +13,7 @@ public enum EnumUniversityName  {
     OPEN_UNIVERSITY_JOURNEY("MaritimeUniversityJourney","上海开放大学旅游学院"),
     SH_UNIVERSITY("ShUniversity","上海大学"),
     UNIVERSAL_EXAMINATION("universalExamination","统考成绩查询"),
+    ECNUSOLE_UNIVERSITY_NEW("EcnusoleUniversityNew","2021华东师范大学"),
     ;
 
     private String code;

@@ -29,10 +29,10 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
 
     @Override
     public String getFilePath() {
-        return "D:\\houseWork\\huadongshifan.txt";
+        return "D:\\vWorkSpace\\v0805\\seleWeb\\selenium\\src\\main\\files\\huadongshifan\\huadongshifan.txt";
     }
 
-    private static final String WIN_WEBDRIVER = "D:\\houseWork\\chromedriver.exe";
+    private static final String WIN_WEBDRIVER = "D:\\vWorkSpace\\v0805\\seleWeb\\selenium\\src\\main\\files\\chromedriver.exe";
 
 
     @Override
@@ -55,7 +55,7 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
 
             log.info("用户{}登录成功,开始逻辑处理 start", userInfo.getUserId());
 
-            campusResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY.getCode()).onlineProcess(userInfo, driver, course);
+            campusResolver.getExecutor(EnumUniversityName.ECNUSOLE_UNIVERSITY_NEW.getCode()).onlineProcess(userInfo, driver, course);
         } catch (Exception e) {
            log.error("异常",e);
             if (driver != null) {
@@ -70,7 +70,7 @@ public class EcnusoleImpl extends AbstractCommonUniversity implements University
     }
 
     public ThreadPoolParam getPoolParam(){
-        return ThreadPoolParam.builder().corePoolSize(2).maximumPoolSize(2).build();
+        return ThreadPoolParam.builder().corePoolSize(1).maximumPoolSize(1).build();
     }
 
 
