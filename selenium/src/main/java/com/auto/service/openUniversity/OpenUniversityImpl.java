@@ -33,6 +33,8 @@ public class OpenUniversityImpl extends AbstractCommonUniversity implements Univ
 	@Autowired
 	private CampusResolver campusResolver;
 
+	private static final String WIN_WEBDRIVER = "D:\\vWorkSpace\\v0805\\seleWeb\\selenium\\src\\main\\files\\chromedriver.exe";
+
 	@Override
 	public EnumUniversityName getUniversityName() {
 		return EnumUniversityName.OPEN_UNIVERSITY;
@@ -55,6 +57,13 @@ public class OpenUniversityImpl extends AbstractCommonUniversity implements Univ
 
 	@Override
 	public String getFilePath() {
-		return "src\\main\\files\\openUniversity.txt";
+		return "D:\\vWorkSpace\\v0805\\seleWeb\\selenium\\src\\main\\files\\guokai\\guokai.txt";
+	}
+
+
+
+
+	public String getWinWebdriverPath() {
+		return WIN_WEBDRIVER;
 	}
 }
