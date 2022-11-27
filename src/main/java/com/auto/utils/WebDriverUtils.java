@@ -6,6 +6,7 @@ import org.apache.log4j.DailyRollingFileAppender;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.slf4j.LoggerFactory;
 
@@ -71,6 +72,21 @@ public class WebDriverUtils {
             if (10000 == counts.get()) {
                 log.info("重试9秒之后  退出");
                 throw new BizException("重试90秒之后  退出");
+            }
+        }
+    }
+
+    public static WebElement findElementByPathName(WebDriver driver, String xpath, String xPathName) throws Exception {
+        AtomicInteger counts = new AtomicInteger(1);
+        while(true) {
+            if (WebDriverUtils.check(driver, By.xpath(xpath))) {
+                log.info("找到标签 : {}",xPathName);
+                return driver.findElement(By.xpath(xpath));
+            }
+            counts.incrementAndGet();
+            Thread.sleep(1);
+            if (9000 == counts.get()) {
+                log.info("重试9秒之后  退出");
             }
         }
     }

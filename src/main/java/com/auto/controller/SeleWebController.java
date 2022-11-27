@@ -22,6 +22,14 @@ public class SeleWebController {
     @Autowired
     private UniversityResolver universityResolver;
 
+    /**
+     * 上海商学院
+     */
+    @PostMapping("/commercialCollege/{course}")
+   public void shanghai_Commercial_College(@PathVariable("course") int course)throws Exception{
+        universityResolver.getExecutor(EnumUniversityName.COMMERCIAL_COLLEGE.getCode()).excute(EnumUniversityName.COMMERCIAL_COLLEGE.getCode(),course);
+   }
+
 
     /**
      * 国家开大保险大学
